@@ -1,6 +1,6 @@
 '''Proyecto sobre el sistema de gestion de cupos universitarios'''
 import abc
-class Usuario(metaclass.abc.ABCMeta):#Clase abstracta Usuario
+class Usuario(metaclass=abc.ABCMeta):#Clase abstracta Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo):
         self.cedula_pasaporte = cedula_pasaporte
         self.nombre = nombre
@@ -12,15 +12,17 @@ class Usuario(metaclass.abc.ABCMeta):#Clase abstracta Usuario
     @abc.abstractmethod
     def cerrar_sesion(self):
         pass
+    def cargar_datos(self):
+        pass
 
 class Administrador(Usuario):#Clase Hija Administrador de Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo, cargo):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)
         self.cargo = cargo
     def iniciar_sesion(self):
-        return f"Administrador {self.nombre} ha iniciado sesión."
+        return f"Bienvenido de vuelta, Administrador {self.nombre}."
     def cerrar_sesion(self):
-        return f"Administrador {self.nombre} ha cerrado sesión."
+        return f"Hasta luego, Administrador {self.nombre}."
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo, telefono, titulo):
