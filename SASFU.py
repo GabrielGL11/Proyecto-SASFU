@@ -19,38 +19,42 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo, cargo)
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo cargo
         self.cargo = cargo
+        print("Los datos del administrador fueron ingresados con exitos.")
     def iniciar_sesion(self):
-        return f"Bienvenido de vuelta, Administrador {self.nombre}."
+        print(f"Bienvenido de vuelta, Administrador {self.nombre}.")
     def cerrar_sesion(self):
-        return f"Hasta luego, Administrador {self.nombre}."
+        print(f"Hasta luego, Administrador {self.nombre}.")
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo, telefono, titulo):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más los atributos telefono y titulo
         self.telefono = telefono
         self.titulo = titulo
+        print("Los datos del aspirante fueron ingresados con exitos.")
     def iniciar_sesion(self):
-        return f"Aspirante {self.nombre} ha iniciado sesión."
+        print(f"Aspirante {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
-        return f"Aspirante {self.nombre} ha cerrado sesión."
+        print(f"Aspirante {self.nombre} ha cerrado sesión.")
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo, telefono):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo telefono
         self.telefono = telefono
+        print("Los datos del soporte fueron ingresados con exitos.")
     def iniciar_sesion(self):
-        return f"Soporte {self.nombre} ha iniciado sesión."
+        print(f"Soporte {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
-        return f"Soporte {self.nombre} ha cerrado sesión."
+        print(f"Soporte {self.nombre} ha cerrado sesión.")
     
 class Profesor(Usuario):#Clase Hija Profesor de Usuario
     def __init__(self, cedula_pasaporte, nombre, apellido, correo, facultad):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo facultad
         self.facultad = facultad
+        print("Los datos del profesor fueron ingresados con exitos.")
     def iniciar_sesion(self):
-        return f"Profesor {self.nombre} ha iniciado sesión."
+        print(f"Profesor {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
-        return f"Profesor {self.nombre} ha cerrado sesión."
+        print(f"Profesor {self.nombre} ha cerrado sesión.")
     
 class Universidad():#Clase Universidad
     Pais = "Ecuador"
@@ -70,10 +74,11 @@ class Periodo:#Clase Periodo
     def __init__(self, Año_Lectivo, Semestre):#Atributos de la clase Periodo
         self.Año_Lectivo = Año_Lectivo
         self.Semestre = Semestre
+        print("Los datos del periodo fueron ingresados con éxitos")
     def iniciar_periodo(self):#Metodo iniciar_periodo
-        return f"El periodo {self.Año_Lectivo} - {self.Semestre} ha iniciado."
+        print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha iniciado.")
     def finalizar_periodo(self):#Metodo finalizar_periodo
-        return f"El periodo {self.Año_Lectivo} - {self.Semestre} ha finalizado."
+        print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha finalizado.")
 
 class Inscripcion:#Clase Inscripcion
     def __init__(self, carrera, facultad):
