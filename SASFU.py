@@ -1,22 +1,33 @@
 '''Proyecto sobre el sistema de gestion de cupos universitarios'''
-import abc
-class Usuario(metaclass=abc.ABCMeta):#Clase abstracta Usuario
-    def __init__(self, cedula_pasaporte, nombre, apellido, correo):#Atributos de la clase Usuario, que seran heredados por las clases hijas
+from abc import ABCMeta#impotar ABCMeta
+from abc import abstractmethod#importar abstractmethod
+class Usuario(metaclass=ABCMeta):#Clase abstracta Usuario
+    def __init__(self, cedula_pasaporte: str, nombre:str, apellido:str, correo:str):#Atributos de la clase Usuario, que seran heredados por las clases hijas
         self.cedula_pasaporte = cedula_pasaporte
         self.nombre = nombre
         self.apellido = apellido
         self.correo = correo
-    @abc.abstractmethod#Metodo abstracto iniciar_sesion
+    @abstractmethod#Metodo abstracto iniciar_sesion
     def iniciar_sesion(self):
         pass
-    @abc.abstractmethod#Metodo abstracto cerrar_sesion
+    @abstractmethod#Metodo abstracto cerrar_sesion
     def cerrar_sesion(self):
         pass
     def cargar_datos(self):#Metodo cargar_datos
         pass
 
+class Iniciar_fase:#Interfaz Iniciar_fase
+    @abstractmethod
+    def iniciar(self):
+        pass
+
+class Finalizar_fase:#Interfaz Finalizar_fase
+    @abstractmethod
+    def finalizar(self):
+        pass
+
 class Administrador(Usuario):#Clase Hija Administrador de Usuario
-    def __init__(self, cedula_pasaporte, nombre, apellido, correo, cargo)
+    def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, cargo:str):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo cargo
         self.cargo = cargo
         print("Los datos del administrador fueron ingresados con exitos.")
@@ -26,7 +37,7 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
         print(f"Hasta luego, Administrador {self.nombre}.")
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
-    def __init__(self, cedula_pasaporte, nombre, apellido, correo, telefono, titulo):
+    def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str, titulo:bool):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más los atributos telefono y titulo
         self.telefono = telefono
         self.titulo = titulo
@@ -37,7 +48,7 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         print(f"Aspirante {self.nombre} ha cerrado sesión.")
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
-    def __init__(self, cedula_pasaporte, nombre, apellido, correo, telefono):
+    def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo telefono
         self.telefono = telefono
         print("Los datos del soporte fueron ingresados con exitos.")
@@ -47,7 +58,7 @@ class Soporte(Usuario):#Clase Hija Soporte de Usuario
         print(f"Soporte {self.nombre} ha cerrado sesión.")
     
 class Profesor(Usuario):#Clase Hija Profesor de Usuario
-    def __init__(self, cedula_pasaporte, nombre, apellido, correo, facultad):
+    def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, facultad:str):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo facultad
         self.facultad = facultad
         print("Los datos del profesor fueron ingresados con exitos.")
@@ -55,10 +66,10 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
         print(f"Profesor {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
         print(f"Profesor {self.nombre} ha cerrado sesión.")
-    
+
 class Universidad():#Clase Universidad
     Pais = "Ecuador"
-    def __init__(self, nombre, provincia, canton, direccion, enlace):
+    def __init__(self, nombre:str, provincia:str, canton:str, direccion:str, enlace:str):
         self.nombre = nombre
         self.provincia = provincia
         self.canton = canton
@@ -66,33 +77,82 @@ class Universidad():#Clase Universidad
         self.enlace = enlace
 
 class Oferta_Academica:#Clase Oferta_Academica
-    def __init__(self, carrera, cantidad):
+    def __init__(self, carrera:str, cantidad:int):
         self.carrera = carrera
         self.cantidad = cantidad
+    @property
+    def cantidad(self):#Getter cantidad
+        return self._cantidad
+    @cantidad.setter
+    def cantidad(self, valor):#Setter cantidad con validacion
+        if valor < 0:
+            raise ValueError("La cantidad de cupos no puede ser negativa.")
+        self._cantidad = valor  
+    def crear_oferta(self):#Metodo crear_oferta
+        print(f"La oferta académica para la carrera de {self.carrera} con {self.cantidad} cupos ha sido creada.")
+    
         
-class Periodo:#Clase Periodo
-    def __init__(self, Año_Lectivo, Semestre):#Atributos de la clase Periodo
+class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
+    def __init__(self, Año_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
         self.Año_Lectivo = Año_Lectivo
         self.Semestre = Semestre
         print("Los datos del periodo fueron ingresados con éxitos")
-    def iniciar_periodo(self):#Metodo iniciar_periodo
+    def iniciar(self):#Metodo iniciar el peridodo
         print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha iniciado.")
-    def finalizar_periodo(self):#Metodo finalizar_periodo
+    def finalizar(self):#Metodo finalizar el periodo
         print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha finalizado.")
 
 class Inscripcion:#Clase Inscripcion
-    def __init__(self, carrera, facultad):
+    def __init__(self, carrera:str, facultad:str):
         self.carrera = carrera
         self.facultad = facultad
 
-class Evaluacion:#Clase Evaluacion
-    def __init__(self, tipo, puntaje, horario, modalidad):
+class Evaluacion:#Clase Evaluacion 
+    def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str):
         self.tipo = tipo
         self.puntaje = puntaje
         self.horario = horario 
         self.modalidad = modalidad
 
-class Postulacion:#Clase Postulacion
-    def __init__(self, carrera, nota_final):
+class Postulacion(Iniciar_fase,Finalizar_fase):#Clase Postulacion que contiene los metodos iniciar y finalizar
+    def __init__(self, carrera:str, nota_final:int):
         self.carrera = carrera
         self.nota_final = nota_final
+    @property
+    def nota_final(self):#Getter nota final
+        return self._nota_final
+    @nota_final.setter
+    def nota_final(self, valor):#Setter nota final con validacion
+        if (valor < 0) or (valor > 1000):
+            raise ValueError("La nota final no puede ser negativa o mayor a mil.")
+        self._nota_final = valor 
+    def iniciar(self):#Metodo iniciar la postulación
+        print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
+    def finalizar(self):#Metodo finalizar la postulación
+        print(f"La postulacion para la carrera de {self.carrera} ha finalizado.")
+
+class Servicio_web(Oferta_Academica):#Clase Servicio_web
+    Pais = "Ecuador"
+    def __init__(self, provincia:str, enlace:str, carrera:str, cantidad:int):
+        super().__init__(carrera, cantidad)
+        self.nombre = provincia
+        self.enlace = enlace 
+        self.estado = "Pendiente"
+        @property
+        def estado(self):#Getter estado
+            return self._estado
+        @estado.setter
+        def estado(self, valor):#Setter estado
+            valores_permitidos = ["Aprobada", "Rechazada", "Pendiente"]
+            if valor not in valores_permitidos:
+                raise ValueError(f"El estado debe ser uno de los siguientes: {', '.join(valores_permitidos)}.") 
+            self._estado = valor
+
+    def estado_servicio(self):#Metodo estado_servicio
+        print(f"El servicio web de la provincia de {self.nombre} está activo.")
+        if self.estado=="Aprobada":#Verifica si la oferta academica fue aceptada
+            print("La oferta academica fue aceptada.")   
+        elif self.estado=="Rechazada":#Verifica si la oferta academica fue rechazada
+            print("La oferta academica fue rechazada.")
+        else:#Verifica si la oferta academica esta pendiente
+            print("La oferta academica está pendiente de revisión.")    
