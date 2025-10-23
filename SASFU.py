@@ -67,7 +67,7 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
     def cerrar_sesion(self):
         print(f"Profesor {self.nombre} ha cerrado sesión.")
 
-class Universidad():#Clase Universidad
+class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad
     Pais = "Ecuador"
     def __init__(self, nombre:str, provincia:str, canton:str, direccion:str, enlace:str):
         self.nombre = nombre
@@ -75,6 +75,10 @@ class Universidad():#Clase Universidad
         self.canton = canton
         self.direccion = direccion
         self.enlace = enlace
+    def iniciar(self):#Metodo iniciar la universidad
+        print(f"La universidad {self.nombre} ha iniciado su admisión en {self.Pais}.")
+    def finalizar(self):#Metodo finalizar la universidad
+        print(f"La universidad {self.nombre} ha finalizado su admisión en {self.Pais}.")
 
 class Oferta_Academica:#Clase Oferta_Academica
     def __init__(self, carrera:str, cantidad:int):
@@ -101,10 +105,14 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
     def finalizar(self):#Metodo finalizar el periodo
         print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha finalizado.")
 
-class Inscripcion:#Clase Inscripcion
+class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion
     def __init__(self, carrera:str, facultad:str):
         self.carrera = carrera
         self.facultad = facultad
+    def iniciar(self):#Metodo iniciar la inscripcion
+        print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha iniciado.")
+    def finalizar(self):#Metodo finalizar la inscripcion
+        print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha finalizado.")
 
 class Evaluacion:#Clase Evaluacion 
     def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str):
@@ -147,7 +155,6 @@ class Servicio_web(Oferta_Academica):#Clase Servicio_web
         if valor not in valores_permitidos:
             raise ValueError(f"El estado debe ser uno de los siguientes: {valores_permitidos}.")             
         self._estado = valor
-
     def estado_servicio(self):#Metodo estado_servicio
         print(f"El servicio web de la provincia de {self.nombre} está activo.")
         if self.estado=="APROBADA":#Verifica si la oferta academica fue aceptada
