@@ -91,7 +91,6 @@ class Oferta_Academica:#Clase Oferta_Academica
     def crear_oferta(self):#Metodo crear_oferta
         print(f"La oferta académica para la carrera de {self.carrera} con {self.cantidad} cupos ha sido creada.")
     
-        
 class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
     def __init__(self, Año_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
         self.Año_Lectivo = Año_Lectivo
@@ -137,22 +136,23 @@ class Servicio_web(Oferta_Academica):#Clase Servicio_web
         super().__init__(carrera, cantidad)
         self.nombre = provincia
         self.enlace = enlace 
-        self.estado = "Pendiente"
-        @property
-        def estado(self):#Getter estado
-            return self._estado
-        @estado.setter
-        def estado(self, valor):#Setter estado
-            valores_permitidos = ["Aprobada", "Rechazada", "Pendiente"]
-            if valor not in valores_permitidos:
-                raise ValueError(f"El estado debe ser uno de los siguientes: {', '.join(valores_permitidos)}.") 
-            self._estado = valor
+        self.estado = "PENDIENTE"
+    @property
+    def estado(self):#Getter estado
+        return self._estado
+    @estado.setter
+    def estado(self, valor:str):#Setter estado
+        valor=valor.upper()
+        valores_permitidos = ["PENDIENTE", "APROBADA", "RECHAZADA"]
+        if valor not in valores_permitidos:
+            raise ValueError(f"El estado debe ser uno de los siguientes: {valores_permitidos}.")             
+        self._estado = valor
 
     def estado_servicio(self):#Metodo estado_servicio
         print(f"El servicio web de la provincia de {self.nombre} está activo.")
-        if self.estado=="Aprobada":#Verifica si la oferta academica fue aceptada
+        if self.estado=="APROBADA":#Verifica si la oferta academica fue aceptada
             print("La oferta academica fue aceptada.")   
-        elif self.estado=="Rechazada":#Verifica si la oferta academica fue rechazada
+        elif self.estado=="RECHAZADA":#Verifica si la oferta academica fue rechazada
             print("La oferta academica fue rechazada.")
         else:#Verifica si la oferta academica esta pendiente
             print("La oferta academica está pendiente de revisión.")    
