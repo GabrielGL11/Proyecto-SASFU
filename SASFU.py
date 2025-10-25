@@ -132,14 +132,14 @@ class Oferta_Academica:#Clase Oferta_Academica
         print(f"La oferta académica para la carrera de {self.carrera} con {self.cantidad} cupos ha sido creada.")
     
 class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
-    def __init__(self, Año_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
-        self.Año_Lectivo = Año_Lectivo
+    def __init__(self, Ano_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
+        self.Ano_Lectivo = Ano_Lectivo
         self.Semestre = Semestre
         print("Los datos del periodo fueron ingresados con éxitos")
     def iniciar(self):#Metodo iniciar el peridodo
-        print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha iniciado.")
+        print(f"El periodo {self.Ano_Lectivo} - {self.Semestre} ha iniciado.")
     def finalizar(self):#Metodo finalizar el periodo
-        print(f"El periodo {self.Año_Lectivo} - {self.Semestre} ha finalizado.")
+        print(f"El periodo {self.Ano_Lectivo} - {self.Semestre} ha finalizado.")
 
 class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion
     def __init__(self, carrera:str, facultad:str):
