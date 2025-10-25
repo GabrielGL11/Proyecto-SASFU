@@ -37,11 +37,25 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
         print(f"Hasta luego, Administrador {self.nombre}.")
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
-    def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str, titulo:bool):
+    def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str, titulo:bool, nota_grado:float):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más los atributos telefono y titulo
         self.telefono = telefono
         self.titulo = titulo
+        self.nota_grado = nota_grado
         print("Los datos del aspirante fueron ingresados con exitos.")
+    @property
+    def nota_grado(self):#Getter nota_grado
+        return self._nota_grado
+    @nota_grado.setter
+    def nota_grado(self, valor):#Setter nota_grado con validacion
+        if (valor < 0) or (valor > 10):
+            raise ValueError("La nota de grado no puede ser negativa o mayor a diez.")
+        self._nota_grado = valor
+    def nacionalidad(self):#Metodo nacionalidad
+        if self.cedula_pasaporte.isdigit() and len(self.cedula_pasaporte) == 10:
+            return "Ecuatoriano"
+        else:
+            return "Extranjero"        
     def iniciar_sesion(self):
         print(f"Aspirante {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
@@ -69,12 +83,34 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
 
 class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad
     Pais = "Ecuador"
-    def __init__(self, nombre:str, provincia:str, canton:str, direccion:str, enlace:str):
+    def __init__(self, nombre:str, provincia:str, canton:str, direccion:str, enlace:str,universidad:str,tipo:str):
         self.nombre = nombre
         self.provincia = provincia
         self.canton = canton
         self.direccion = direccion
         self.enlace = enlace
+        self.universidad = universidad
+        self.tipo = tipo
+    @property
+    def universidad(self):#Getter universidad
+        return self._universidad
+    @universidad.setter
+    def universidad(self, valor:str):#Setter universidad con validacion
+        valor=valor.upper()
+        valores_permitidos = ["PUBLICA", "PRIVADA"]
+        if valor not in valores_permitidos:
+            raise ValueError(f"El tipo de universidad debe ser uno de los siguientes: {valores_permitidos}.")             
+        self._universidad = valor
+    @property
+    def tipo(self):#Getter tipo
+        return self._tipo
+    @tipo.setter
+    def tipo(self, valor:str):#Setter tipo con validacion
+        valor=valor.upper()
+        valores_permitidos = ["NORMAL", "TECNICA"]
+        if valor not in valores_permitidos:
+            raise ValueError(f"El tipo de universidad publica debe ser uno de los siguientes: {valores_permitidos}.")             
+        self._tipo = valor
     def iniciar(self):#Metodo iniciar la universidad
         print(f"La universidad {self.nombre} ha iniciado su admisión en {self.Pais}.")
     def finalizar(self):#Metodo finalizar la universidad
@@ -115,24 +151,25 @@ class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion
         print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha finalizado.")
 
 class Evaluacion:#Clase Evaluacion 
-    def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str):
+    def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
         self.tipo = tipo
         self.puntaje = puntaje
         self.horario = horario 
         self.modalidad = modalidad
-
-class Postulacion(Iniciar_fase,Finalizar_fase):#Clase Postulacion que contiene los metodos iniciar y finalizar
+        self.sede = sede
+    @property 
+    def puntaje(self):#Getter puntaje 
+        return self._puntaje 
+    @puntaje.setter 
+    def puntaje(self, valor:int):#Setter nota final con validacion 
+        if (valor < 0) or (valor > 1000): 
+            raise ValueError("La nota final no puede ser negativa o mayor a mil.") 
+        self._puntaje = valor
+    
+class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que contiene los metodos iniciar y finalizar
     def __init__(self, carrera:str, nota_final:int):
         self.carrera = carrera
-        self.nota_final = nota_final
-    @property
-    def nota_final(self):#Getter nota final
-        return self._nota_final
-    @nota_final.setter
-    def nota_final(self, valor):#Setter nota final con validacion
-        if (valor < 0) or (valor > 1000):
-            raise ValueError("La nota final no puede ser negativa o mayor a mil.")
-        self._nota_final = valor 
+        self.nota_final = None 
     def iniciar(self):#Metodo iniciar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
     def finalizar(self):#Metodo finalizar la postulación
