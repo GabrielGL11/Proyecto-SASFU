@@ -1,8 +1,8 @@
 import SASFU
-class1=SASFU.Aspirante("1312685570","Juan","Perez","JuaPere@gmail.com","090900933",True,9.02)
-class1.cargar_datos()
-class1.iniciar_sesion()
-print(class1.nacionalidad())
-class1.cerrar_sesion()
+aspirante1=SASFU.Aspirante("1312685560","Juan","Perez","JuaPere@gmail.com","090900933",True,9.02)
+aspirante1.cargar_datos()
+aspirante1.iniciar_sesion()
+print(aspirante1.nacionalidad())
+aspirante1.cerrar_sesion()
 def test_nota_grado():
-    assert class1.nota_grado==9.02
+    assert aspirante1.nota_grado==9.02
