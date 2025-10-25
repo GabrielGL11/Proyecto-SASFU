@@ -1,7 +1,7 @@
 '''Proyecto sobre el sistema de gestion de cupos universitarios'''
-from abc import ABCMeta#impotar ABCMeta
+from abc import ABC#impotar ABCMeta
 from abc import abstractmethod#importar abstractmethod
-class Usuario(metaclass=ABCMeta):#Clase abstracta Usuario
+class Usuario(ABC):#Clase abstracta Usuario
     def __init__(self, cedula_pasaporte: str, nombre:str, apellido:str, correo:str):#Atributos de la clase Usuario, que seran heredados por las clases hijas
         self.cedula_pasaporte = cedula_pasaporte
         self.nombre = nombre

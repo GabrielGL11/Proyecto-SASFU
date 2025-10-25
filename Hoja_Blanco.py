@@ -4,3 +4,5 @@ class1.cargar_datos()
 class1.iniciar_sesion()
 print(class1.nacionalidad())
 class1.cerrar_sesion()
+def test_nota_grado():
+    assert class1.nota_grado==9.02
