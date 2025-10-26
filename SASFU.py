@@ -217,6 +217,8 @@ class Evaluacion:#Clase Evaluacion
         if (valor < 0) or (valor > 1000): 
             raise ValueError("La nota final no puede ser negativa o mayor a mil.") 
         self._puntaje = valor
+    def mostrar_info(self):
+        return f"Evaluación tipo '{self.examen.descripcion()}' con puntaje {self.puntaje}"
     
 class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que contiene los metodos iniciar y finalizar de las interfaces y hereda de Aspirante
     def __init__(self, carrera:str, nota_final:int):
