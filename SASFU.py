@@ -31,10 +31,12 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo cargo
         self.cargo = cargo
         print("Los datos del administrador fueron ingresados con exitos.")
-    def iniciar_sesion(self):
+    def iniciar_sesion(self):#Metodo iniciar_sesion
         print(f"Bienvenido de vuelta, Administrador {self.nombre}.")
-    def cerrar_sesion(self):
+    def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Hasta luego, Administrador {self.nombre}.")
+    def cargar_datos(self):#Metodo cargar_datos
+        print(f"El administrador creo la opcion de cargar datos para los usuarios.")
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str, titulo:bool, nota_grado:float):
@@ -43,11 +45,15 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         self.titulo = titulo
         self.nota_grado = nota_grado
         print("Los datos del aspirante fueron ingresados con éxitos.")
+    def iniciar_sesion(self):#Metodo iniciar_sesion
+        print(f"Aspirante {self.nombre} ha iniciado sesión.")
+    def cerrar_sesion(self):#Metodo cerrar_sesion
+        print(f"Aspirante {self.nombre} ha cerrado sesión.")
     @property
     def nota_grado(self):#Getter nota_grado
         return self._nota_grado
     @nota_grado.setter
-    def nota_grado(self, valor):#Setter nota_grado con validacion
+    def nota_grado(self, valor:int):#Setter nota_grado con validacion
         if (valor < 0) or (valor > 10):
             raise ValueError("La nota de grado no puede ser negativa o mayor a diez.")
         self._nota_grado = valor
@@ -55,20 +61,18 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         if self.cedula_pasaporte.isdigit() and len(self.cedula_pasaporte) == 10:
             return "Ecuatoriano"
         else:
-            return "Extranjero"        
-    def iniciar_sesion(self):
-        print(f"Aspirante {self.nombre} ha iniciado sesión.")
-    def cerrar_sesion(self):
-        print(f"Aspirante {self.nombre} ha cerrado sesión.")
+            return "Extranjero" 
+    def cargar_datos(self):#Metodo cargar_datos
+        print(f"EL aspirante ha subido con éxito la información requerida.")
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo telefono
         self.telefono = telefono
         print("Los datos del soporte fueron ingresados con éxitos.")
-    def iniciar_sesion(self):
+    def iniciar_sesion(self):#Metodo iniciar_sesion
         print(f"Soporte {self.nombre} ha iniciado sesión.")
-    def cerrar_sesion(self):
+    def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Soporte {self.nombre} ha cerrado sesión.")
     def recibir_asistencia(self, aspirante):#Metodo recibir_asistencia
         print(f"Soporte {self.nombre} está atendiendo la solicitud de asistencia del aspirante {aspirante.nombre}.")
@@ -90,9 +94,9 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo facultad
         self.facultad = facultad
         print("Los datos del profesor fueron ingresados con éxitos.")
-    def iniciar_sesion(self):
+    def iniciar_sesion(self):#Metodo iniciar_sesion
         print(f"Profesor {self.nombre} ha iniciado sesión.")
-    def cerrar_sesion(self):
+    def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Profesor {self.nombre} ha cerrado sesión.")
 
 class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad que hereda de Iniciar_fase y Finalizar_fase
@@ -140,7 +144,7 @@ class Oferta_Academica(Universidad):#Clase Oferta_Academica
     def cantidad(self):#Getter cantidad
         return self._cantidad
     @cantidad.setter
-    def cantidad(self, valor):#Setter cantidad con validacion
+    def cantidad(self, valor:int):#Setter cantidad con validacion
         if valor < 0:
             raise ValueError("La cantidad de cupos no puede ser negativa.")
         self._cantidad = valor  
