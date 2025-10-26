@@ -188,19 +188,22 @@ class tipo_de_examen(ABC):
     @abstractmethod
     def descripcion(self):
         pass
-
+        
 class mixto(tipo_de_examen):
     def descripcion(self):
         return "Examen combinado"
-
+        
 class por_area(tipo_de_examen):
     def descripcion(self):
         return "Examen por área de conocimiento"
+        
 class general(tipo_de_examen):
     def descripcion(self):
         return "Examen general"
+        
 class Evaluacion:#Clase Evaluacion 
-    def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
+    def __init__(self, examen: tipo_de_examen, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
+        self.examen = examen  #inyeccion de dependencia
         self.tipo = tipo
         self.puntaje = puntaje
         self.horario = horario 
