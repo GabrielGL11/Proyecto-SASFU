@@ -131,9 +131,11 @@ class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad que hereda de 
         print(f"La universidad {self.nombre} ha finalizado su admisión en {self.Pais}.")
 
 class Oferta_Academica(Universidad):#Clase Oferta_Academica
-    def __init__(self, carrera:str, cantidad:int):
+    def __init__(self, carrera:str, cantidad:int, codigo:int, modalidad_oferta:str):
         self.carrera = carrera
         self.cantidad = cantidad
+        self.codigo = codigo
+        self.modalidad_oferta = modalidad_oferta
     @property
     def cantidad(self):#Getter cantidad
         return self._cantidad
