@@ -149,7 +149,10 @@ class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion que hereda de 
         print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha iniciado.")
     def finalizar(self):#Metodo finalizar la inscripcion
         print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha finalizado.")
-
+#inyeccion en proceso.josh
+class tipo_examen:
+    pass
+    
 class Evaluacion:#Clase Evaluacion 
     def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
         self.tipo = tipo
