@@ -140,6 +140,8 @@ class Oferta_Academica(Universidad):#Clase Oferta_Academica
         self.cantidad = cantidad
         self.codigo = codigo
         self.modalidad_oferta = modalidad_oferta
+        self.cupos = cantidad
+        self.postulantes = []
     @property
     def cantidad(self):#Getter cantidad
         return self._cantidad
@@ -159,6 +161,9 @@ class Oferta_Academica(Universidad):#Clase Oferta_Academica
     def validar_codigo(self): #Método validar_codigo
         if self.codigo <= 0:
             raise ValueError("El código debe ser un número positivo")
+    def verificar_cupos(self): #Método verificar_cupos
+        disponibles = self.cupos - len(self.postulantes)
+        print(f"Cupos restantes para {self.carrera}: {disponibles}")
     
 class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
     def __init__(self, Ano_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
