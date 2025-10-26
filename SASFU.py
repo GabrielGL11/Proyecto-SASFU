@@ -150,19 +150,21 @@ class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion que hereda de 
     def finalizar(self):#Metodo finalizar la inscripcion
         print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha finalizado.")
 #inyeccion en proceso.josh
-class TipoDeExamen(ABC):
+class tipo_de_examen(ABC):
     @abstractmethod
     def descripcion(self):
         pass
 
-class Mixto(TipoDeExamen):
+class mixto(tipo_de_examen):
     def descripcion(self):
         return "Examen combinado"
 
-class PorArea(TipoDeExamen):
+class por_area(tipo_de_examen):
     def descripcion(self):
         return "Examen por área de conocimiento"
-    
+class general(tipo_de_examen):
+    def descripcion(self):
+        return "Examen general"
 class Evaluacion:#Clase Evaluacion 
     def __init__(self, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
         self.tipo = tipo
