@@ -146,6 +146,15 @@ class Oferta_Academica(Universidad):#Clase Oferta_Academica
         self._cantidad = valor  
     def crear_oferta(self):#Metodo crear_oferta
         print(f"La oferta académica para la carrera de {self.carrera} con {self.cantidad} cupos ha sido creada.")
+    def esta_disponible(self): #Método esta_disponible
+        return self.cantidad > 0
+    def validar_modalidad(self): #Método validar_modalidad
+        modalidades_validas = ["Presencial", "Virtual", "Híbrida"]
+        if self.modalidad_oferta not in modalidades_validas:
+            raise ValueError("Modalidad no válida")
+    def validar_codigo(self): #Método validar_codigo
+        if self.codigo <= 0:
+            raise ValueError("El código debe ser un número positivo")
     
 class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
     def __init__(self, Ano_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
