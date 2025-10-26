@@ -42,7 +42,7 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         self.telefono = telefono
         self.titulo = titulo
         self.nota_grado = nota_grado
-        print("Los datos del aspirante fueron ingresados con exitos.")
+        print("Los datos del aspirante fueron ingresados con éxitos.")
     @property
     def nota_grado(self):#Getter nota_grado
         return self._nota_grado
@@ -65,17 +65,31 @@ class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo telefono
         self.telefono = telefono
-        print("Los datos del soporte fueron ingresados con exitos.")
+        print("Los datos del soporte fueron ingresados con éxitos.")
     def iniciar_sesion(self):
         print(f"Soporte {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
         print(f"Soporte {self.nombre} ha cerrado sesión.")
+    def recibir_asistencia(self, aspirante):#Metodo recibir_asistencia
+        print(f"Soporte {self.nombre} está atendiendo la solicitud de asistencia del aspirante {aspirante.nombre}.")
+    def estado_asistencia(self,estado:str):#Metodo estado_asistencia
+        if not isinstance(estado, str):#Verifica que el estado sea una cadena de texto
+            raise ValueError("El estado debe ser una cadena de texto.")
+        estado=estado.upper().strip()#Normaliza el estado a mayusculas y elimina espacios en blanco
+        if estado == "RESUELTA":#Verifica el estado de la asistencia    
+            print("La asistencia ha sido resuelta.")
+        elif estado == "RECHAZADA":
+            print("La asistencia ha sido rechazada.")
+        elif estado == "PROCESO":
+            print("La asistencia está en proceso.")
+        else:
+            print("Estado no válido. Usa: 'RESUELTA', 'RECHAZADA' o 'PROCESO'.")
     
 class Profesor(Usuario):#Clase Hija Profesor de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, facultad:str):
         super().__init__(cedula_pasaporte, nombre, apellido, correo)#Atributos heredados de Usuario más el atributo facultad
         self.facultad = facultad
-        print("Los datos del profesor fueron ingresados con exitos.")
+        print("Los datos del profesor fueron ingresados con éxitos.")
     def iniciar_sesion(self):
         print(f"Profesor {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):
