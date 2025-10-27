@@ -37,6 +37,15 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
         print(f"Hasta luego, Administrador {self.nombre}.")
     def cargar_datos(self):#Metodo cargar_datos
         print(f"El administrador creo la opcion de cargar datos para los usuarios.")
+    def generar_reporte_inscripciones(self, lista_aspirantes):
+        print(f"Total de aspirantes inscritos: {len(lista_aspirantes)}\n")
+        
+        if not lista_aspirantes:
+            print("No hay aspirantes registrados actualmente")
+            return
+            
+        for i in lista_aspirantes:
+            print(f"- {i.nombre} {i.apellido} ({i.cedula_pasaporte}) - {i.correo}")  
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str, titulo:bool, nota_grado:float):
