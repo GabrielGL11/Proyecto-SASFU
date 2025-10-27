@@ -201,42 +201,68 @@ class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion que hereda de 
     def finalizar(self):#Metodo finalizar la inscripcion
         print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha finalizado.")
 #inyeccion en proceso
+#Clase_base
 class tipo_de_examen(ABC):
     @abstractmethod
-    def descripcion(self):
+    def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
         pass
-        
+
+    @abstractmethod
+    def descripcion(self) -> str:
+        pass
+
+
+#Tipos de examen
 class mixto(tipo_de_examen):
+    def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
+        # ponderación 50% general + 50% area
+        return int((respuestas_correctas / total_preguntas) * 1000)
+
     def descripcion(self):
-        return "Examen combinado"
-        
+        return "Examen mixto (conocimiento general y area conocimiento)"
+
+
 class por_area(tipo_de_examen):
+    def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
+        return int ((respuestas_correctas / total_preguntas) * 1000)
+
     def descripcion(self):
         return "Examen por área de conocimiento"
-        
+    
 class general(tipo_de_examen):
+    def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
+        return int((respuestas_correctas / total_preguntas) * 1000)
+    
     def descripcion(self):
-        return "Examen general"
-#tipos de examenes generados
-class Evaluacion:#Clase Evaluacion 
-    def __init__(self, examen: tipo_de_examen, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
-        self.examen = examen  #inyeccion de dependencia
-        self.tipo = tipo
-        self.puntaje = puntaje
-        self.horario = horario 
+        return "Conocimiento general"
+
+
+#inyección de dependencia
+class Evaluacion:
+    def __init__(self, tipo_examen: tipo_de_examen, horario: str, modalidad: str, sede: str):
+        self.tipo_examen = tipo_examen  #dependencia
+        self.horario = horario
         self.modalidad = modalidad
         self.sede = sede
-    @property 
-    def puntaje(self):#Getter puntaje 
-        return self._puntaje 
-    @puntaje.setter 
-    def puntaje(self, valor:int):#Setter nota final con validacion 
-        if (valor < 0) or (valor > 1000): 
-            raise ValueError("La nota final no puede ser negativa o mayor a mil.") 
-        self._puntaje = valor
-    def mostrar_info(self):
-        return f"Evaluación tipo '{self.examen.descripcion()}' con puntaje {self.puntaje}"
-    
+        self._puntaje = 0
+
+    def aplicar_examen(self, respuestas_correctas: int, total_preguntas: int):
+        self._puntaje = self.tipo_examen.calcular_resultado(respuestas_correctas, total_preguntas)
+
+    def mostrar_resultado(self):
+        return (f"{self.tipo_examen.descripcion()} — "
+                f"Puntaje obtenido: {self._puntaje}/1000 — "
+                f"Modalidad: {self.modalidad}, Sede: {self.sede}")
+hora = input("hora del examen:")
+modalidad = input("presencial o virtual:")
+sede = input("sede:")
+
+evaluacion1 = Evaluacion(mixto(), hora, modalidad, sede)
+evaluacion1.aplicar_examen(respuestas_correctas=45, total_preguntas=50)
+
+print(evaluacion1.mostrar_resultado())
+
+
 class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que contiene los metodos iniciar y finalizar de las interfaces y hereda de Aspirante
     def __init__(self, carrera:str, nota_final:int):
         self.carrera = carrera
