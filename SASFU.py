@@ -200,7 +200,7 @@ class por_area(tipo_de_examen):
 class general(tipo_de_examen):
     def descripcion(self):
         return "Examen general"
-        
+#tipos de examenes generados
 class Evaluacion:#Clase Evaluacion 
     def __init__(self, examen: tipo_de_examen, tipo:str, puntaje:int, horario:str, modalidad:str, sede:str):
         self.examen = examen  #inyeccion de dependencia
