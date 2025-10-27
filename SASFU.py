@@ -15,6 +15,8 @@ class Usuario(ABC):#Clase abstracta Usuario
         pass
     def cargar_datos(self):#Metodo cargar_datos
         pass
+    def notificar_sede(self):#Metodo notificar_sede
+        pass
 
 class Iniciar_fase:#Interfaz Iniciar_fase
     @abstractmethod
@@ -46,6 +48,8 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
             return
         for i in lista_aspirantes:
             print(f"- {i.nombre} {i.apellido} ({i.cedula_pasaporte}) - {i.correo}")  
+    def notificar_sede(self, sede: str):  # Método notificar_sede
+        print(f"El administrador {self.nombre} ha notificado las sedes {sede} para que los aspirantes rindan la evaluación.")
     
 class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str, titulo:bool, nota_grado:float):
@@ -73,6 +77,8 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
             return "Extranjero" 
     def cargar_datos(self):#Metodo cargar_datos
         print(f"EL aspirante ha subido con éxito la información requerida.")
+    def notificar_sede(self):#Metodo notificar_sede
+        print(f"El aspirante {self.nombre} ha notificado a la sede correspondiente.")
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def __init__(self, cedula_pasaporte:str, nombre:str, apellido:str, correo:str, telefono:str):
