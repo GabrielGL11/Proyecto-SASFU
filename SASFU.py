@@ -113,6 +113,8 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
         print(f"Profesor {self.nombre} ha iniciado sesión.")
     def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Profesor {self.nombre} ha cerrado sesión.")
+    def crear_cuestionario(self, tema:str, numero_preguntas:int):#Metodo crear_cuestionario
+        print(f"El profesor {self.nombre} ha creado un cuestionario sobre {tema} con {numero_preguntas} preguntas.")
 
 class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad que hereda de Iniciar_fase y Finalizar_fase
     Pais = "Ecuador"
