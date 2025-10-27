@@ -253,22 +253,12 @@ class Evaluacion:
         return (f"{self.tipo_examen.descripcion()} — "
                 f"Puntaje obtenido: {self._puntaje}/1000 — "
                 f"Modalidad: {self.modalidad}, Sede: {self.sede}")
-#simulando un registro
-hora = input("hora del examen:")
-modalidad = input("presencial o virtual:")
-sede = input("sede:")
-pr = int(input("total de preguntas correctas de 50:"))
-
-evaluacion1 = Evaluacion(mixto(), hora, modalidad, sede)
-evaluacion1.aplicar_examen(respuestas_correctas=pr, total_preguntas=50)
-
-print(evaluacion1.mostrar_resultado())
 
 
 class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que contiene los metodos iniciar y finalizar de las interfaces y hereda de Aspirante
     def __init__(self, carrera:str, nota_final:int):
         self.carrera = carrera
-        self.nota_final = None 
+        self.nota_final = 0
     def iniciar(self):#Metodo iniciar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
     def finalizar(self):#Metodo finalizar la postulación
