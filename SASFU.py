@@ -253,12 +253,14 @@ class Evaluacion:
         return (f"{self.tipo_examen.descripcion()} — "
                 f"Puntaje obtenido: {self._puntaje}/1000 — "
                 f"Modalidad: {self.modalidad}, Sede: {self.sede}")
+#simulando un registro
 hora = input("hora del examen:")
 modalidad = input("presencial o virtual:")
 sede = input("sede:")
+pr = int(input("total de preguntas correctas de 50:"))
 
 evaluacion1 = Evaluacion(mixto(), hora, modalidad, sede)
-evaluacion1.aplicar_examen(respuestas_correctas=45, total_preguntas=50)
+evaluacion1.aplicar_examen(respuestas_correctas=pr, total_preguntas=50)
 
 print(evaluacion1.mostrar_resultado())
 
