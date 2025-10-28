@@ -1,29 +1,31 @@
 '''Proyecto sobre el sistema de gestion de cupos universitarios'''
+'''Sustainable application system for universities'''
+'''SASFU'''
 from abc import ABC#impotar ABCMeta
 from abc import abstractmethod#importar abstractmethod
-@dataclass
-class Usuario(ABC):
-    cedula_pasaporte: str
-    nombre: str
-    apellido: str
-    correo: str
+class Usuario(ABC):#Clase abstracta Usuario
+    def __init__(self, cedula_pasaporte: str, nombre:str, apellido:str, correo:str):#Atributos de la clase Usuario, que seran heredados por las clases hijas
+        self.cedula_pasaporte = cedula_pasaporte
+        self.nombre = nombre
+        self.apellido = apellido
+        self.correo = correo
+    @abstractmethod#Metodo abstracto iniciar_sesion
+    def iniciar_sesion(self):
+        pass
+    @abstractmethod#Metodo abstracto cerrar_sesion
+    def cerrar_sesion(self):
+        pass
+    def cargar_datos(self):#Metodo cargar_datos
+        pass
+    def notificar_sede(self):#Metodo notificar_sede
+        pass
 
-    @abstractmethod
-    def iniciar_sesion(self): ...
-    @abstractmethod
-    def cerrar_sesion(self): ...
-    @abstractmethod
-    def cargar_datos(self): ... #Metodo cargar_datos    
-    @abstractmethod
-    def notificar_sede(self): ...#Metodo notificar_sede
-@dataclass
-
-class Iniciar_fase(ABC):#Interfaz Iniciar_fase
+class Iniciar_fase:#Interfaz Iniciar_fase
     @abstractmethod
     def iniciar(self):
         pass
 
-class Finalizar_fase(ABC):#Interfaz Finalizar_fase
+class Finalizar_fase:#Interfaz Finalizar_fase
     @abstractmethod
     def finalizar(self):
         pass
@@ -211,7 +213,6 @@ class tipo_de_examen(ABC):
     def descripcion(self) -> str:
         pass
 
-
 #Tipos de examen
 class mixto(tipo_de_examen):
     def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
@@ -220,7 +221,6 @@ class mixto(tipo_de_examen):
 
     def descripcion(self):
         return "Examen mixto (conocimiento general y area conocimiento)"
-
 
 class por_area(tipo_de_examen):
     def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
@@ -235,7 +235,6 @@ class general(tipo_de_examen):
     
     def descripcion(self):
         return "Conocimiento general"
-
 
 #inyección de dependencia
 class Evaluacion:
@@ -254,14 +253,10 @@ class Evaluacion:
                 f"Puntaje obtenido: {self._puntaje}/1000 — "
                 f"Modalidad: {self.modalidad}, Sede: {self.sede}")
 
-
-@dataclass
-class Postulacion:
-    aspirante_cedula: str
-    universidad_nombre: str
-    carrera: str
-    nota_final: float
-    estado: str = "PENDIENTE"
+class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que contiene los metodos iniciar y finalizar de las interfaces y hereda de Aspirante
+    def __init__(self, carrera:str, nota_final:int):
+        self.carrera = carrera
+        self.nota_final = 0
     def iniciar(self):#Metodo iniciar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
     def finalizar(self):#Metodo finalizar la postulación
@@ -291,4 +286,4 @@ class Servicio_web(Oferta_Academica):#Clase Servicio_web que hereda de Oferta_Ac
         elif self.estado=="RECHAZADA":#Verifica si la oferta academica fue rechazada
             print("La oferta academica fue rechazada.")
         else:#Verifica si la oferta academica esta pendiente
-            print("La oferta academica está pendiente de revisión.")    
+            print("La oferta academica está pendiente de revisión.")  
