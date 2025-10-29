@@ -1,4 +1,4 @@
-iimport SASFU
+import SASFU
 aspirante1 = SASFU.Aspirante("1312685560", "Juan", "Pérez", "juan@gmail.com", "099000933", True, 8.02)
 soport1 = SASFU.Soporte("0923456789", "María", "Gómez", "maria@soporte.com", "098765432")
 profesor1=SASFU.Profesor("1002003004","Carlos","Lopez","carlez@hotmail.com", "arquitecto")
