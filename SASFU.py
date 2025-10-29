@@ -22,12 +22,12 @@ class Usuario(ABC):#Clase abstracta Usuario
     def notificar_sede(self):#Metodo notificar_sede
         pass
 
-class Iniciar_fase:#Interfaz Iniciar_fase
+class Iniciar_fase(ABC):#Interfaz Iniciar_fase
     @abstractmethod
     def iniciar(self):
         pass
 
-class Finalizar_fase:#Interfaz Finalizar_fase
+class Finalizar_fase(ABC):#Interfaz Finalizar_fase
     @abstractmethod
     def finalizar(self):
         pass
