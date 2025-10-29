@@ -15,6 +15,8 @@ class Usuario(ABC):#Clase abstracta Usuario
     @abstractmethod#Metodo abstracto cerrar_sesion
     def cerrar_sesion(self):
         pass
+    def crear_usuario(self):#Metodo crear_usuario
+        pass
     def cargar_datos(self):#Metodo cargar_datos
         pass
     def notificar_sede(self):#Metodo notificar_sede
@@ -36,7 +38,7 @@ class Administrador(Usuario):#Clase Hija Administrador de Usuario
         self.cargo = cargo
         print("Los datos del administrador fueron ingresados con exitos.")
     def iniciar_sesion(self):#Metodo iniciar_sesion
-        print(f"Bienvenido de vuelta, Administrador {self.nombre}.")
+        print(f"Bienvenido, Administrador {self.nombre}.")
     def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Hasta luego, Administrador {self.nombre}.")
     def cargar_datos(self):#Metodo cargar_datos
@@ -59,9 +61,33 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         self.telefono = telefono
         self.titulo = titulo
         self.nota_grado = nota_grado
+        self.usuario = None
+        self.contrasena = None
         print("Los datos del aspirante fueron ingresados con éxitos.")
-    def iniciar_sesion(self):#Metodo iniciar_sesion
-        print(f"Aspirante {self.nombre} ha iniciado sesión.")
+    
+    def crear_usuario(self, usuario: str, contrasena: str, contrasena_confirmar: str):#Metodo crear_usuario
+        if usuario != self.cedula_pasaporte:
+            print("El usuario debe ser igual a la cédula o pasaporte.")
+            return False
+        if contrasena != contrasena_confirmar:
+            print("Las contraseñas no coinciden.")
+            return False
+        self.usuario = usuario
+        self.contrasena = contrasena
+        print(f"El aspirante {self.nombre} ha creado su usuario con éxito.")
+        return True
+
+    def iniciar_sesion(self, usuario: str, contrasena: str):#Metodo iniciar_sesion
+        if self.usuario is None or self.contrasena is None:
+            print("El aspirante debe crear un usuario antes de iniciar sesión.")
+            return False
+        if usuario == self.usuario and contrasena == self.contrasena:
+            print(f"Aspirante {self.nombre} ha iniciado sesión con éxito.")
+            return True
+        else:
+            print("Usuario o contraseña incorrectos.")
+            return False
+
     def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Aspirante {self.nombre} ha cerrado sesión.")
     @property
@@ -78,7 +104,7 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         else:
             return "Extranjero" 
     def cargar_datos(self):#Metodo cargar_datos
-        print(f"EL aspirante ha subido con éxito la información requerida.")
+        print(f"El aspirante ha subido con éxito la información requerida.")
     def notificar_sede(self):#Metodo notificar_sede
         print(f"El aspirante {self.nombre} ha notificado a la sede correspondiente.")
 
@@ -311,9 +337,4 @@ class Servicio_web(Oferta_Academica):#Clase Servicio_web que hereda de Oferta_Ac
             print("La oferta academica fue rechazada.")
         else:#Verifica si la oferta academica esta pendiente
             print("La oferta academica está pendiente de revisión.")  
-
-postulacion1 = Postulacion("Ingeniería en Software", 850)
-postulacion1.iniciar()
-postulacion1.seleccionar_carrera()
-postulacion1.finalizar()
     
