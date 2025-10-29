@@ -262,6 +262,15 @@ class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que 
     @property    
     def nota_final(self):
         return self._nota_final
+
+
+    @nota_final.setter
+    def nota_final(self, valor : int):
+        #Validacion de puntaje 
+        if valor < 0 or valor > 1000:
+            raise ValueError("La nota final debe estar entre 0 y 1000 puntos.")
+        self._nota_final = valor
+        
         
     def iniciar(self):#Metodo iniciar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
