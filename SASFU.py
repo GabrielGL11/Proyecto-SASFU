@@ -311,3 +311,9 @@ class Servicio_web(Oferta_Academica):#Clase Servicio_web que hereda de Oferta_Ac
             print("La oferta academica fue rechazada.")
         else:#Verifica si la oferta academica esta pendiente
             print("La oferta academica está pendiente de revisión.")  
+
+postulacion1 = Postulacion("Ingeniería en Software", 850)
+postulacion1.iniciar()
+postulacion1.seleccionar_carrera()
+postulacion1.finalizar()
+    
