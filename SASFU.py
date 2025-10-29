@@ -260,6 +260,9 @@ class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que 
         self.nota_final = nota_final
         
     @property    
+    def nota_final(self):
+        return self._nota_final
+        
     def iniciar(self):#Metodo iniciar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
     def finalizar(self):#Metodo finalizar la postulación
