@@ -274,8 +274,17 @@ class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que 
         
     def iniciar(self):#Metodo iniciar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
+
+    
     def finalizar(self):#Metodo finalizar la postulación
         print(f"La postulacion para la carrera de {self.carrera} ha finalizado.")
+
+
+    def seleccionar_carrera(self):
+        if self.nota_final >= 700:
+            print(f"El aspirante ha sido **aceptado** en la carrera de {self.carrera} con {self.nota_final} puntos.")
+        else:
+            print(f"El aspirante **No alcanzo el puntaje minimo** para la carrera de {self.carrera} .")
 
 class Servicio_web(Oferta_Academica):#Clase Servicio_web que hereda de Oferta_Academica
     Pais = "Ecuador"
