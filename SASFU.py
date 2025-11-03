@@ -3,7 +3,7 @@
 '''SASFU'''
 from abc import ABC#impotar ABCMeta
 from abc import abstractmethod#importar abstractmethod
-from Usuario import Aspirante
+from Usuario import Aspirante#importar clase Aspirante desde Usuario.py
 
 class Iniciar_fase(ABC):#Interfaz Iniciar_fase
     @abstractmethod
