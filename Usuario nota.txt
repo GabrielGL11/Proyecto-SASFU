@@ -1,0 +1,1 @@
+Se cambio y se parto de lo principal la clase abtracta usuario y se importo en el principal para que funcione en psotulacion
