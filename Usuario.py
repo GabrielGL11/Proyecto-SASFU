@@ -52,28 +52,39 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
         self.contrasena = None
         print("Los datos del aspirante fueron ingresados con éxitos.")
     
-    def crear_usuario(self, usuario: str, contrasena: str, contrasena_confirmar: str):#Metodo crear_usuario
-        if usuario != self.cedula_pasaporte:
-            print("El usuario debe ser igual a la cédula o pasaporte.")
-            return False
-        if contrasena != contrasena_confirmar:
-            print("Las contraseñas no coinciden.")
-            return False
-        self.usuario = usuario
-        self.contrasena = contrasena
-        print(f"El aspirante {self.nombre} ha creado su usuario con éxito.")
-        return True
+    def crear_usuario(self):#Metodo crear_usuario
+        while True:#Bucle para validar la creacion del usuario
+            try:#Validar que los datos ingresados sean correctos
+                usuario = input("Ingrese su usuario (cédula o pasaporte): ")
+                contrasena = input("Ingrese su contraseña: ")
+                contrasena_confirmar = input("Confirme su contraseña: ")
+                if usuario != self.cedula_pasaporte:#Validacion de usuario
+                    raise ValueError("El usuario debe ser igual a la cédula o pasaporte.")
+                if contrasena != contrasena_confirmar: #Validacion de contraseñas
+                    raise ValueError("Las contraseñas no coinciden.")
+                self.usuario = usuario#Validar que el usuario y la contraseña se asignen correctamente
+                self.contrasena = contrasena
+                print(f"El aspirante {self.nombre} ha creado su usuario con éxito.")
+                break #Salir del bucle si todo es correcto
+            except ValueError as error:#Captura de errores y muestra el mensaje correspondiente
+                print(f"Error: {error}. Intente de nuevo.")
 
-    def iniciar_sesion(self, usuario: str, contrasena: str):#Metodo iniciar_sesion
-        if self.usuario is None or self.contrasena is None:
+    def iniciar_sesion(self):#Metodo iniciar_sesion
+        if self.usuario is None or self.contrasena is None:#Verifica si el usuario ha creado un usuario
             print("El aspirante debe crear un usuario antes de iniciar sesión.")
             return False
-        if usuario == self.usuario and contrasena == self.contrasena:
-            print(f"Aspirante {self.nombre} ha iniciado sesión con éxito.")
-            return True
-        else:
-            print("Usuario o contraseña incorrectos.")
-            return False
+        while True:#Bucle para validar el inicio de sesion
+            usuario = input("Ingrese su usuario: ")
+            contrasena = input("Ingrese su contraseña: ")
+            if usuario == self.usuario and contrasena == self.contrasena:#Validacion de usuario y contraseña
+                print(f"Aspirante {self.nombre} ha iniciado sesión con éxito.")
+                return True
+            else:#Mensaje de error si los datos son incorrectos
+                print("Usuario o contraseña incorrectos. Intente de nuevo.")
+                salir = input("¿Desea intentar de nuevo? (SI/NO): ").upper()#Pregunta para salir del bucle
+                if salir == 'NO':#Salir del bucle si el usuario no desea intentar de nuevo
+                    print("Se canceló el inicio de sesión.")
+                    return False
 
     def cerrar_sesion(self):#Metodo cerrar_sesion
         print(f"Aspirante {self.nombre} ha cerrado sesión.")
@@ -81,7 +92,7 @@ class Aspirante(Usuario):#Clase Hija Aspirante de Usuario
     def nota_grado(self):#Getter nota_grado
         return self._nota_grado
     @nota_grado.setter
-    def nota_grado(self, valor:int):#Setter nota_grado con validacion
+    def nota_grado(self, valor:float):#Setter nota_grado con validacion
         if (valor < 0) or (valor > 10):
             raise ValueError("La nota de grado no puede ser negativa o mayor a diez.")
         self._nota_grado = valor
