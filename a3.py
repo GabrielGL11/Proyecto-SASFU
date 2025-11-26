@@ -46,6 +46,15 @@ class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad que hereda de 
         print(f"La universidad {self.nombre} ha iniciado su admisión en {self.Pais}.")
     def finalizar(self):#Metodo finalizar la universidad
         print(f"La universidad {self.nombre} ha finalizado su admisión en {self.Pais}.")
+    def exportar_univeridad(self):
+        return {
+            "Nombre": self.nombre, 
+            "Provincia": self.provincia,
+            "Cantón": self.canton,
+            "Dirección": self.direccion,
+            "Enlace": self.enlace,
+            "Tipo": self.universidad + " " + self.tipo
+        }
 
 class Oferta_Academica(Universidad):#Clase Oferta_Academica
     def __init__(self, carrera:str, cantidad:int, codigo:int, modalidad_oferta:str):
@@ -77,7 +86,14 @@ class Oferta_Academica(Universidad):#Clase Oferta_Academica
     def verificar_cupos(self): #Método verificar_cupos
         disponibles = self.cupos - len(self.postulantes)
         print(f"Cupos restantes para {self.carrera}: {disponibles}")
-    
+    def exportar_oferta(self):
+        return{
+            "Carrera": self.carrera,
+            "Codigo": self.codigo",
+            "Modalidad": self.modalidad_oferta,
+            "Cupos": self.cupos,
+            "Postulantes": len(self.postulantes)
+        }
 class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
     def __init__(self, Ano_Lectivo:str, Semestre:str):#Atributos de la clase Periodo
         self.Ano_Lectivo = Ano_Lectivo
@@ -87,3 +103,4 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
         print(f"El periodo {self.Ano_Lectivo} - {self.Semestre} ha iniciado.")
     def finalizar(self):#Metodo finalizar el periodo
         print(f"El periodo {self.Ano_Lectivo} - {self.Semestre} ha finalizado.")
+
