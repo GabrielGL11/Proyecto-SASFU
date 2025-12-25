@@ -15,6 +15,19 @@ class Finalizar_fase(ABC):#Interfaz Finalizar_fase
     def finalizar(self):
         pass
 
+class Observador(ABC):#Interfaz Observer para Postulacion
+    @abstractmethod
+    def actualizar(self, mensaje: str):
+        pass
+# Observadores concretos
+class ObservadorAdmin(Observador):
+    def actualizar(self, mensaje: str):
+        print(f"[ADMIN] {mensaje}")
+
+class ObservadorAspirante(Observador):
+    def actualizar(self, mensaje: str):
+        print(f"[ASPIRANTE] {mensaje}")
+
 class Universidad(Iniciar_fase,Finalizar_fase):#Clase Universidad que hereda de Iniciar_fase y Finalizar_fase
     Pais = "Ecuador"
     def __init__(self, nombre:str, provincia:str, canton:str, direccion:str, enlace:str,universidad:str,tipo:str):
@@ -92,96 +105,106 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
         print(f"El periodo {self.Ano_Lectivo} - {self.Semestre} ha finalizado.")
 
 class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion que hereda de Iniciar_fase y Finalizar_fase
-    def __init__(self, carrera:str, facultad:str):
+    def __init__(self, carrera: str, facultad: str):
         self.carrera = carrera
         self.facultad = facultad
-    def iniciar(self):#Metodo iniciar la inscripcion
-        print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha iniciado.")
-    def finalizar(self):#Metodo finalizar la inscripcion
-        print(f"La inscripción para la carrera de {self.carrera} en la facultad de {self.facultad} ha finalizado.")
-#inyeccion en proceso
-#Clase_base
-class tipo_de_examen(ABC):
+        self.observadores = []#Múltiples observadores
+    def agregar_observador(self, observador: Observador):
+        self.observadores.append(observador)
+    def notificar(self, mensaje: str):
+        for obs in self.observadores:
+            obs.actualizar(mensaje)
+    def iniciar(self):#Metodo iniciar la inscripción
+        mensaje = (f"La inscripción para la carrera de {self.carrera} en la {self.facultad} ha iniciado.")
+        print(mensaje)
+        self.notificar(mensaje)
+    def finalizar(self):#Metodo finalizar la inscripción
+        mensaje = (f"La inscripción para la carrera de {self.carrera} en la {self.facultad} ha finalizado.")
+        print(mensaje)
+        self.notificar(mensaje)
+
+class tipo_de_examen(ABC):#Clase base
     @abstractmethod
     def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
         pass
-
     @abstractmethod
     def descripcion(self) -> str:
         pass
-
 #Tipos de examen
 class mixto(tipo_de_examen):
     def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
-        # ponderación 50% general + 50% area
         return int((respuestas_correctas / total_preguntas) * 1000)
-
-    def descripcion(self):
-        return "Examen mixto (conocimiento general y area conocimiento)"
+    def descripcion(self) -> str:
+        return "Examen mixto (conocimiento general y área)"
 
 class por_area(tipo_de_examen):
     def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
-        return int ((respuestas_correctas / total_preguntas) * 1000)
-
-    def descripcion(self):
+        return int((respuestas_correctas / total_preguntas) * 1000)
+    def descripcion(self) -> str:
         return "Examen por área de conocimiento"
-    
+
 class general(tipo_de_examen):
     def calcular_resultado(self, respuestas_correctas: int, total_preguntas: int) -> int:
         return int((respuestas_correctas / total_preguntas) * 1000)
-    
-    def descripcion(self):
-        return "Conocimiento general"
+    def descripcion(self) -> str:
+        return "Examen de conocimiento general"
 
-#inyección de dependencia
-class Evaluacion:
-    def __init__(self, tipo_examen: tipo_de_examen, horario: str, modalidad: str, sede: str):
-        self.tipo_examen = tipo_examen  #dependencia
-        self.horario = horario
-        self.modalidad = modalidad
-        self.sede = sede
+class ExamenFactory:#Factory Method
+    @staticmethod
+    def crear_examen(tipo: str) -> tipo_de_examen:
+        tipo = tipo.lower()
+        if tipo == "mixto":
+            return mixto()
+        elif tipo == "area":
+            return por_area()
+        elif tipo == "general":
+            return general()
+        else:
+            raise ValueError("Tipo de examen no válido")
+
+class Evaluacion:#Clase que usa la fábrica para obtener el tipo de examen
+    def __init__(self, tipo_examen: tipo_de_examen):
+        self.tipo_examen = tipo_examen
         self._puntaje = 0
-
     def aplicar_examen(self, respuestas_correctas: int, total_preguntas: int):
         self._puntaje = self.tipo_examen.calcular_resultado(respuestas_correctas, total_preguntas)
-
     def mostrar_resultado(self):
-        return (f"{self.tipo_examen.descripcion()} — "
-                f"Puntaje obtenido: {self._puntaje}/1000 — "
-                f"Modalidad: {self.modalidad}, Sede: {self.sede}")
+        print(self.tipo_examen.descripcion())
+        print(f"Puntaje obtenido: {self._puntaje}/1000")
 
-class Postulacion(Iniciar_fase,Finalizar_fase,Aspirante):#Clase Postulacion que contiene los metodos iniciar y finalizar de las interfaces y hereda de Aspirante
-    def __init__(self, carrera:str, nota_final:int):
+class Postulacion(Iniciar_fase, Finalizar_fase, Aspirante):#Clase que notifica a múltiples observadores
+    def __init__(self, carrera: str, nota_final: int):
         self.carrera = carrera
-        self.nota_final = 0
         self.nota_final = nota_final
-        
-    @property    
+        self.observadores = []#Múltiples observadores
+    @property
     def nota_final(self):
         return self._nota_final
-
-
     @nota_final.setter
-    def nota_final(self, valor : int):
-        #Validacion de puntaje 
+    def nota_final(self, valor: int):
         if valor < 0 or valor > 1000:
             raise ValueError("La nota final debe estar entre 0 y 1000 puntos.")
         self._nota_final = valor
-        
-        
+    def agregar_observador(self, observador: Observador):
+        self.observadores.append(observador)
+    def notificar(self, mensaje: str):
+        for obs in self.observadores:
+            obs.actualizar(mensaje)
     def iniciar(self):#Metodo iniciar la postulación
-        print(f"La postulacion para la carrera de {self.carrera} ha iniciado.")
-
-    
+        mensaje = f"La postulación para la carrera de {self.carrera} ha iniciado."
+        print(mensaje)            
+        self.notificar(mensaje)  
     def finalizar(self):#Metodo finalizar la postulación
-        print(f"La postulacion para la carrera de {self.carrera} ha finalizado.")
-
-
+        mensaje = f"La postulación para la carrera de {self.carrera} ha finalizado."
+        print(mensaje)
+        self.notificar(mensaje)
     def seleccionar_carrera(self):
         if self.nota_final >= 700:
-            print(f"El aspirante ha sido **aceptado** en la carrera de {self.carrera} con {self.nota_final} puntos.")
+            mensaje = (f"El aspirante ha sido ACEPTADO en {self.carrera} con {self.nota_final} puntos.")
         else:
-            print(f"El aspirante **No alcanzo el puntaje minimo** para la carrera de {self.carrera} .")
+            mensaje = (f"El aspirante NO alcanzó el puntaje mínimo para {self.carrera}.")
+        print(mensaje)
+        self.notificar(mensaje)
 
 class Servicio_web(Oferta_Academica):#Clase Servicio_web que hereda de Oferta_Academica
     Pais = "Ecuador"
