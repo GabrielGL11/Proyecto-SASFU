@@ -18,6 +18,21 @@ class Cargable(ABC):
     def cargar_datos(self):
         pass
 
+class SolicitudAsistencia(ABC):#Clase SolicitudAsistencia
+    @abstractmethod#Método crear solicitud asistencia
+    def crear_solicitud_asistencia(self, asunto: str):
+        pass
+    @abstractmethod#Método estado solicitud
+    def estado_solicitud(self, estado: str):
+        pass
+class GestorSede(ABC):#Clase GestorSede
+    @abstractmethod#Método notificar sede
+    def notificar_sede(self, sede: str):
+        pass
+    @abstractmethod#Método imprimir documentación sede
+    def imprimir_documentacion_sede(self, sede: str):
+        pass
+
 class Usuario(Autenticable):#Clase abstracta Usuario
     def __init__(self, cedula_pasaporte: str, nombre: str, apellido: str, correo: str):
         self.cedula_pasaporte = cedula_pasaporte
@@ -37,7 +52,6 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
         aspirante.contrasena = contrasena
     def iniciar_sesion(self, aspirante, usuario: str, contrasena: str):#Método iniciar sesión
         return usuario == aspirante.usuario and contrasena == aspirante.contrasena
-
 
 class Administrador(Usuario, Notificador, Cargable):#Clase Hija Administrador de Usuario
     def __init__(self, cedula, nombre, apellido, correo, cargo):
@@ -61,7 +75,7 @@ class Administrador(Usuario, Notificador, Cargable):#Clase Hija Administrador de
         for a in lista_aspirantes:
             print(f"- {a.nombre} {a.apellido} ({a.cedula_pasaporte})")
 
-class Aspirante(Usuario, Cargable):#Clase Hija Aspirante de Usuario
+class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
         super().__init__(cedula, nombre, apellido, correo)
         self.telefono = telefono
@@ -88,6 +102,19 @@ class Aspirante(Usuario, Cargable):#Clase Hija Aspirante de Usuario
         if self.cedula_pasaporte.isdigit() and len(self.cedula_pasaporte) == 10:
             return "Ecuatoriano"
         return "Extranjero"
+    def crear_solicitud_asistencia(self, asunto):#Método crear solicitud asistencia
+        print(f"Aspirante {self.nombre} creó una solicitud de asistencia sobre: '{asunto}'.")
+    def estado_solicitud(self, estado):#Método estado solicitud
+        estado = estado.upper().strip()
+        opciones = {"ENVIADA", "EN PROCESO", "RESUELTA"}
+        if estado not in opciones:
+            print("Estado no válido. Use: ENVIADA | EN PROCESO | RESUELTA.")
+        else:
+            print(f"Solicitud de asistencia: {estado}")
+    def notificar_sede(self, sede):#Método notificar sede
+        print(f"Aspirante {self.nombre} ha notificado la sede: {sede}")
+    def imprimir_documentacion_sede(self, sede):#Método imprimir documentación sede
+        print(f"Aspirante {self.nombre} está imprimiendo documentación para la sede: {sede}")
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono):
@@ -117,3 +144,5 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
         print(f"Profesor {self.nombre} cerró sesión.")
     def crear_cuestionario(self, tema, cantidad):#Método crear cuestionario
         print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
+
+
