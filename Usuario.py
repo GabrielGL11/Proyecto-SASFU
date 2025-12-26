@@ -8,9 +8,9 @@ class Autenticable(ABC):#Interfaz Autenticable
     def cerrar_sesion(self):
         pass
 
-class Notificador(ABC):
-    @abstractmethod#Método notificar sede
-    def notificar_sede(self, sede: str):
+class AsignarSede(ABC):
+    @abstractmethod#Método asignar sede
+    def asignar_sede(self, sede: str):
         pass
 
 class Cargable(ABC):
@@ -25,6 +25,7 @@ class SolicitudAsistencia(ABC):#Clase SolicitudAsistencia
     @abstractmethod#Método estado solicitud
     def estado_solicitud(self, estado: str):
         pass
+
 class GestorSede(ABC):#Clase GestorSede
     @abstractmethod#Método notificar sede
     def notificar_sede(self, sede: str):
@@ -33,7 +34,21 @@ class GestorSede(ABC):#Clase GestorSede
     def imprimir_documentacion_sede(self, sede: str):
         pass
 
-class Usuario(Autenticable):#Clase abstracta Usuario
+class GestionProceso(ABC):#Clase GestionProceso
+    @abstractmethod#Método generar reporte inscripciones
+    def abrir_inscripciones(self):
+        pass
+    @abstractmethod#Método cerrar inscripciones
+    def cerrar_inscripciones(self):
+        pass
+    @abstractmethod#Método abrir postulaciones
+    def abrir_postulaciones(self):
+        pass
+    @abstractmethod#Método cerrar postulaciones
+    def cerrar_postulaciones(self):
+        pass
+
+class Usuario(Autenticable, ABC):#Clase abstracta Usuario
     def __init__(self, cedula_pasaporte: str, nombre: str, apellido: str, correo: str):
         self.cedula_pasaporte = cedula_pasaporte
         self.nombre = nombre
@@ -53,7 +68,7 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
     def iniciar_sesion(self, aspirante, usuario: str, contrasena: str):#Método iniciar sesión
         return usuario == aspirante.usuario and contrasena == aspirante.contrasena
 
-class Administrador(Usuario, Notificador, Cargable):#Clase Hija Administrador de Usuario
+class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija Administrador de Usuario
     def __init__(self, cedula, nombre, apellido, correo, cargo):
         super().__init__(cedula, nombre, apellido, correo)
         self.cargo = cargo
@@ -61,8 +76,8 @@ class Administrador(Usuario, Notificador, Cargable):#Clase Hija Administrador de
         print(f"Bienvenido Administrador {self.nombre}")
     def cerrar_sesion(self):
         print(f"Hasta luego Administrador {self.nombre}")
-    def notificar_sede(self, sede):
-        print(f"Administrador {self.nombre} ha notificado la sede: {sede}")
+    def asignar_sede(self, sede):
+        print(f"Administrador {self.nombre} ha asignado la sede: {sede}")
     def cargar_datos(self):
         print("El administrador está cargando datos...")
     def generar_reporte_inscripciones(self, lista_aspirantes):#Método generar_reporte_inscripciones
@@ -74,6 +89,14 @@ class Administrador(Usuario, Notificador, Cargable):#Clase Hija Administrador de
             return
         for a in lista_aspirantes:
             print(f"- {a.nombre} {a.apellido} ({a.cedula_pasaporte})")
+    def abrir_inscripciones(self):#Método abrir inscripciones
+        print("El administrador ha abierto las inscripciones.")
+    def cerrar_inscripciones(self):#Método cerrar inscripciones
+        print("El administrador ha cerrado las inscripciones.")
+    def abrir_postulaciones(self):#Método abrir postulaciones
+        print("El administrador ha abierto las postulaciones.")
+    def cerrar_postulaciones(self):#Método cerrar postulaciones
+        print("El administrador ha cerrado las postulaciones.")
 
 class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
@@ -144,5 +167,3 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
         print(f"Profesor {self.nombre} cerró sesión.")
     def crear_cuestionario(self, tema, cantidad):#Método crear cuestionario
         print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
-
-
