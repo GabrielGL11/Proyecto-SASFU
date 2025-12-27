@@ -1,5 +1,7 @@
 from abc import ABC#impotar ABCMeta
 from abc import abstractmethod#importar abstractmethod
+import json#importar json
+import os#importar os
 class Autenticable(ABC):#Interfaz Autenticable
     @abstractmethod#Método iniciar sesión
     def iniciar_sesion(self):
@@ -167,3 +169,4 @@ class Profesor(Usuario):#Clase Hija Profesor de Usuario
         print(f"Profesor {self.nombre} cerró sesión.")
     def crear_cuestionario(self, tema, cantidad):#Método crear cuestionario
         print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
+
