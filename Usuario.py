@@ -1,7 +1,7 @@
-from abc import ABC  # importar ABCMeta
-from abc import abstractmethod  # importar abstractmethod
-import json  # importar json
-import os  # importar os
+from abc import ABC#importar ABCMeta
+from abc import abstractmethod#importar abstractmethod
+import json#importar json
+import os#importar os
 
 class Autenticable(ABC):#Interfaz Autenticable
     @abstractmethod#Método iniciar sesión
@@ -70,7 +70,7 @@ class RepositorioAspirantes(ABC):#Interfaz Repositorio
     def guardar_todos(self, datos):
         pass
 
-class RepositorioAspirantesJSON(RepositorioAspirantes):  # Repositorio JSON
+class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
     def __init__(self, archivo="aspirantes.json"):#Modificar base de datos
         self.archivo = archivo
         if not os.path.exists(self.archivo):#Crear archivo si no existe
@@ -125,7 +125,7 @@ class ServicioRecuperacion:#Servicio recuperación contraseña
                 return
         raise ValueError("Correo no registrado")
 
-class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija Administrador
+class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija Administrador de Usuario
     def __init__(self, cedula, nombre, apellido, correo, cargo):
         super().__init__(cedula, nombre, apellido, correo)
         self.cargo = cargo
@@ -146,7 +146,7 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
     def cerrar_postulaciones(self):
         print("El administrador ha cerrado las postulaciones.")
 
-class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante
+class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
         super().__init__(cedula, nombre, apellido, correo)
         self.telefono = telefono
@@ -176,7 +176,7 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija 
     def imprimir_documentacion_sede(self, sede):
         print(f"Aspirante {self.nombre} imprime documentación para la sede: {sede}")
 
-class Soporte(Usuario):#Clase Hija Soporte
+class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def iniciar_sesion(self):
         print(f"Soporte {self.nombre} inició sesión.")
     def cerrar_sesion(self):
@@ -184,7 +184,7 @@ class Soporte(Usuario):#Clase Hija Soporte
     def recibir_asistencia(self, aspirante):
         print(f"Soporte atendiendo a {aspirante.nombre}")
 
-class Profesor(Usuario):#Clase Hija Profesor
+class Profesor(Usuario):#Clase Hija Profesor de Usuario
     def __init__(self, cedula, nombre, apellido, correo, facultad):
         super().__init__(cedula, nombre, apellido, correo)
         self.facultad = facultad
@@ -194,3 +194,4 @@ class Profesor(Usuario):#Clase Hija Profesor
         print(f"Profesor {self.nombre} cerró sesión.")
     def crear_cuestionario(self, tema, cantidad):
         print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
+
