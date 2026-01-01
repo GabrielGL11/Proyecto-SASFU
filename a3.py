@@ -1,6 +1,7 @@
 #Clases: Universidad, Oferta_Academica, Periodo
 from abc import ABC #Impotar ABCMeta
 from abc import abstractmethod #Importar abstractmethod
+import json #Imporar json
 
 class Iniciar_fase(ABC):#Interfaz Iniciar_fase/Patrón de diseño Strategy
     @abstractmethod
@@ -94,7 +95,54 @@ class Oferta_Academica:
             "Cupos": self.cantidad,
             "Postulantes": len(self.postulantes)
         }
+
+class OfertaFactory: #Patrón de diseño Factory Method 
+    @staticmethod
+    def crear_desde_json(data): #Método crear_desde_json
+        return Oferta_Academica(
+            universidad=data["Univerdiad"],
+            carrera=data["Carrera"],
+            cantidad=data["Cupos"],
+            codigo=data["Codigo"],
+            modalidad=data["Modalidad"]
+        )
         
+class OfertaRepositorio: #Repositorio json
+    def __init(self, archivo="ofertas.json"):
+        self.archivo = archivo
+    
+    def guardar(self, ofertas: list[Oferta_Academica]): #Método guardar
+        data = [o.exportar() for o in ofertas]
+        with open(self.archivo, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+    
+     def cargar(self) -> list[Oferta_Academica]: #Método cargar
+        try:
+            with open(self.archivo, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return [OfertaFactory.crear_desde_json(d) for d in data]
+        except FileNotFoundError:
+            return []
+
+class ControladorOfertas: #Patrón de diseño Controller
+    def __init__(self, repo: OfertaRepositorio):  
+        self.repo = repo
+        self.ofertas = []
+
+    def cargar(self): #Método cargar
+        self.ofertas = self.repo.cargar()  
+        return self.ofertas
+
+    def guardar(self): #Método guardar
+        self.repo.guardar(self.ofertas)  
+
+    def agregar_oferta(self, oferta: Oferta_Academica): #Método agregar_oferta
+        self.ofertas.append(oferta)
+        self.guardar()
+
+    def listar(self): #Método listar
+        return self.ofertas
+    
 class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_fase y Finalizar_fase
     def __init__(self, ano_lectivo:str, semestre:str):
         self.ano_lectivo = ano_lectivo
@@ -106,5 +154,6 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
     
     def finalizar(self):#Metodo finalizar el periodo
         print(f"El periodo {self.ano_lectivo} - {self.semestre} ha finalizado.")
+
 
 
