@@ -1,7 +1,7 @@
-from abc import ABC  # importar ABCMeta
-from abc import abstractmethod  # importar abstractmethod
-import json  # importar json
-import os  # importar os
+from abc import ABC#importar ABCMeta
+from abc import abstractmethod#importar abstractmethod
+import json#importar json
+import os#importar os
 
 class Autenticable(ABC):#Interfaz Autenticable
     @abstractmethod#Método iniciar sesión
@@ -70,13 +70,13 @@ class RepositorioAspirantes(ABC):#Interfaz Repositorio
     def guardar_todos(self, datos):
         pass
 
-class RepositorioAspirantesJSON(RepositorioAspirantes):  # Repositorio JSON
-    def __init__(self, archivo="aspirantes.json"):#Modificar base de datos
+class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
+    def __init__(self, archivo="aspirantes.json"):#Modificar el nombre de la base de datos en futuro
         self.archivo = archivo
         if not os.path.exists(self.archivo):#Crear archivo si no existe
             with open(self.archivo, "w", encoding="utf-8") as f:
                 json.dump([], f)
-    def leer_todos(self):
+    def leer_todos(self):#Leer base de datos
         try:
             with open(self.archivo, "r", encoding="utf-8") as f:
                 return json.load(f)
@@ -91,7 +91,7 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
         self.repositorio = repositorio
     def crear_usuario(self, cedula, usuario: str, contrasena: str):#Método crear usuario
         aspirantes = self.repositorio.leer_todos()
-        for a in aspirantes:
+        for a in aspirantes:#Buscar aspirante por cédula
             if a["cedula_pasaporte"] == cedula:
                 if "usuario" in a:
                     raise ValueError("El usuario ya existe")
@@ -105,7 +105,7 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
         raise ValueError("No existe aspirante con esa cédula")
     def iniciar_sesion(self, usuario: str, contrasena: str):#Método iniciar sesión
         aspirantes = self.repositorio.leer_todos()
-        for a in aspirantes:
+        for a in aspirantes:#Buscar usuario y contraseña
             if a.get("usuario") == usuario and a.get("contrasena") == contrasena:
                 print("Inicio de sesión exitoso")
                 return True
@@ -137,7 +137,7 @@ class SistemaFacade:#Clase Fachada del sistema
     def recuperar_contrasena(self, correo, nueva):#Recuperar contraseña
         self.recuperacion.cambiar_contrasena_por_correo(correo, nueva)
 
-class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija Administrador
+class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija Administrador de Usuario
     def __init__(self, cedula, nombre, apellido, correo, cargo):
         super().__init__(cedula, nombre, apellido, correo)
         self.cargo = cargo
@@ -160,7 +160,7 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
     def gestionar_soporte(self, solicitud):#Gestionar soporte
         print(f"Administrador {self.nombre} está gestionando la solicitud: {solicitud}")
 
-class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante
+class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
         super().__init__(cedula, nombre, apellido, correo)
         self.telefono = telefono
@@ -190,7 +190,7 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija 
     def imprimir_documentacion_sede(self, sede):
         print(f"Aspirante {self.nombre} imprime documentación para la sede: {sede}")
 
-class Soporte(Usuario):#Clase Hija Soporte
+class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def iniciar_sesion(self):
         print(f"Soporte {self.nombre} inició sesión.")
     def cerrar_sesion(self):
@@ -200,7 +200,7 @@ class Soporte(Usuario):#Clase Hija Soporte
     def derivar_asistencia(self, administrador):#Derivar asistencia
         print(f"Soporte deriva la asistencia al Administrador {administrador.nombre}")
 
-class Profesor(Usuario):#Clase Hija Profesor
+class Profesor(Usuario):#Clase Hija Profesor de Usuario
     def __init__(self, cedula, nombre, apellido, correo, facultad):
         super().__init__(cedula, nombre, apellido, correo)
         self.facultad = facultad
@@ -210,7 +210,7 @@ class Profesor(Usuario):#Clase Hija Profesor
         print(f"Profesor {self.nombre} cerró sesión.")
     def crear_cuestionario(self, tema, cantidad):
         print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
-        
+
 class ManejadorAsistencia(ABC):#Clase abstracta ManejadorAsistencia
     def __init__(self, siguiente=None):
         self.siguiente = siguiente
@@ -232,4 +232,3 @@ class AdministradorHandler(ManejadorAsistencia):#Clase AdministradorHandler
             print("Administrador resolvió el problema")
         else:#Solicitud no válida
             print("Solicitud no válida")
-        
