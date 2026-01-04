@@ -207,3 +207,26 @@ class Profesor(Usuario):#Clase Hija Profesor
     def crear_cuestionario(self, tema, cantidad):
         print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
         
+class ManejadorAsistencia(ABC):#Clase abstracta ManejadorAsistencia
+    def __init__(self, siguiente=None):
+        self.siguiente = siguiente
+    @abstractmethod#Método manejar solicitud
+    def manejar(self, solicitud):
+        pass
+
+class SoporteHandler(ManejadorAsistencia):#Clase SoporteHandler
+    def manejar(self, solicitud):#Manejar solicitud
+        if solicitud == "tecnico":#Si es técnico
+            print("Soporte resolvió el problema técnico")
+        elif self.siguiente:#Si hay siguiente en la cadena
+            print("Soporte escala al Administrador")
+            self.siguiente.manejar(solicitud)
+
+class AdministradorHandler(ManejadorAsistencia):#Clase AdministradorHandler
+    def manejar(self, solicitud):#Manejar solicitud
+        if solicitud in ["academico", "grave"]:#Si es académico o grave
+            print("Administrador resolvió el problema")
+        else:#Solicitud no válida
+            print("Solicitud no válida")
+        
+
