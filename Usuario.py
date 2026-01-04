@@ -157,6 +157,8 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
         print("El administrador ha abierto las postulaciones.")
     def cerrar_postulaciones(self):
         print("El administrador ha cerrado las postulaciones.")
+    def gestionar_soporte(self, solicitud):#Gestionar soporte
+        print(f"Administrador {self.nombre} está gestionando la solicitud: {solicitud}")
 
 class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
@@ -195,6 +197,8 @@ class Soporte(Usuario):#Clase Hija Soporte
         print(f"Soporte {self.nombre} cerró sesión.")
     def recibir_asistencia(self, aspirante):
         print(f"Soporte atendiendo a {aspirante.nombre}")
+    def derivar_asistencia(self, administrador):#Derivar asistencia
+        print(f"Soporte deriva la asistencia al Administrador {administrador.nombre}")
 
 class Profesor(Usuario):#Clase Hija Profesor
     def __init__(self, cedula, nombre, apellido, correo, facultad):
@@ -229,4 +233,3 @@ class AdministradorHandler(ManejadorAsistencia):#Clase AdministradorHandler
         else:#Solicitud no válida
             print("Solicitud no válida")
         
-
