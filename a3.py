@@ -1,7 +1,7 @@
 #Clases: Universidad, Oferta_Academica, Periodo
-from abc import ABC #Impotar ABCMeta
+from abc import ABC #Importar ABCMeta
 from abc import abstractmethod #Importar abstractmethod
-import json #Imporar json
+import json #Importar json
 
 class Iniciar_fase(ABC):#Interfaz Iniciar_fase/Patrón de diseño Strategy
     @abstractmethod
@@ -45,7 +45,7 @@ class Universidad:
         valor=valor.upper()
         valores_permitidos = ["NORMAL", "TECNICA"]
         if valor not in valores_permitidos:
-            raise ValueError(f"El tipo de universidad publica debe ser uno de los siguientes: {valores_permitidos}.")             
+            raise ValueError(f"El tipo de universidad debe ser uno de los siguientes: {valores_permitidos}.")             
         self._tipo = valor
 
 class Oferta_Academica:
@@ -74,8 +74,8 @@ class Oferta_Academica:
         return self.cantidad > 0
 
     def validar_modalidad(self): #Método validar_modalidad
-        modalidades_validas = ["Presencial", "Virtual", "Híbrida"]
-        if self.modalidad_oferta not in modalidades_validas:
+        modalidades_validas = ["PRESENCIAL", "VIRTUAL", "HÍBRIDA"]
+        if self.modalidad.upper not in modalidades_validas:
             raise ValueError("Modalidad no válida")
 
     def validar_codigo(self): #Método validar_codigo
@@ -100,7 +100,7 @@ class OfertaFactory: #Patrón de diseño Factory Method
     @staticmethod
     def crear_desde_json(data): #Método crear_desde_json
         return Oferta_Academica(
-            universidad=data["Univerdiad"],
+            universidad=data["Universidad"],
             carrera=data["Carrera"],
             cantidad=data["Cupos"],
             codigo=data["Codigo"],
@@ -108,15 +108,15 @@ class OfertaFactory: #Patrón de diseño Factory Method
         )
         
 class OfertaRepositorio: #Repositorio json
-    def __init(self, archivo="ofertas.json"):
+    def __init__(self, archivo="ofertas.json"):
         self.archivo = archivo
     
     def guardar(self, ofertas: list[Oferta_Academica]): #Método guardar
         data = [o.exportar() for o in ofertas]
         with open(self.archivo, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-    
-     def cargar(self) -> list[Oferta_Academica]: #Método cargar
+            
+    def cargar(self) -> list[Oferta_Academica]: #Método cargar
         try:
             with open(self.archivo, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -147,13 +147,19 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
     def __init__(self, ano_lectivo:str, semestre:str):
         self.ano_lectivo = ano_lectivo
         self.semestre = semestre
-        print("Los datos del periodo fueron ingresados con éxito.")
+        self._activo = False
   
     def iniciar(self):#Método iniciar el peridodo
+        self._activo = True
         print(f"El periodo {self.ano_lectivo} - {self.semestre} ha iniciado.")
     
     def finalizar(self):#Metodo finalizar el periodo
+        self._activo = False
         print(f"El periodo {self.ano_lectivo} - {self.semestre} ha finalizado.")
+    
+    def esta_activo(self): #Método esta_activo
+        return self._activo
+
 
 
 
