@@ -71,7 +71,7 @@ class RepositorioAspirantes(ABC):#Interfaz Repositorio
         pass
 
 class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
-    def __init__(self, archivo="aspirantes.json"):#Modificar el nombre de la base de datos en futuro
+    def __init__(self, archivo="aspirantes_universidad.json"):#Modificar el nombre de la base de datos en futuro
         self.archivo = archivo
         if not os.path.exists(self.archivo):#Crear archivo si no existe
             with open(self.archivo, "w", encoding="utf-8") as f:
@@ -90,9 +90,11 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
     def __init__(self, repositorio: RepositorioAspirantes):
         self.repositorio = repositorio
     def crear_usuario(self, cedula, usuario: str, contrasena: str):#Método crear usuario
+        if not contrasena:
+            raise ValueError("La contraseña no puede estar vacía")
         aspirantes = self.repositorio.leer_todos()
         for a in aspirantes:#Buscar aspirante por cédula
-            if a["cedula_pasaporte"] == cedula:
+            if a["numero_identidad"] == cedula:
                 if "usuario" in a:
                     raise ValueError("El usuario ya existe")
                 if usuario != cedula:# Validar que el usuario sea igual a la cédula o pasaporte
@@ -102,7 +104,7 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
                 self.repositorio.guardar_todos(aspirantes)
                 print("Usuario creado correctamente")
                 return
-        raise ValueError("No existe aspirante con esa cédula")
+        raise ValueError("No existe aspirante con esa identificación")
     def iniciar_sesion(self, usuario: str, contrasena: str):#Método iniciar sesión
         aspirantes = self.repositorio.leer_todos()
         for a in aspirantes:#Buscar usuario y contraseña
