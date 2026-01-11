@@ -71,8 +71,9 @@ class RepositorioAspirantes(ABC):#Interfaz Repositorio
         pass
 
 class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
-    def __init__(self, archivo="aspirantes_universidad.json"):#Modificar el nombre de la base de datos en futuro
-        self.archivo = archivo
+    def __init__(self, archivo="aspirantes_universidad.json"):#Leer archivo JSON
+        base_dir = os.path.dirname(os.path.abspath(__file__))#Directorio base
+        self.archivo = os.path.join(base_dir, archivo)
         if not os.path.exists(self.archivo):#Crear archivo si no existe
             with open(self.archivo, "w", encoding="utf-8") as f:
                 json.dump([], f)
@@ -80,8 +81,9 @@ class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
         try:
             with open(self.archivo, "r", encoding="utf-8") as f:
                 return json.load(f)
-        except json.JSONDecodeError:
-            return []
+        except json.JSONDecodeError as e:
+            print("ERROR EN EL JSON:", e)
+            raise
     def guardar_todos(self, datos):#Guardar base de datos
         with open(self.archivo, "w", encoding="utf-8") as f:
             json.dump(datos, f, indent=4, ensure_ascii=False)
