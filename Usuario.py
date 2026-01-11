@@ -2,6 +2,7 @@ from abc import ABC#importar ABCMeta
 from abc import abstractmethod#importar abstractmethod
 import json#importar json
 import os#importar os
+from datetime import date, timedelta#importar date para manejo de fechas
 
 class Autenticable(ABC):#Interfaz Autenticable
     @abstractmethod#Método iniciar sesión
@@ -39,16 +40,22 @@ class GestorSede(ABC):#Clase GestorSede
 
 class GestionProceso(ABC):#Clase GestionProceso
     @abstractmethod#Método abrir inscripciones
-    def abrir_inscripciones(self):
+    def abrir_inscripciones(self, fecha_inicio: date, fecha_fin: date):
         pass
     @abstractmethod#Método cerrar inscripciones
     def cerrar_inscripciones(self):
         pass
+    @abstractmethod
+    def inscripciones_activas(self):
+        pass
     @abstractmethod#Método abrir postulaciones
-    def abrir_postulaciones(self):
+    def abrir_postulaciones(self, fecha_inicio: date, fecha_fin: date):
         pass
     @abstractmethod#Método cerrar postulaciones
     def cerrar_postulaciones(self):
+        pass
+    @abstractmethod
+    def postulaciones_activas(self):
         pass
 
 class Usuario(Autenticable, ABC):#Clase abstracta Usuario
@@ -145,6 +152,10 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
     def __init__(self, cedula, nombre, apellido, correo, cargo):
         super().__init__(cedula, nombre, apellido, correo)
         self.cargo = cargo
+        self.inscripcion_inicio = None
+        self.inscripcion_fin = None
+        self.postulacion_inicio = None
+        self.postulacion_fin = None
     def iniciar_sesion(self):
         print(f"Bienvenido Administrador {self.nombre}")
     def cerrar_sesion(self):
@@ -153,14 +164,34 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
         print(f"Administrador {self.nombre} ha asignado la sede: {sede}")
     def cargar_datos(self):
         print("El administrador está cargando datos...")
-    def abrir_inscripciones(self):
-        print("El administrador ha abierto las inscripciones.")
+    def abrir_inscripciones(self, fecha_inicio: date, fecha_fin: date):
+        if fecha_inicio > fecha_fin:#Validar fechas
+            raise ValueError("La fecha inicio no puede ser mayor a la fecha fin")
+        self.inscripcion_inicio = fecha_inicio#Asignar fecha inicio
+        self.inscripcion_fin = fecha_fin#Asignar fecha final
+        print(f"Inscripciones abiertas desde {fecha_inicio} hasta {fecha_fin}")
     def cerrar_inscripciones(self):
-        print("El administrador ha cerrado las inscripciones.")
-    def abrir_postulaciones(self):
-        print("El administrador ha abierto las postulaciones.")
+        self.inscripcion_fin = date.today()#Cerrar inscripciones hoy
+        print("Inscripciones cerradas")
+    def inscripciones_activas(self):
+        if not self.inscripcion_inicio or not self.inscripcion_fin:#Validar si las fechas están definidas
+            return False
+        hoy = date.today()#Fecha actual
+        return self.inscripcion_inicio <= hoy <= self.inscripcion_fin#Verificar si hoy está dentro del rango
+    def abrir_postulaciones(self, fecha_inicio: date, fecha_fin: date):
+        if fecha_inicio > fecha_fin:#Validar fechas
+            raise ValueError("La fecha inicio no puede ser mayor a la fecha fin")
+        self.postulacion_inicio = fecha_inicio#Asignar fecha inicio
+        self.postulacion_fin = fecha_fin#Asignar fecha final
+        print(f"Postulaciones abiertas desde {fecha_inicio} hasta {fecha_fin}")
     def cerrar_postulaciones(self):
-        print("El administrador ha cerrado las postulaciones.")
+        self.postulacion_fin = date.today()#Cerrar postulaciones hoy
+        print("Postulaciones cerradas")
+    def postulaciones_activas(self):
+        if not self.postulacion_inicio or not self.postulacion_fin:#Validar si las fechas están definidas
+            return False
+        hoy = date.today()#Fecha actual
+        return self.postulacion_inicio <= hoy <= self.postulacion_fin#Verificar si hoy está dentro del rango
     def gestionar_soporte(self, solicitud):#Gestionar soporte
         print(f"Administrador {self.nombre} está gestionando la solicitud: {solicitud}")
 
