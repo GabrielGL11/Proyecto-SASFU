@@ -14,7 +14,7 @@ class Finalizar_fase(ABC):#Interfaz Finalizar_fase/Patrón de diseño Strategy
         pass
 
 class Universidad:
-    Pais = "Ecuador"
+    PAIS = "Ecuador"
     def __init__(self, nombre:str, provincia:str, canton:str, direccion:str, enlace:str,universidad:str,tipo:str):
         self.nombre = nombre
         self.provincia = provincia
@@ -47,41 +47,56 @@ class Universidad:
         if valor not in valores_permitidos:
             raise ValueError(f"El tipo de universidad debe ser uno de los siguientes: {valores_permitidos}.")             
         self._tipo = valor
+        
+class Modalidad(ABC): #Principio SOLID/OCP 
+    @abstractmethod
+    def validar(self):
+        pass
+
+class Presencial(Modalidad):
+    def validar(self):
+        return "Modalidad Presencial válida"
+        
+class Virtual(Modalidad):
+    def validar(self):
+        return "Modalidad Virtual válida"
+
+class Hibrida(Modalidad):
+    def validar(self):
+        return "Modalidad Híbrida válida"
 
 class Oferta_Academica:
-    def __init__(self, universidad:str, carrera:str, cantidad:int, codigo:int, modalidad:str):
+    def __init__(self, universidad:str, carrera:str, cantidad:int, codigo:int, modalidad:Modalidad):
         self.universidad = universidad
         self.carrera = carrera
         self.cantidad = cantidad 
         self.codigo = codigo
         self.modalidad = modalidad 
         self.postulantes = []
-        
-        self.validar_codigo()
-        self.validar_modalidad()
-        
+     
     @property
     def cantidad(self):#Getter cantidad
         return self._cantidad
         
     @cantidad.setter
-    def cantidad(self, valor:int):#Setter cantidad con validacion
+    def cantidad(self, valor:int):#Setter cantidad con validación
         if valor < 0:
             raise ValueError("La cantidad de cupos no puede ser negativa.")
         self._cantidad = valor  
    
     def esta_disponible(self): #Método esta_disponible
-        return self.cantidad > 0
+        return len(self.postulantes) < self.cantidad
 
-    def validar_modalidad(self): #Método validar_modalidad
-        modalidades_validas = ["PRESENCIAL", "VIRTUAL", "HÍBRIDA"]
-        if self.modalidad.upper not in modalidades_validas:
-            raise ValueError("Modalidad no válida")
+    @property
+    def codigo(self): #Getter codigo
+        return self._codigo
+        
+    @codigo.setter
+    def codigo(self, valor:int): #Setter código con validación
+        if valor <= 0:
+            raise ValueError("El código debe ser positivo")
+        self._codigo = valor
 
-    def validar_codigo(self): #Método validar_codigo
-        if self.codigo <= 0:
-            raise ValueError("El código debe ser un número positivo.")
-  
     def verificar_cupos(self): #Método verificar_cupos
         disponibles = self.cantidad - len(self.postulantes)
         print(f"Cupos restantes para {self.carrera}: {disponibles}.")
@@ -91,20 +106,26 @@ class Oferta_Academica:
             "Universidad": self.universidad,
             "Carrera": self.carrera,
             "Codigo": self.codigo,
-            "Modalidad": self.modalidad,
+            "Modalidad": self.modalidad.__class__.__name__,
             "Cupos": self.cantidad,
             "Postulantes": len(self.postulantes)
         }
-
+        
 class OfertaFactory: #Patrón de diseño Factory Method 
     @staticmethod
     def crear_desde_json(data): #Método crear_desde_json
+        modalidades = {
+            "Presencial": Presencial(),
+            "Virtual": Virtual(),
+            "Hibrida": Hibrida()
+        }
+
         return Oferta_Academica(
             universidad=data["Universidad"],
             carrera=data["Carrera"],
             cantidad=data["Cupos"],
             codigo=data["Codigo"],
-            modalidad=data["Modalidad"]
+            modalidad=modalidades[data["Modalidad"]]
         )
         
 class OfertaRepositorio: #Repositorio json
@@ -139,7 +160,10 @@ class ControladorOfertas: #Patrón de diseño Controller
     def agregar_oferta(self, oferta: Oferta_Academica): #Método agregar_oferta
         self.ofertas.append(oferta)
         self.guardar()
-
+        
+    def buscar_por_carrera(self, carrera:str): #Método buscar_por_carrera
+        return [o for o in self.ofertas if o.carrera == carrera]
+    
     def listar(self): #Método listar
         return self.ofertas
     
@@ -159,7 +183,3 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
     
     def esta_activo(self): #Método esta_activo
         return self._activo
-
-
-
-
