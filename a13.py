@@ -1,4 +1,4 @@
-import a15#Importar módulo Usuario
+import Usuario#Importar módulo Usuario
 from datetime import date#Importar date para manejo de fechas y abajo crea la cuenta de administrador
 admin = Usuario.Administrador("01010101", "Admin", "ULEAMBUENASMANOS", "admin@hotmail.com", "Administrador")
 while True:#Menú de administrador
@@ -52,4 +52,5 @@ while True:#Menú de administrador
         break
     else:#Opción inválida
         print("Opción inválida, intente nuevamente")
+
 
