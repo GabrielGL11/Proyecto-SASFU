@@ -2,7 +2,7 @@ from abc import ABC#importar ABCMeta
 from abc import abstractmethod#importar abstractmethod
 import json#importar json
 import os#importar os
-from datetime import date, timedelta#importar date para manejo de fechas
+from datetime import date, datetime, timedelta#importar date para manejo de fechas
 
 class Autenticable(ABC):#Interfaz Autenticable
     @abstractmethod#Método iniciar sesión
@@ -175,8 +175,31 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
         print(f"Bienvenido Administrador {self.nombre}")
     def cerrar_sesion(self):#Cerrar sesión
         print(f"Hasta luego Administrador {self.nombre}")
-    def asignar_sede(self, sede):#Asignar sede
-        print(f"Administrador {self.nombre} ha asignado la sede: {sede}")
+    def asignar_sede(self, aspirante, sede, dia_hora=None):#Asignar sede
+        if not aspirante.inscripciones:#Verificar inscripción válida
+            print(f"No se puede asignar sede a {aspirante.nombre}: no tiene inscripción válida.")
+            return
+        if dia_hora is None:#Si no se proporciona día y hora
+            dia_hora = datetime.now().strftime("%Y-%m-%d %H:%M")#Usar fecha y hora actual
+        fecha_inicio = datetime.now().strftime("%Y-%m-%d")#Fecha inicio actual
+        fecha_fin = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
+        repo = RepositorioAspirantesJSON()#Instancia del repositorio
+        aspirantes_db = repo.leer_todos()#Leer todos los aspirantes
+        for a in aspirantes_db:#Buscar aspirante por cédula
+            if a["numero_identidad"] == aspirante.cedula_pasaporte:
+                a["sede_asignada"] = {
+                    "sede": sede,
+                    "facultad": aspirante.inscripciones["facultad"],
+                    "carrera": aspirante.inscripciones["carrera"],
+                    "hora_dia": dia_hora,
+                    "fecha_inicio_eval": fecha_inicio,
+                    "fecha_fin_eval": fecha_fin
+                }
+                repo.guardar_todos(aspirantes_db)#Guardar datos
+                print(f"Administrador {self.nombre} ha asignado la sede {sede} a {aspirante.nombre}.")
+                print(f"Horario: {dia_hora}, Evaluación del {fecha_inicio} al {fecha_fin}")
+                return
+        print("No se encontró al aspirante en la base de datos.")
     def cargar_datos(self):#Cargar datos
         print("El administrador está cargando datos...")
     def gestionar_soporte(self, solicitud):#Gestionar soporte
@@ -231,6 +254,7 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         super().__init__(cedula, nombre, apellido, correo)
         self.telefono = telefono
         self.titulo = titulo
+        self.nombre = nombre
         self._nota_grado = None
         self.nota_grado = nota_grado
         self.inscripciones = {}#Guardar inscripciones
@@ -268,8 +292,23 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         print(f"Aspirante {self.nombre} creó una solicitud sobre: {asunto}")
     def estado_solicitud(self, estado):
         print(f"Estado de solicitud: {estado}")
-    def notificar_sede(self, sede):
-        print(f"Aspirante {self.nombre} ha notificado la sede: {sede}")
+    def notificar_sede(self):
+        repo = RepositorioAspirantesJSON()
+        aspirantes = repo.leer_todos()
+        for a in aspirantes:  # Buscar aspirante por cédula
+            if a["numero_identidad"] == self.cedula_pasaporte:  # <- CORRECCIÓN
+                sede_info = getattr(self, "sede_asignada", None)
+                if sede_info:#Si hay sede asignada
+                    print(f"Aspirante {self.nombre} notificado de su sede:")
+                    print(f"  Sede: {sede_info['sede']}")
+                    print(f"  Facultad: {sede_info['facultad']}")
+                    print(f"  Carrera: {sede_info['carrera']}")
+                    print(f"  Horario: {sede_info['hora_dia']}")
+                    print(f"  Evaluación: del {sede_info['fecha_inicio_eval']} al {sede_info['fecha_fin_eval']}")
+                else:#No tiene sede asignada
+                    print(f"Aspirante {self.nombre} aún no tiene sede asignada.")
+                return
+        print(f"Aspirante {self.nombre} no se encontró en la base de datos.")
     def imprimir_documentacion_sede(self, sede):
         print(f"Aspirante {self.nombre} imprime documentación para la sede: {sede}")
     def registrar_inscripcion(self, facultad: str, carrera: str):#Registrar inscripción
@@ -279,9 +318,9 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
             if fac.lower() == fac_lc:#Facultad encontrada
                 for c in carreras:#Buscar carrera
                     if c.lower() == car_lc:#Carrera encontrada
-                        self.inscripciones = {fac: c}#Guardar inscripción
-                        print(f"Aspirante {self.nombre} inscrito en {fac} - {c}")
-                        repo = RepositorioAspirantesJSON()#Guardar en la base de datos JSON
+                        self.inscripciones = {"facultad": fac, "carrera": c}# Guardar inscripción
+                        print(f"Aspirante {self.nombre} inscrito en {fac} - {c}")                        
+                        repo = RepositorioAspirantesJSON()#Instancia del repositorio
                         aspirantes = repo.leer_todos()#Leer todos los aspirantes
                         for a in aspirantes:#Buscar aspirante por cédula
                             if a["numero_identidad"] == self.cedula_pasaporte:#Encontrado aspirante
