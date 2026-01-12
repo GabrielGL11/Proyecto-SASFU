@@ -1,4 +1,4 @@
-from a3 import (
+from OfertaAcademica import (
     Universidad,
     Oferta_Academica,
     Presencial,
