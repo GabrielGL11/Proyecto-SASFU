@@ -66,6 +66,10 @@ class GestionProceso(ABC):#Clase GestionProceso
     @abstractmethod#Método postulaciones activas
     def postulaciones_activas(self):
         pass
+    
+class RegistroInscripcion(ABC):
+    def registrar_inscripcion(self, facultad: str, carrera: str):
+        pass
 
 class Usuario(Autenticable, ABC):#Clase abstracta Usuario
     def __init__(self, cedula_pasaporte: str, nombre: str, apellido: str, correo: str):
@@ -222,13 +226,30 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
     def postulaciones_activas(self):#Verificar si postulaciones están activas
         return self._fase_activa("postulacion")
 
-class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante de Usuario
+class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInscripcion):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
         super().__init__(cedula, nombre, apellido, correo)
         self.telefono = telefono
         self.titulo = titulo
         self._nota_grado = None
         self.nota_grado = nota_grado
+        self.inscripciones = {}#Guardar inscripciones
+        ruta_fac = os.path.join(os.path.dirname(__file__), "facultades_carreras.json")#Ruta archivo JSON real
+        try:#Intentar cargar el archivo JSON
+            with open(ruta_fac, "r", encoding="utf-8") as f:
+                self.facultades_carreras = json.load(f)
+        except Exception as e:#Si no existe, usar valor por defecto simplificado
+            print("Error cargando facultades y carreras:", e)
+            self.facultades_carreras = {
+                "Ciencias de la Salud": ["Enfermería", "Fisioterapia", "Laboratorio Clínico", "Medicina", "Nutrición y Dietética", "Odontología", "Psicología", "Terapia Ocupacional"],
+                "Ciencias Administrativas, Contables y Comercio": ["Administración De Empresas", "Auditoría y Control de Gestión", "Comercio Exterior", "Contabilidad Y Auditoría", "Gestión de Talento Humano", "Finanzas", "Gestión de la Información Gerencial", "Mercadotecnia o Marketing", "Gestión Pública y Desarrollo"],
+                "Educación, Turismo y Humanidades": ["Educación Inicial", "Educación Básica", "Educación Básica Bilingüe", "Educación Inicial Bilingüe", "Educación Inclusiva", "Entrenamiento Deportivo", "Gestión Hotelera Internacional", "Pedagogía de la Lengua y la Literatura", "Pedagogía de los Idiomas Nacionales y Extranjeros", "Psicología Educativa", "Pedagogía de la Actividad Física y el Deporte", "Turismo Sostenible"],
+                "Ingeniería, Industria y Arquitectura": ["Arquitectura", "Electricidad", "Ingeniería Civil", "Ingeniería Industrial", "Ingeniería Marítima"],
+                "Ciencias de la Vida y Tecnologías": ["Agroindustria", "Agronegocios", "Agropecuaria", "Alimentos", "Biología", "Ingeniería Ambiental", "Software", "Tecnologías De La Información"],
+                "Ciencias Sociales, Derecho y Bienestar": ["Comunicación", "Ciencias Políticas y Relaciones Internacionales", "Criminología y Ciencias Forenses", "Derecho", "Economía", "Trabajo Social"],
+                "Artes": ["Arqueología", "Artes Escénicas", "Artes Plásticas", "Diseño Textil e Indumentaria", "Sociología"],
+                "Formación Técnicas y Tecnológicas": ["Bienes Raíces", "Construcción Sismo Resistente", "Gastronomía", "Metalmecánica", "Comunicación para Televisión, Relaciones Públicas y Protocolo"]
+            }
     @property#Propiedad nota grado
     def nota_grado(self):
         return self._nota_grado
@@ -251,6 +272,29 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija 
         print(f"Aspirante {self.nombre} ha notificado la sede: {sede}")
     def imprimir_documentacion_sede(self, sede):
         print(f"Aspirante {self.nombre} imprime documentación para la sede: {sede}")
+    def registrar_inscripcion(self, facultad: str, carrera: str):#Registrar inscripción
+        fac_lc = facultad.strip().lower()#Normalizar entrada
+        car_lc = carrera.strip().lower()#Normalizar entrada
+        for fac, carreras in self.facultades_carreras.items():#Buscar facultad
+            if fac.lower() == fac_lc:#Facultad encontrada
+                for c in carreras:#Buscar carrera
+                    if c.lower() == car_lc:#Carrera encontrada
+                        self.inscripciones = {fac: c}#Guardar inscripción
+                        print(f"Aspirante {self.nombre} inscrito en {fac} - {c}")
+                        repo = RepositorioAspirantesJSON()#Guardar en la base de datos JSON
+                        aspirantes = repo.leer_todos()#Leer todos los aspirantes
+                        for a in aspirantes:#Buscar aspirante por cédula
+                            if a["numero_identidad"] == self.cedula_pasaporte:#Encontrado aspirante
+                                a["inscripcion"] = self.inscripciones#Guardar inscripción
+                                repo.guardar_todos(aspirantes)#Guardar datos
+                                print("Inscripción guardada en la base de datos.")
+                                return
+                        print("No se encontró al aspirante en la base de datos.")
+                        return
+                print(f"No se encontró la carrera '{carrera}' en la facultad '{fac}'.")
+                return
+        print(f"No se encontró la facultad '{facultad}'.")
+
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
     def iniciar_sesion(self):
