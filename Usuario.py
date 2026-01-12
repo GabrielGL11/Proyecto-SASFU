@@ -45,8 +45,17 @@ class GestionProceso(ABC):#Clase GestionProceso
     @abstractmethod#Método cerrar inscripciones
     def cerrar_inscripciones(self):
         pass
-    @abstractmethod
+    @abstractmethod#Método inscripciones activas
     def inscripciones_activas(self):
+        pass
+    @abstractmethod#Método abrir evaluación
+    def abrir_evaluaciones(self, fecha_inicio: date, fecha_fin: date):
+        pass
+    @abstractmethod#Método cerrar evaluación
+    def cerrar_evaluaciones(self):
+        pass
+    @abstractmethod#Método evaluación activa
+    def evaluaciones_activas(self):
         pass
     @abstractmethod#Método abrir postulaciones
     def abrir_postulaciones(self, fecha_inicio: date, fecha_fin: date):
@@ -54,7 +63,7 @@ class GestionProceso(ABC):#Clase GestionProceso
     @abstractmethod#Método cerrar postulaciones
     def cerrar_postulaciones(self):
         pass
-    @abstractmethod
+    @abstractmethod#Método postulaciones activas
     def postulaciones_activas(self):
         pass
 
@@ -152,48 +161,66 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
     def __init__(self, cedula, nombre, apellido, correo, cargo):
         super().__init__(cedula, nombre, apellido, correo)
         self.cargo = cargo
-        self.inscripcion_inicio = None
-        self.inscripcion_fin = None
-        self.postulacion_inicio = None
-        self.postulacion_fin = None
-    def iniciar_sesion(self):
+        self.fases = {# Diccionario de fases y secuencia
+            "inscripcion": {"inicio": None, "fin": None},
+            "evaluacion": {"inicio": None, "fin": None},
+            "postulacion": {"inicio": None, "fin": None}
+        }
+        self.orden_fases = ["inscripcion", "evaluacion", "postulacion"]
+    def iniciar_sesion(self):#Iniciar sesión
         print(f"Bienvenido Administrador {self.nombre}")
-    def cerrar_sesion(self):
+    def cerrar_sesion(self):#Cerrar sesión
         print(f"Hasta luego Administrador {self.nombre}")
-    def asignar_sede(self, sede):
+    def asignar_sede(self, sede):#Asignar sede
         print(f"Administrador {self.nombre} ha asignado la sede: {sede}")
-    def cargar_datos(self):
+    def cargar_datos(self):#Cargar datos
         print("El administrador está cargando datos...")
-    def abrir_inscripciones(self, fecha_inicio: date, fecha_fin: date):
-        if fecha_inicio > fecha_fin:#Validar fechas
-            raise ValueError("La fecha inicio no puede ser mayor a la fecha fin")
-        self.inscripcion_inicio = fecha_inicio#Asignar fecha inicio
-        self.inscripcion_fin = fecha_fin#Asignar fecha final
-        print(f"Inscripciones abiertas desde {fecha_inicio} hasta {fecha_fin}")
-    def cerrar_inscripciones(self):
-        self.inscripcion_fin = date.today()#Cerrar inscripciones hoy
-        print("Inscripciones cerradas")
-    def inscripciones_activas(self):
-        if not self.inscripcion_inicio or not self.inscripcion_fin:#Validar si las fechas están definidas
-            return False
-        hoy = date.today()#Fecha actual
-        return self.inscripcion_inicio <= hoy <= self.inscripcion_fin#Verificar si hoy está dentro del rango
-    def abrir_postulaciones(self, fecha_inicio: date, fecha_fin: date):
-        if fecha_inicio > fecha_fin:#Validar fechas
-            raise ValueError("La fecha inicio no puede ser mayor a la fecha fin")
-        self.postulacion_inicio = fecha_inicio#Asignar fecha inicio
-        self.postulacion_fin = fecha_fin#Asignar fecha final
-        print(f"Postulaciones abiertas desde {fecha_inicio} hasta {fecha_fin}")
-    def cerrar_postulaciones(self):
-        self.postulacion_fin = date.today()#Cerrar postulaciones hoy
-        print("Postulaciones cerradas")
-    def postulaciones_activas(self):
-        if not self.postulacion_inicio or not self.postulacion_fin:#Validar si las fechas están definidas
-            return False
-        hoy = date.today()#Fecha actual
-        return self.postulacion_inicio <= hoy <= self.postulacion_fin#Verificar si hoy está dentro del rango
     def gestionar_soporte(self, solicitud):#Gestionar soporte
         print(f"Administrador {self.nombre} está gestionando la solicitud: {solicitud}")
+    def _abrir_fase(self, fase, fecha_inicio, fecha_fin):#Abrir fase
+        if fecha_inicio > fecha_fin:#Fecha inicio no puede ser mayor a fecha fin
+            raise ValueError("La fecha inicio no puede ser mayor a la fecha fin")
+        if self.fases[fase]["inicio"] is not None:#Validar si la fase ya está abierta
+            raise ValueError(f"{fase.capitalize()} ya fue abierta")
+        idx = self.orden_fases.index(fase)#Obtener índice de la fase
+        if idx > 0:# Validar que la fase anterior esté cerrada
+            fase_anterior = self.orden_fases[idx - 1]#Obtener fase anterior
+            if self.fases[fase_anterior]["fin"] is None:#Validar si la fase anterior está cerrada
+                raise ValueError(f"No se puede abrir {fase} antes de cerrar {fase_anterior}")
+        self.fases[fase]["inicio"] = fecha_inicio#Abrir fase con fechas
+        self.fases[fase]["fin"] = fecha_fin#Cerrar fase con fechas
+        print(f"{fase.capitalize()} abierta desde {fecha_inicio} hasta {fecha_fin}")
+    def _cerrar_fase(self, fase):#Cerrar fase
+        if self.fases[fase]["inicio"] is None:#Validar si la fase está abierta
+            print(f"No se puede cerrar {fase} que no se ha abierto")
+            return
+        self.fases[fase]["fin"] = date.today()#Cerrar fase con fecha actual
+        print(f"{fase.capitalize()} cerrada")
+    def _fase_activa(self, fase):#Verificar si fase está activa
+        inicio = self.fases[fase]["inicio"]#Fecha inicio
+        fin = self.fases[fase]["fin"]#Fecha fin
+        if not inicio or not fin:#Si no hay fechas, fase no está activa
+            return False
+        hoy = date.today()#Fecha actual
+        return inicio <= hoy <= fin#Verificar si la fase está activa
+    def abrir_inscripciones(self, fecha_inicio, fecha_fin):#Abrir inscripciones
+        self._abrir_fase("inscripcion", fecha_inicio, fecha_fin)
+    def cerrar_inscripciones(self):#Cerrar inscripciones
+        self._cerrar_fase("inscripcion")
+    def inscripciones_activas(self):#Verificar si inscripciones están activas
+        return self._fase_activa("inscripcion")
+    def abrir_evaluaciones(self, fecha_inicio, fecha_fin):#Abrir evaluación
+        self._abrir_fase("evaluacion", fecha_inicio, fecha_fin)
+    def cerrar_evaluaciones(self):#Cerrar evaluación
+        self._cerrar_fase("evaluacion")
+    def evaluaciones_activas(self):#Verificar si evaluación está activa
+        return self._fase_activa("evaluacion")
+    def abrir_postulaciones(self, fecha_inicio, fecha_fin):#Abrir postulaciones
+        self._abrir_fase("postulacion", fecha_inicio, fecha_fin)
+    def cerrar_postulaciones(self):#Cerrar postulaciones
+        self._cerrar_fase("postulacion")
+    def postulaciones_activas(self):#Verificar si postulaciones están activas
+        return self._fase_activa("postulacion")
 
 class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede):#Clase Hija Aspirante de Usuario
     def __init__(self, cedula, nombre, apellido, correo, telefono, titulo, nota_grado):
