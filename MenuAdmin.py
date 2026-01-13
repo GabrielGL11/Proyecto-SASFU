@@ -1,8 +1,9 @@
 import Usuario#Importar módulo Usuario
 from datetime import date#Importar date para manejo de fechas y abajo crea la cuenta de administrador
-admin = Usuario.Administrador("01010101", "Admin", "ULEAMBUENASMANOS", "admin@hotmail.com", "Administrador")
+admin = Usuario.Administrador("01010101", "David", "ULEAMBUENASMANOS", "admin@hotmail.com", "Administrador")
 while True:#Menú de administrador
     print("\nMenú de Administrador SASFU")
+    admin.iniciar_sesion()
     print("1. Abrir inscripciones")
     print("2. Cerrar inscripciones")
     print("3. Abrir evaluaciones")
@@ -80,7 +81,8 @@ while True:#Menú de administrador
         admin.cerrar_postulaciones()
     elif opcion == "8":#Salir del menú
         print("Saliendo del menú de administrador...")
+        admin.cerrar_sesion()
         break
     else:#Opción inválida
         print("Opción inválida, intente nuevamente")
-
+        

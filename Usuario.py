@@ -189,31 +189,33 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
         print(f"Bienvenido Administrador {self.nombre}")
     def cerrar_sesion(self):#Cerrar sesión
         print(f"Hasta luego Administrador {self.nombre}")
-    def asignar_sede(self, aspirante, sede, dia_hora=None):#Asignar sede
-        if not aspirante.inscripciones:#Verificar inscripción válida
+    def asignar_sede(self, aspirante, sede, dia_hora=None):
+        if not aspirante.inscripciones:
             print(f"No se puede asignar sede a {aspirante.nombre}: no tiene inscripción válida.")
             return
-        if dia_hora is None:#Si no se proporciona día y hora
-            dia_hora = datetime.now().strftime("%Y-%m-%d %H:%M")#Usar fecha y hora actual
-        fecha_inicio = datetime.now().strftime("%Y-%m-%d")#Fecha inicio actual
-        fecha_fin = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
-        repo = RepositorioAspirantesJSON()#Instancia del repositorio
-        aspirantes_db = repo.leer_todos()#Leer todos los aspirantes
-        for a in aspirantes_db:#Buscar aspirante por cédula
+        if dia_hora is None:
+            dia_hora = datetime.now().strftime("%Y-%m-%d %H:%M")  # Fecha y hora actual
+        inicio_dt = datetime.strptime(dia_hora, "%Y-%m-%d %H:%M")        
+        fecha_inicio_eval = inicio_dt.strftime("%Y-%m-%d %H:%M")
+        fecha_fin_eval = (inicio_dt + timedelta(hours=2)).strftime("%Y-%m-%d %H:%M")
+        repo = RepositorioAspirantesJSON()
+        aspirantes_db = repo.leer_todos()
+        for a in aspirantes_db:
             if a["numero_identidad"] == aspirante.cedula_pasaporte:
                 a["sede_asignada"] = {
                     "sede": sede,
                     "facultad": aspirante.inscripciones["facultad"],
                     "carrera": aspirante.inscripciones["carrera"],
                     "hora_dia": dia_hora,
-                    "fecha_inicio_eval": fecha_inicio,
-                    "fecha_fin_eval": fecha_fin
+                    "fecha_inicio_eval": fecha_inicio_eval,
+                    "fecha_fin_eval": fecha_fin_eval
                 }
-                repo.guardar_todos(aspirantes_db)#Guardar datos
+                repo.guardar_todos(aspirantes_db)
                 print(f"Administrador {self.nombre} ha asignado la sede {sede} a {aspirante.nombre}.")
-                print(f"Horario: {dia_hora}, Evaluación del {fecha_inicio} al {fecha_fin}")
+                print(f"Horario: {dia_hora}, Evaluación de {fecha_inicio_eval} a {fecha_fin_eval}")
                 return
         print("No se encontró al aspirante en la base de datos.")
+
     def cargar_datos(self):#Cargar datos
         print("El administrador está cargando datos...")
     def gestionar_soporte(self, solicitud):#Gestionar soporte

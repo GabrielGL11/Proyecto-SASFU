@@ -93,7 +93,7 @@ while True: #Menú principal
             print("Opción inválida, intente nuevamente")
     elif opcion == "5":#Postulaciones
         print("Función de postulaciones aún no implementada")
-    elif opcion == "6":  # Solicitudes de ayuda
+    elif opcion == "6":#Solicitudes de ayuda
         if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
             print("Debe iniciar sesión primero.")
             continue
@@ -115,3 +115,4 @@ while True: #Menú principal
         break
     else:#Opción inválida
         print("Opción inválida, intente nuevamente")
+        
