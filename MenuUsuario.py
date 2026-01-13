@@ -92,24 +92,65 @@ while True: #Menú principal
         else:
             print("Opción inválida, intente nuevamente")
     elif opcion == "5":#Postulaciones
-        print("Función de postulaciones aún no implementada")
+        if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
+            print("Debe iniciar sesión primero.")
+            continue
+        print("=== Menú Postulaciones ===")
+        print("1. Realizar postulación")
+        print("2. Mostrar estado de postulación")
+        print("3. Volver al menú principal")
+        sub_opcion = input("Seleccione una opción (1-3): ")
+        if sub_opcion == "1":#Realizar postulación
+            print("Función de postulación aún no implementada")
+        elif sub_opcion == "2":#Mostrar estado de postulación
+            print("Función de estado de postulación aún no implementada")
+        elif sub_opcion == "3":#Volver al menú principal
+            continue
+        else:
+            print("Opción inválida, intente nuevamente")
     elif opcion == "6":#Solicitudes de ayuda
         if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
             print("Debe iniciar sesión primero.")
             continue
-        mensaje = input("Describa su problema o solicitud: ")
         from Usuario import RepositorioSolicitudesJSON#Importar el repositorio de solicitudes
         repo = RepositorioSolicitudesJSON()#Crear instancia del repositorio
         solicitudes = repo.leer_todos()#Leer todas las solicitudes
-        nueva_solicitud = {
-            "id": len(solicitudes) + 1,
-            "cedula_aspirante": usuario_actual.cedula_pasaporte,
-            "mensaje": mensaje,
-            "estado": None#Estado PENDIENTE
-        }
-        solicitudes.append(nueva_solicitud)#Agregar nueva solicitud
-        repo.guardar_todos(solicitudes)#Guardar todas las solicitudes
-        print("Solicitud enviada correctamente. Queda en estado PENDIENTE.")
+        print("\n=== Menú de Solicitudes de Ayuda ===")
+        print("1. Crear nueva solicitud")
+        print("2. Ver mis solicitudes")
+        print("3. Volver al menú principal")
+        sub_opcion = input("Seleccione una opción (1-3): ")
+        if sub_opcion == "1":#Crear nueva solicitud
+            mensaje = input("Describa su problema o solicitud: ")
+            nueva_solicitud = {
+                "id": len(solicitudes) + 1,
+                "cedula_aspirante": usuario_actual.cedula_pasaporte,
+                "mensaje": mensaje,
+                "estado": None
+            }
+            solicitudes.append(nueva_solicitud)#Agregar la nueva solicitud
+            repo.guardar_todos(solicitudes)#Guardar la nueva solicitud
+            print("Solicitud enviada correctamente. Queda en estado PENDIENTE.")
+        elif sub_opcion == "2":#Ver solo las solicitudes del usuario
+            mis_solicitudes = [s for s in solicitudes if s["cedula_aspirante"] == usuario_actual.cedula_pasaporte]
+            if not mis_solicitudes:#Si no hay solicitudes del usuario
+                print("No tiene solicitudes registradas.")
+            else:#Mostrar las solicitudes del usuario
+                print("\n--- Mis Solicitudes ---")
+                for s in mis_solicitudes:#Iterar sobre las solicitudes del usuario
+                    estado = (
+                        "Pendiente" if s["estado"] is None
+                        else "Aceptada" if s["estado"]
+                        else "Rechazada"
+                    )
+                    print(f"ID: {s['id']}")
+                    print(f"Mensaje: {s['mensaje']}")
+                    print(f"Estado: {estado}")
+                    print("-" * 30)
+        elif sub_opcion == "3":#Volver al menú principal
+            continue
+        else:#Opción inválida
+            print("Opción inválida, intente nuevamente")
     elif opcion == "7":#Salir
         print("Saliendo del sistema...")
         break

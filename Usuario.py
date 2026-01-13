@@ -218,8 +218,40 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
 
     def cargar_datos(self):#Cargar datos
         print("El administrador está cargando datos...")
-    def gestionar_soporte(self, solicitud):#Gestionar soporte
-        print(f"Administrador {self.nombre} está gestionando la solicitud: {solicitud}")
+    def gestionar_soporte(self, solicitud_id):#Gestionar solicitudes derivadas por soporte
+        repo = RepositorioSolicitudesJSON()#Repositorio de solicitudes
+        solicitudes = repo.leer_todos()#Leer todas las solicitudes
+        solicitud = next((s for s in solicitudes if s["id"] == solicitud_id), None)
+        if not solicitud:#Verificar si la solicitud existe
+            print(f"No se encontró la solicitud con ID {solicitud_id}.")
+            return
+        print("\n=== Gestionando Solicitud ===")
+        print(f"ID: {solicitud['id']}")
+        print(f"Cédula Aspirante: {solicitud['cedula_aspirante']}")
+        print(f"Asunto: {solicitud.get('asunto', solicitud.get('mensaje',''))}")
+        print(f"Tipo actual: {solicitud.get('tipo', 'No asignado')}")
+        estado_actual = (
+            "Pendiente" if solicitud.get("estado") is None
+            else "Aceptada" if solicitud.get("estado")
+            else "Rechazada"
+        )
+        print(f"Estado actual: {estado_actual}")
+        tipo = input("Ingrese tipo de solicitud (tecnico/academico/grave): ").lower()
+        solicitud["tipo"] = tipo#Asignar tipo de solicitud
+        if tipo in ["tecnico", "academico", "grave"]:#Validar tipo
+            decision = input("¿Aceptar la solicitud? (s/n): ").lower()
+            if decision == "s":#Aceptar solicitud
+                solicitud["estado"] = True
+                print(f"Solicitud ID {solicitud_id} aceptada como '{tipo}'.")
+            elif decision == "n":#Rechazar solicitud
+                solicitud["estado"] = False
+                print(f"Solicitud ID {solicitud_id} rechazada como '{tipo}'.")
+            else:#Opción inválida
+                print("Opción inválida, no se modificó el estado.")
+        else:#Tipo inválido
+            solicitud["estado"] = False
+            print(f"Tipo '{tipo}' no válido. Solicitud rechazada automáticamente.")
+        repo.guardar_todos(solicitudes)#Guardar cambios en el repositorio
     def _abrir_fase(self, fase, fecha_inicio, fecha_fin):#Abrir fase
         if fecha_inicio > fecha_fin:#Fecha inicio no puede ser mayor a fecha fin
             raise ValueError("La fecha inicio no puede ser mayor a la fecha fin")
@@ -352,7 +384,7 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
             "id": len(solicitudes) + 1,
             "cedula_aspirante": self.cedula_pasaporte,
             "asunto": asunto,
-            "estado": None,  # ← CLAVE
+            "estado": None,
             "fecha": datetime.now().isoformat()
         }
         solicitudes.append(nueva)
@@ -397,16 +429,22 @@ class ManejadorAsistencia(ABC):#Clase abstracta ManejadorAsistencia
         pass
 
 class SoporteHandler(ManejadorAsistencia):#Clase SoporteHandler
+    def __init__(self, usuario, siguiente=None):#Inicializar con usuario y siguiente manejador
+        super().__init__(siguiente)
+        self.usuario = usuario
     def manejar(self, solicitud):#Manejar solicitud
-        if solicitud == "tecnico":#Si es técnico
-            print("Soporte resolvió el problema técnico")
-        elif self.siguiente:#Si hay siguiente en la cadena
-            print("Soporte escala al Administrador")
+        if solicitud == "tecnico":#Solicitud técnica
+            print(f"Soporte {self.usuario.nombre} resolvió el problema técnico")
+        elif self.siguiente:#Pasar al siguiente manejador si existe
+            print(f"Soporte {self.usuario.nombre} escala al Administrador")
             self.siguiente.manejar(solicitud)
 
 class AdministradorHandler(ManejadorAsistencia):#Clase AdministradorHandler
+    def __init__(self, usuario, siguiente=None):#Inicializar con usuario y siguiente manejador
+        super().__init__(siguiente)
+        self.usuario = usuario
     def manejar(self, solicitud):#Manejar solicitud
-        if solicitud in ["academico", "grave"]:#Si es académico o grave
-            print("Administrador resolvió el problema")
-        else:#Solicitud no válida
+        if solicitud in ["academico", "grave"]:#Solicitud académica o grave
+            print(f"Administrador {self.usuario.nombre} resolvió el problema")
+        else:#Pasar al siguiente manejador si existe
             print("Solicitud no válida")
