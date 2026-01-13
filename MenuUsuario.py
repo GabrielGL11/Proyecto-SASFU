@@ -8,7 +8,8 @@ while True: #Menú principal
     print("3. Incripciones")
     print("4. Evaluaciones")
     print("5. Postulaciones")
-    print("6. Salir")
+    print("6. Solicitudes de ayuda")
+    print("7. Salir")
     opcion = input("Seleccione una opción (1-7): ")
     if opcion == "1":#Crear usuario
         cedula = input("Ingrese su cédula o pasaporte (será su usuario): ")
@@ -92,7 +93,24 @@ while True: #Menú principal
             print("Opción inválida, intente nuevamente")
     elif opcion == "5":#Postulaciones
         print("Función de postulaciones aún no implementada")
-    elif opcion == "6":#Salir
+    elif opcion == "6":  # Solicitudes de ayuda
+        if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
+            print("Debe iniciar sesión primero.")
+            continue
+        mensaje = input("Describa su problema o solicitud: ")
+        from Usuario import RepositorioSolicitudesJSON#Importar el repositorio de solicitudes
+        repo = RepositorioSolicitudesJSON()#Crear instancia del repositorio
+        solicitudes = repo.leer_todos()#Leer todas las solicitudes
+        nueva_solicitud = {
+            "id": len(solicitudes) + 1,
+            "cedula_aspirante": usuario_actual.cedula_pasaporte,
+            "mensaje": mensaje,
+            "estado": None#Estado PENDIENTE
+        }
+        solicitudes.append(nueva_solicitud)#Agregar nueva solicitud
+        repo.guardar_todos(solicitudes)#Guardar todas las solicitudes
+        print("Solicitud enviada correctamente. Queda en estado PENDIENTE.")
+    elif opcion == "7":#Salir
         print("Saliendo del sistema...")
         break
     else:#Opción inválida

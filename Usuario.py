@@ -27,12 +27,12 @@ class SolicitudAsistencia(ABC):#Clase SolicitudAsistencia
     def crear_solicitud_asistencia(self, asunto: str):
         pass
     @abstractmethod#Método estado solicitud
-    def estado_solicitud(self, estado: str):
+    def estado_solicitud(self):
         pass
 
 class GestorSede(ABC):#Clase GestorSede
     @abstractmethod#Método notificar sede
-    def notificar_sede(self, sede: str):
+    def notificar_sede(self):
         pass
     @abstractmethod#Método imprimir documentación sede
     def imprimir_documentacion_sede(self, sede: str):
@@ -82,7 +82,7 @@ class Usuario(Autenticable, ABC):#Clase abstracta Usuario
     def cerrar_sesion(self):#Valor por defecto para usuarios que no implementan autenticación
         raise NotImplementedError("Este usuario no implementa autenticación")
 
-class RepositorioAspirantes(ABC):#Interfaz Repositorio
+class Repositorio(ABC):#Interfaz Repositorio
     @abstractmethod#Método leer datos
     def leer_todos(self):
         pass
@@ -90,7 +90,7 @@ class RepositorioAspirantes(ABC):#Interfaz Repositorio
     def guardar_todos(self, datos):
         pass
 
-class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
+class RepositorioAspirantesJSON(Repositorio):#Repositorio JSON
     def __init__(self, archivo="aspirantes_universidad.json"):#Leer archivo JSON
         base_dir = os.path.dirname(os.path.abspath(__file__))#Directorio base
         self.archivo = os.path.join(base_dir, archivo)
@@ -108,8 +108,22 @@ class RepositorioAspirantesJSON(RepositorioAspirantes):#Repositorio JSON
         with open(self.archivo, "w", encoding="utf-8") as f:
             json.dump(datos, f, indent=4, ensure_ascii=False)
 
+class RepositorioSolicitudesJSON(Repositorio):
+    def __init__(self, archivo="solicitudes_asistencia.json"):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.archivo = os.path.join(base_dir, archivo)
+        if not os.path.exists(self.archivo):
+            with open(self.archivo, "w", encoding="utf-8") as f:
+                json.dump([], f)
+    def leer_todos(self):#Leer base de datos
+        with open(self.archivo, "r", encoding="utf-8") as f:
+            return json.load(f)
+    def guardar_todos(self, datos):#Guardar base de datos
+        with open(self.archivo, "w", encoding="utf-8") as f:
+            json.dump(datos, f, indent=4, ensure_ascii=False)
+
 class ServicioAutenticacion:#Clase ServicioAutenticacion
-    def __init__(self, repositorio: RepositorioAspirantes):
+    def __init__(self, repositorio: Repositorio):
         self.repositorio = repositorio
     def crear_usuario(self, cedula, usuario: str, contrasena: str):#Método crear usuario
         if not contrasena:
@@ -137,7 +151,7 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion
         return False
 
 class ServicioRecuperacion:#Servicio recuperación contraseña
-    def __init__(self, repositorio: RepositorioAspirantes):
+    def __init__(self, repositorio: Repositorio):
         self.repositorio = repositorio
     def cambiar_contrasena_por_correo(self, correo, nueva_contrasena):#Método cambiar contraseña
         aspirantes = self.repositorio.leer_todos()
@@ -288,15 +302,11 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         print(f"Aspirante {self.nombre} cerró sesión.")
     def cargar_datos(self):
         print("El aspirante ha cargado sus datos.")
-    def crear_solicitud_asistencia(self, asunto):
-        print(f"Aspirante {self.nombre} creó una solicitud sobre: {asunto}")
-    def estado_solicitud(self, estado):
-        print(f"Estado de solicitud: {estado}")
     def notificar_sede(self):
         repo = RepositorioAspirantesJSON()
         aspirantes = repo.leer_todos()
-        for a in aspirantes:  # Buscar aspirante por cédula
-            if a["numero_identidad"] == self.cedula_pasaporte:  # <- CORRECCIÓN
+        for a in aspirantes:#Buscar aspirante por cédula
+            if a["numero_identidad"] == self.cedula_pasaporte:#Encontrado aspirante
                 sede_info = getattr(self, "sede_asignada", None)
                 if sede_info:#Si hay sede asignada
                     print(f"Aspirante {self.nombre} notificado de su sede:")
@@ -333,28 +343,49 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
                 print(f"No se encontró la carrera '{carrera}' en la facultad '{fac}'.")
                 return
         print(f"No se encontró la facultad '{facultad}'.")
-
+    def crear_solicitud_asistencia(self, asunto):#Crear solicitud de asistencia
+        repo = RepositorioSolicitudesJSON()#Instancia del repositorio
+        solicitudes = repo.leer_todos()#Leer todas las solicitudes
+        nueva = {
+            "id": len(solicitudes) + 1,
+            "cedula_aspirante": self.cedula_pasaporte,
+            "asunto": asunto,
+            "estado": None,  # ← CLAVE
+            "fecha": datetime.now().isoformat()
+        }
+        solicitudes.append(nueva)
+        repo.guardar_todos(solicitudes)
+        print(f"Aspirante {self.nombre} creó una solicitud de asistencia.")
+    def estado_solicitud(self):
+        repo = RepositorioSolicitudesJSON()
+        solicitudes = repo.leer_todos()
+        for s in solicitudes:
+            if s["cedula_aspirante"] == self.cedula_pasaporte:
+                print(f"Asunto: {s['asunto']} | Estado: {s['estado']}")
+                return
+        print("No tiene solicitudes registradas.")
 
 class Soporte(Usuario):#Clase Hija Soporte de Usuario
-    def iniciar_sesion(self):
+    def iniciar_sesion(self):#Iniciar sesión
         print(f"Soporte {self.nombre} inició sesión.")
-    def cerrar_sesion(self):
+    def cerrar_sesion(self):#Cerrar sesión
         print(f"Soporte {self.nombre} cerró sesión.")
-    def recibir_asistencia(self, aspirante):
-        print(f"Soporte atendiendo a {aspirante.nombre}")
-    def derivar_asistencia(self, administrador):#Derivar asistencia
-        print(f"Soporte deriva la asistencia al Administrador {administrador.nombre}")
-
-class Profesor(Usuario):#Clase Hija Profesor de Usuario
-    def __init__(self, cedula, nombre, apellido, correo, facultad):
-        super().__init__(cedula, nombre, apellido, correo)
-        self.facultad = facultad
-    def iniciar_sesion(self):
-        print(f"Profesor {self.nombre} inició sesión.")
-    def cerrar_sesion(self):
-        print(f"Profesor {self.nombre} cerró sesión.")
-    def crear_cuestionario(self, tema, cantidad):
-        print(f"Profesor {self.nombre} creó un cuestionario de '{tema}' con {cantidad} preguntas.")
+    def responder_solicitud(self, id_solicitud, aceptar: bool):#Responder solicitud
+        repo = RepositorioSolicitudesJSON()#Instancia del repositorio
+        solicitudes = repo.leer_todos()#Leer todas las solicitudes
+        for s in solicitudes:#Buscar solicitud por ID
+            if s["id"] == id_solicitud:#Solicitud encontrada
+                if s["estado"] is not None:#Verificar si ya fue respondida
+                    print("La solicitud ya fue respondida.")
+                    return
+                s["estado"] = aceptar#Actualizar estado
+                repo.guardar_todos(solicitudes)#Guardar datos
+                if aceptar:#Respuesta aceptada
+                    print("Solicitud aceptada por Soporte.")
+                else:#Respuesta rechazada
+                    print("Solicitud rechazada por Soporte.")
+                return
+        print("Solicitud no encontrada.")
 
 class ManejadorAsistencia(ABC):#Clase abstracta ManejadorAsistencia
     def __init__(self, siguiente=None):
