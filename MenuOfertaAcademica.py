@@ -22,10 +22,9 @@ def menu():
         print("2. Crear Oferta Académica")
         print("3. Listar Ofertas Académicas")
         print("4. Buscar Oferta por Carrera")
-        print("5. Verificar Cupos de una Oferta")
-        print("6. Iniciar Periodo")
-        print("7. Finalizar Periodo")
-        print("8. Verificar si Periodo está Activo")
+        print("5. Iniciar Periodo")
+        print("6. Finalizar Periodo")
+        print("7. Verificar si Periodo está Activo")
         print("0. Salir")
 
         opcion = input("Seleccione una opción: ").strip()
@@ -108,32 +107,18 @@ def menu():
                 print("No se encontraron ofertas para esa carrera.")
 
         elif opcion == "5":
-            try:
-                codigo = int(input("Ingrese el código de la oferta: "))
-            except ValueError:
-                print("El código debe ser numérico.")
-                continue
-
-            oferta = next((o for o in controlador.ofertas if o.codigo == codigo), None)
-
-            if oferta:
-                oferta.verificar_cupos()
-            else:
-                print("Oferta no encontrada.")
-
-        elif opcion == "6":
             ano = input("Año lectivo: ")
             semestre = input("Semestre: ")
             periodo = Periodo(ano, semestre)
             periodo.iniciar()
 
-        elif opcion == "7":
+        elif opcion == "6":
             if periodo:
                 periodo.finalizar()
             else:
                 print("No hay periodo iniciado.")
 
-        elif opcion == "8":
+        elif opcion == "7":
             if periodo:
                 print("Periodo activo" if periodo.esta_activo() else "Periodo inactivo")
             else:

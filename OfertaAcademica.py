@@ -72,7 +72,6 @@ class Oferta_Academica:
         self.cantidad = cantidad 
         self.codigo = codigo
         self.modalidad = modalidad 
-        self.postulantes = []
      
     @property
     def cantidad(self):#Getter cantidad
@@ -84,9 +83,6 @@ class Oferta_Academica:
             raise ValueError("La cantidad de cupos no puede ser negativa.")
         self._cantidad = valor  
    
-    def esta_disponible(self): #Método esta_disponible
-        return len(self.postulantes) < self.cantidad
-
     @property
     def codigo(self): #Getter codigo
         return self._codigo
@@ -97,18 +93,13 @@ class Oferta_Academica:
             raise ValueError("El código debe ser positivo")
         self._codigo = valor
 
-    def verificar_cupos(self): #Método verificar_cupos
-        disponibles = self.cantidad - len(self.postulantes)
-        print(f"Cupos restantes para {self.carrera}: {disponibles}.")
-
     def exportar(self): #Método exportar
         return{
             "Universidad": self.universidad,
             "Carrera": self.carrera,
             "Codigo": self.codigo,
             "Modalidad": self.modalidad.__class__.__name__,
-            "Cupos": self.cantidad,
-            "Postulantes": len(self.postulantes)
+            "Cupos": self.cantidad
         }
         
 class OfertaFactory: #Patrón de diseño Factory Method 
