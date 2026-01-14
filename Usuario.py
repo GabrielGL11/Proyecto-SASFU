@@ -22,7 +22,7 @@ class Cargable(ABC):#Interfaz Cargable
     def cargar_datos(self):
         pass
 
-class SolicitudAsistencia(ABC):#Clase SolicitudAsistencia
+class SolicitudAsistencia(ABC):#Interfaz SolicitudAsistencia
     @abstractmethod#Método crear solicitud asistencia
     def crear_solicitud_asistencia(self, asunto: str):
         pass
@@ -30,7 +30,7 @@ class SolicitudAsistencia(ABC):#Clase SolicitudAsistencia
     def estado_solicitud(self):
         pass
 
-class GestorSede(ABC):#Clase GestorSede
+class GestorSede(ABC):#Interfaz GestorSede
     @abstractmethod#Método notificar sede
     def notificar_sede(self):
         pass
@@ -38,7 +38,7 @@ class GestorSede(ABC):#Clase GestorSede
     def imprimir_documentacion_sede(self, sede: str):
         pass
 
-class GestionProceso(ABC):#Clase GestionProceso
+class GestionProceso(ABC):#Interfaz GestionProceso
     @abstractmethod#Método abrir inscripciones
     def abrir_inscripciones(self, fecha_inicio: date, fecha_fin: date):
         pass
@@ -67,11 +67,11 @@ class GestionProceso(ABC):#Clase GestionProceso
     def postulaciones_activas(self):
         pass
     
-class RegistroInscripcion(ABC):
+class RegistroInscripcion(ABC):#Interfaz RegistroInscripcion
     def registrar_inscripcion(self, facultad: str, carrera: str):
         pass
 
-class Usuario(Autenticable, ABC):#Clase abstracta Usuario
+class Usuario(Autenticable, ABC):#Clase Abstracta Usuario
     def __init__(self, cedula_pasaporte: str, nombre: str, apellido: str, correo: str):
         self.cedula_pasaporte = cedula_pasaporte
         self.nombre = nombre
@@ -90,7 +90,7 @@ class Repositorio(ABC):#Interfaz Repositorio
     def guardar_todos(self, datos):
         pass
 
-class RepositorioAspirantesJSON(Repositorio):#Repositorio JSON
+class RepositorioAspirantesJSON(Repositorio):#Repositorio JSON y Chain of Responsibility
     def __init__(self, archivo="aspirantes_universidad.json"):#Leer archivo JSON
         base_dir = os.path.dirname(os.path.abspath(__file__))#Directorio base
         self.archivo = os.path.join(base_dir, archivo)
@@ -108,7 +108,7 @@ class RepositorioAspirantesJSON(Repositorio):#Repositorio JSON
         with open(self.archivo, "w", encoding="utf-8") as f:
             json.dump(datos, f, indent=4, ensure_ascii=False)
 
-class RepositorioSolicitudesJSON(Repositorio):
+class RepositorioSolicitudesJSON(Repositorio):#Repositorio JSON de solicitudes y Chain of Responsibility
     def __init__(self, archivo="solicitudes_asistencia.json"):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.archivo = os.path.join(base_dir, archivo)
@@ -122,7 +122,7 @@ class RepositorioSolicitudesJSON(Repositorio):
         with open(self.archivo, "w", encoding="utf-8") as f:
             json.dump(datos, f, indent=4, ensure_ascii=False)
 
-class ServicioAutenticacion:#Clase ServicioAutenticacion
+class ServicioAutenticacion:#Clase ServicioAutenticacion, Inyección de dependencias y Chain of Responsibility
     def __init__(self, repositorio: Repositorio):
         self.repositorio = repositorio
     def crear_usuario(self, cedula, usuario: str, contrasena: str):#Método crear usuario
@@ -163,7 +163,7 @@ class ServicioRecuperacion:#Servicio recuperación contraseña
                 return
         raise ValueError("Correo no registrado")
     
-class SistemaFacade:#Clase Fachada del sistema
+class SistemaFacade:#Clase SistemaFacade y Patrón Facade
     def __init__(self):
         self.repo = RepositorioAspirantesJSON()
         self.auth = ServicioAutenticacion(self.repo)
@@ -215,7 +215,6 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
                 print(f"Horario: {dia_hora}, Evaluación de {fecha_inicio_eval} a {fecha_fin_eval}")
                 return
         print("No se encontró al aspirante en la base de datos.")
-
     def cargar_datos(self):#Cargar datos
         print("El administrador está cargando datos...")
     def gestionar_soporte(self, solicitud_id):#Gestionar solicitudes derivadas por soporte
@@ -421,7 +420,7 @@ class Soporte(Usuario):#Clase Hija Soporte de Usuario
                 return
         print("Solicitud no encontrada.")
 
-class ManejadorAsistencia(ABC):#Clase abstracta ManejadorAsistencia
+class ManejadorAsistencia(ABC):#Clase abstracta ManejadorAsistencia y Patrón Chain of Responsibility
     def __init__(self, siguiente=None):
         self.siguiente = siguiente
     @abstractmethod#Método manejar solicitud
