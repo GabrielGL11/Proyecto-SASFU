@@ -1,5 +1,6 @@
 import Usuario#Importar módulo Usuario
 from datetime import date#Importar date para manejo de fechas y abajo crea la cuenta de administrador
+from SASFU import Inscripcion, Postulacion, ObservadorAdmin, ObservadorAspirante#Importar módulos de SASFU
 admin = Usuario.Administrador("01010101", "David", "ULEAMBUENASMANOS", "admin@hotmail.com", "Administrador")
 repo = Usuario.RepositorioAspirantesJSON()#Repositorio de aspirantes
 repo_solicitudes = Usuario.RepositorioSolicitudesJSON()#Repositorio de solicitudes
@@ -21,13 +22,21 @@ while True:#Menú de administrador
         fi = input("Fecha inicio (YYYY-MM-DD): ")
         ff = input("Fecha fin (YYYY-MM-DD): ")
         try:#Validar formato de fechas
-            fecha_inicio = date.fromisoformat(fi)
-            fecha_fin = date.fromisoformat(ff)
-            admin.abrir_inscripciones(fecha_inicio, fecha_fin)
+            fecha_inicio = date.fromisoformat(fi)#Convertir a objeto date
+            fecha_fin = date.fromisoformat(ff)#Convertir a objeto date
+            admin.abrir_inscripciones(fecha_inicio, fecha_fin)#Abrir inscripciones
+            ins = Inscripcion("", "")#Crear instancia de Inscripcion
+            ins.agregar_observador(ObservadorAdmin())#Agregar observador admin
+            ins.agregar_observador(ObservadorAspirante())#Agregar observador aspirante
+            ins.iniciar()#Iniciar inscripciones
         except ValueError as e:#Capturar error en formato de fechas
             print("Error en las fechas:", e)
     elif opcion == "2":#Cerrar inscripciones
-        admin.cerrar_inscripciones()
+        admin.cerrar_inscripciones()#Cerrar inscripciones
+        ins = Inscripcion("", "")#Crear instancia de Inscripcion
+        ins.agregar_observador(ObservadorAdmin())#Agregar observador admin
+        ins.agregar_observador(ObservadorAspirante())#Agregar observador aspirante
+        ins.finalizar()#Finalizar inscripciones
     elif opcion == "3":#Abrir evaluaciones
         print("=== Abrir Evaluaciones ===")
         fi = input("Fecha inicio (YYYY-MM-DD): ")
@@ -35,7 +44,7 @@ while True:#Menú de administrador
         try:#Validar formato de fechas
             fecha_inicio = date.fromisoformat(fi)
             fecha_fin = date.fromisoformat(ff)
-            admin.abrir_evaluaciones(fecha_inicio, fecha_fin)
+            admin.abrir_evaluaciones(fecha_inicio, fecha_fin)#Abrir evaluaciones
         except ValueError as e:#Capturar error en formato de fechas
             print("Error en las fechas:", e)
     elif opcion == "4":#Asignar evaluaciones a aspirantes
@@ -74,13 +83,17 @@ while True:#Menú de administrador
         fi = input("Fecha inicio (YYYY-MM-DD): ")
         ff = input("Fecha fin (YYYY-MM-DD): ")
         try:#Validar formato de fechas
-            fecha_inicio = date.fromisoformat(fi)
-            fecha_fin = date.fromisoformat(ff)
-            admin.abrir_postulaciones(fecha_inicio, fecha_fin)
+            fecha_inicio = date.fromisoformat(fi)#Convertir a objeto date
+            fecha_fin = date.fromisoformat(ff)#Convertir a objeto date
+            admin.abrir_postulaciones(fecha_inicio, fecha_fin)#Abrir postulaciones
         except ValueError as e:#Capturar error en formato de fechas
             print("Error en las fechas:", e)
     elif opcion == "7":#Cerrar postulaciones
-        admin.cerrar_postulaciones()
+        admin.cerrar_postulaciones()#Cerrar postulaciones
+        post = Postulacion("", 0)#Crear instancia de Postulacion
+        post.agregar_observador(ObservadorAdmin())#Agregar observador admin
+        post.agregar_observador(ObservadorAspirante())#Agregar observador aspirante
+        post.finalizar()#Finalizar postulaciones
     elif opcion == "8":#Gestionar solicitudes derivadas por soporte
         solicitudes = repo_solicitudes.leer_todos()#Leer todas las solicitudes
         solicitudes_derivadas = [

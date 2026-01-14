@@ -115,11 +115,11 @@ class Inscripcion(Iniciar_fase,Finalizar_fase):#Clase Inscripcion que hereda de 
         for obs in self.observadores:
             obs.actualizar(mensaje)
     def iniciar(self):#Metodo iniciar la inscripción
-        mensaje = (f"La inscripción para la carrera de {self.carrera} en la {self.facultad} ha iniciado.")
+        mensaje = ("Las inscripciones universitarias han comenzado.")
         print(mensaje)
         self.notificar(mensaje)
     def finalizar(self):#Metodo finalizar la inscripción
-        mensaje = (f"La inscripción para la carrera de {self.carrera} en la {self.facultad} ha finalizado.")
+        mensaje = ("Las inscripciones universitarias han finalizado.")
         print(mensaje)
         self.notificar(mensaje)
 
@@ -191,11 +191,11 @@ class Postulacion(Iniciar_fase, Finalizar_fase, Aspirante):#Clase que notifica a
         for obs in self.observadores:
             obs.actualizar(mensaje)
     def iniciar(self):#Metodo iniciar la postulación
-        mensaje = f"La postulación para la carrera de {self.carrera} ha iniciado."
+        mensaje = "Las postulaciones universitarias han comenzado."
         print(mensaje)            
         self.notificar(mensaje)  
     def finalizar(self):#Metodo finalizar la postulación
-        mensaje = f"La postulación para la carrera de {self.carrera} ha finalizado."
+        mensaje = "La postulación ha finalizado."
         print(mensaje)
         self.notificar(mensaje)
     def seleccionar_carrera(self):
