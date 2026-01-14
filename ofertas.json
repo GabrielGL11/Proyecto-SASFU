@@ -2,178 +2,156 @@
     {
         "Universidad": "ULEAM",
         "Carrera": "Enfermería",
-        "Codigo": 105,
+        "Codigo": 1001,
         "Modalidad": "Presencial",
-        "Cupos": 1001,
-        "Postulantes": 0
+        "Cupos": 105
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Medicina",
         "Codigo": 1002,
         "Modalidad": "Presencial",
-        "Cupos": 99,
-        "Postulantes": 0
+        "Cupos": 99
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Odontología",
         "Codigo": 1003,
         "Modalidad": "Presencial",
-        "Cupos": 70,
-        "Postulantes": 0
+        "Cupos": 70
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Fisioterapia",
         "Codigo": 1004,
         "Modalidad": "Presencial",
-        "Cupos": 35,
-        "Postulantes": 0
+        "Cupos": 35
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Fonoaudiología",
         "Codigo": 1005,
         "Modalidad": "Presencial",
-        "Cupos": 30,
-        "Postulantes": 0
+        "Cupos": 30
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Administración de Empresas",
         "Codigo": 1101,
         "Modalidad": "Presencial",
-        "Cupos": 105,
-        "Postulantes": 0
+        "Cupos": 105
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Auditoría y Gestión de Control",
         "Codigo": 1102,
         "Modalidad": "Virtual",
-        "Cupos": 30,
-        "Postulantes": 0
+        "Cupos": 30
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Comercio Exterior",
         "Codigo": 1103,
         "Modalidad": "Presencial",
-        "Cupos": 37,
-        "Postulantes": 0
+        "Cupos": 37
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Contabilidad y Auditoría",
         "Codigo": 1104,
         "Modalidad": "Hibrida",
-        "Cupos": 80,
-        "Postulantes": 0
+        "Cupos": 80
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Finanza",
         "Codigo": 1105,
         "Modalidad": "Presencial",
-        "Cupos": 40,
-        "Postulantes": 0
+        "Cupos": 40
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Artes Plásticas",
         "Codigo": 1201,
         "Modalidad": "Hibrida",
-        "Cupos": 30,
-        "Postulantes": 0
+        "Cupos": 30
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Educación Básica",
         "Codigo": 1202,
         "Modalidad": "Presencial",
-        "Cupos": 27,
-        "Postulantes": 0
+        "Cupos": 27
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Educación Inicial",
         "Codigo": 1203,
         "Modalidad": "Presencial",
-        "Cupos": 36,
-        "Postulantes": 0
+        "Cupos": 36
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Turismo",
         "Codigo": 1204,
         "Modalidad": "Presencial",
-        "Cupos": 54,
-        "Postulantes": 0
+        "Cupos": 54
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Pedagogía de Idiomas",
         "Codigo": 1205,
         "Modalidad": "Hibrida",
-        "Cupos": 23,
-        "Postulantes": 0
+        "Cupos": 23
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Arquitectura",
         "Codigo": 1301,
         "Modalidad": "Presencial",
-        "Cupos": 45,
-        "Postulantes": 0
+        "Cupos": 45
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Ingeniería Civil",
         "Codigo": 1302,
         "Modalidad": "Presencial",
-        "Cupos": 34,
-        "Postulantes": 0
+        "Cupos": 34
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Ingeniería en Electricidad",
         "Codigo": 1303,
         "Modalidad": "Presencial",
-        "Cupos": 23,
-        "Postulantes": 0
+        "Cupos": 23
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Ingeniería Marítima",
         "Codigo": 1304,
         "Modalidad": "Presencial",
-        "Cupos": 56,
-        "Postulantes": 0
+        "Cupos": 56
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Ingeniería Industrial",
         "Codigo": 1305,
         "Modalidad": "Virtual",
-        "Cupos": 23,
-        "Postulantes": 0
+        "Cupos": 23
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Software",
         "Codigo": 1401,
         "Modalidad": "Presencial",
-        "Cupos": 56,
-        "Postulantes": 0
+        "Cupos": 56
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Agroindustria",
         "Codigo": 1401,
         "Modalidad": "Presencial",
-        "Cupos": 45,
-        "Postulantes": 0
+        "Cupos": 45
     },
     {
         "Universidad": "ULEAM",
@@ -188,55 +166,48 @@
         "Carrera": "Biología",
         "Codigo": 1404,
         "Modalidad": "Presencial",
-        "Cupos": 70,
-        "Postulantes": 0
+        "Cupos": 70
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Ingeniería Ambiental",
         "Codigo": 1405,
         "Modalidad": "Presencial",
-        "Cupos": 33,
-        "Postulantes": 0
+        "Cupos": 33
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Criminología y Ciencias Forenses",
         "Codigo": 1501,
         "Modalidad": "Presencial",
-        "Cupos": 22,
-        "Postulantes": 0
+        "Cupos": 22
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Derecho",
         "Codigo": 1502,
         "Modalidad": "Presencial",
-        "Cupos": 22,
-        "Postulantes": 0
+        "Cupos": 22
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Economía",
         "Codigo": 1503,
         "Modalidad": "Presencial",
-        "Cupos": 44,
-        "Postulantes": 0
+        "Cupos": 44
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Trabajo Social",
         "Codigo": 1504,
         "Modalidad": "Presencial",
-        "Cupos": 44,
-        "Postulantes": 0
+        "Cupos": 44
     },
     {
         "Universidad": "ULEAM",
         "Carrera": "Comunicación",
         "Codigo": 1505,
         "Modalidad": "Virtual",
-        "Cupos": 56,
-        "Postulantes": 0
+        "Cupos": 56
     }
 ]
