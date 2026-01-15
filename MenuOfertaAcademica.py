@@ -4,6 +4,15 @@ from OfertaAcademica import (
     Presencial,
     Virtual,
     Hibrida,
+    Manta,
+    Chone,
+    Sucre,
+    ElCarmen,
+    Pedernales,
+    Pichincha,
+    FlavioAlfaro,
+    SantoDomingo,
+    Tosagua,
     OfertaRepositorio,
     ControladorOfertas,
     Periodo
@@ -53,45 +62,65 @@ def menu():
                 print(f"Error: {e}")
 
         elif opcion == "2":
-
             if not periodo or not periodo.esta_activo():
                 print("No se pueden crear ofertas sin un periodo activo.")
                 continue
 
-            try:
-                universidad = input("Universidad: ")
-                carrera = input("Carrera: ")
-                cantidad = int(input("Cantidad de cupos: "))
-                codigo = int(input("Código: "))
+            try: 
+                universidad = input("Universidad: ").strip()
+                carrera = input("Carrera: ").strip() 
+                facultad = input("Facultad: ").strip()
+                matriz_str = input("Matriz (Manta/Chone/Sucre/El Carmen/Pedernales/Pichincha/Flavio Alfaro/Santo Domingo/Tosagua): ").strip().title()
+                jornada = input("Jornada (Matutina/Vespertina): ").strip().capitalize()
+                cantidad = int(input("Cantidad de cupos: ")) 
+                codigo = int(input("Código: ")) 
+                modalidad_str = input("Modalidad (Presencial/Virtual/Hibrida): ").strip().capitalize()
+            
+            except ValueError: 
+                print("Error: debe ingresar valores numéricos válidos.")
+                continue
 
-                modalidad_str = input(
-                    "Modalidad (Presencial / Virtual / Hibrida): "
-                ).capitalize()
+            modalidades = { 
+                "Presencial": Presencial(), 
+                "Virtual": Virtual(), 
+                "Hibrida": Hibrida() 
+            }
 
-                modalidades = {
-                    "Presencial": Presencial(),
-                    "Virtual": Virtual(),
-                    "Hibrida": Hibrida()
-                }
+            matrices = { 
+                "Manta": Manta(), 
+                "Chone": Chone(), 
+                "Sucre": Sucre(), 
+                "El Carmen": ElCarmen(), 
+                "Pedernales": Pedernales(), 
+                "Pichincha": Pichincha(), 
+                "Flavio Alfaro": FlavioAlfaro(), 
+                "Santo Domingo": SantoDomingo(), 
+                "Tosagua": Tosagua() 
+            }
 
-                if modalidad_str not in modalidades:
-                    print("Modalidad inválida.")
-                    continue
+            if modalidad_str not in modalidades:
+                 print("Modalidad inválida.") 
+                 continue 
+            if matriz_str not in matrices: 
+                print("Matriz inválida.") 
+                continue
 
+            try: 
                 oferta = Oferta_Academica(
-                    universidad,
-                    carrera,
-                    cantidad,
-                    codigo,
+                    universidad, 
+                    carrera, 
+                    facultad, 
+                    matrices[matriz_str], 
+                    jornada, 
+                    cantidad, 
+                    codigo, 
                     modalidades[modalidad_str]
-                )
-
-                controlador.agregar_oferta(oferta)
-                print("Oferta académica creada y guardada.")
-
-            except ValueError as e:
+               )
+                controlador.agregar_oferta(oferta) 
+                print("Oferta académica creada y guardada.") 
+            except ValueError as e: 
                 print(f"Error: {e}")
-
+            
         elif opcion == "3":
             ofertas = controlador.listar()
 

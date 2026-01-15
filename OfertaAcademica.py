@@ -9,6 +9,7 @@ class Iniciar_fase(ABC):#Interfaz Iniciar_fase
         pass
 
 class Finalizar_fase(ABC):#Interfaz Finalizar_fase
+    @abstractmethod
     def finalizar(self):
         pass
 
@@ -54,15 +55,15 @@ class Modalidad(ABC): #Principio SOLID/OCP
 
 class Presencial(Modalidad):
     def validar(self):
-        return "Modalidad Presencial válida"
+        return True
         
 class Virtual(Modalidad):
     def validar(self):
-        return "Modalidad Virtual válida"
+        return True
 
 class Hibrida(Modalidad):
     def validar(self):
-        return "Modalidad Híbrida válida"
+        return True
 
 class Matriz(ABC):  #Principio SOLID/OCP 
     @abstractmethod
@@ -115,7 +116,12 @@ class Oferta_Academica:
         self.jornada = jornada.upper()
         self.cantidad = cantidad 
         self.codigo = codigo
-        self.modalidad = modalidad 
+        self.modalidad = modalidad
+
+        modalidad.validar()
+        if not modalidad.validar():
+            raise ValueError("Modalidad inválida")
+
     
     @property
     def jornada(self): #Getter jornada
@@ -124,7 +130,7 @@ class Oferta_Academica:
     @jornada.setter
     def jornada(self, valor:str): #Setter cantidad con validación
         valor = valor.upper()
-        valores_permitidos = ["MATUTINA", "VESPERTINA", "NOCTURNA"]
+        valores_permitidos = ["MATUTINA", "VESPERTINA"]
         if valor not in valores_permitidos:
             raise ValueError(f"La jornada debe ser una de: {valores_permitidos}.")
         self._jornada = valor
@@ -214,7 +220,7 @@ class OfertaRepositorio: #Repositorio json
 class ControladorOfertas: #Controller
     def __init__(self, repo: OfertaRepositorio):  
         self.repo = repo
-        self.ofertas = []
+        self.ofertas = self.repo.cargar()
 
     def cargar(self): #Método cargar
         self.ofertas = self.repo.cargar()  
@@ -238,11 +244,12 @@ class Periodo(Iniciar_fase,Finalizar_fase):#Clase Periodo que hereda de Iniciar_
         self.ano_lectivo = ano_lectivo
         self.semestre = semestre
         self._activo = False
-  
-    def iniciar(self):#Método iniciar el peridodo
+        
+    def iniciar(self):
+        if self._activo:
+            raise RuntimeError("El periodo ya está activo")
         self._activo = True
-        print(f"El periodo {self.ano_lectivo} - {self.semestre} ha iniciado.")
-    
+
     def finalizar(self):#Metodo finalizar el periodo
         self._activo = False
         print(f"El periodo {self.ano_lectivo} - {self.semestre} ha finalizado.")
