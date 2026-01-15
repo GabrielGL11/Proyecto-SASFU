@@ -307,22 +307,23 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         self._nota_grado = None
         self.nota_grado = nota_grado
         self.inscripciones = {}#Guardar inscripciones
-        ruta_fac = os.path.join(os.path.dirname(__file__), "facultades_carreras.json")#Ruta archivo JSON real
-        try:#Intentar cargar el archivo JSON
-            with open(ruta_fac, "r", encoding="utf-8") as f:
-                self.facultades_carreras = json.load(f)
-        except Exception as e:#Si no existe, usar valor por defecto simplificado
+        ruta_fac = os.path.join(os.path.dirname(__file__), "ofertas.json")#Ruta del archivo ofertas.json
+        try:#Cargar facultades y carreras desde JSON
+            with open(ruta_fac, "r", encoding="utf-8") as f:#Abrir archivo JSON
+                datos = json.load(f)#Cargar datos JSON
+            self.facultades_carreras = {}#Diccionario facultades y carreras
+            for item in datos:#Recorrer datos JSON
+                fac = item["Facultad"]
+                car = item["Carrera"]
+                mat = item["Matriz"]
+                cod = item["Codigo"]
+                if fac not in self.facultades_carreras:#Agregar facultad si no existe
+                    self.facultades_carreras[fac] = []#Lista de carreras
+                if all(c["carrera"] != car or c["matriz"] != mat for c in self.facultades_carreras[fac]):#Evitar duplicados
+                    self.facultades_carreras[fac].append({"carrera": car, "matriz": mat, "codigo": cod})
+        except Exception as e:#Manejo de errores al cargar JSON
             print("Error cargando facultades y carreras:", e)
-            self.facultades_carreras = {
-                "Ciencias de la Salud": ["Enfermería", "Fisioterapia", "Laboratorio Clínico", "Medicina", "Nutrición y Dietética", "Odontología", "Psicología", "Terapia Ocupacional"],
-                "Ciencias Administrativas, Contables y Comercio": ["Administración De Empresas", "Auditoría y Control de Gestión", "Comercio Exterior", "Contabilidad Y Auditoría", "Gestión de Talento Humano", "Finanzas", "Gestión de la Información Gerencial", "Mercadotecnia o Marketing", "Gestión Pública y Desarrollo"],
-                "Educación, Turismo y Humanidades": ["Educación Inicial", "Educación Básica", "Educación Básica Bilingüe", "Educación Inicial Bilingüe", "Educación Inclusiva", "Entrenamiento Deportivo", "Gestión Hotelera Internacional", "Pedagogía de la Lengua y la Literatura", "Pedagogía de los Idiomas Nacionales y Extranjeros", "Psicología Educativa", "Pedagogía de la Actividad Física y el Deporte", "Turismo Sostenible"],
-                "Ingeniería, Industria y Arquitectura": ["Arquitectura", "Electricidad", "Ingeniería Civil", "Ingeniería Industrial", "Ingeniería Marítima"],
-                "Ciencias de la Vida y Tecnologías": ["Agroindustria", "Agronegocios", "Agropecuaria", "Alimentos", "Biología", "Ingeniería Ambiental", "Software", "Tecnologías De La Información"],
-                "Ciencias Sociales, Derecho y Bienestar": ["Comunicación", "Ciencias Políticas y Relaciones Internacionales", "Criminología y Ciencias Forenses", "Derecho", "Economía", "Trabajo Social"],
-                "Artes": ["Arqueología", "Artes Escénicas", "Artes Plásticas", "Diseño Textil e Indumentaria", "Sociología"],
-                "Formación Técnicas y Tecnológicas": ["Bienes Raíces", "Construcción Sismo Resistente", "Gastronomía", "Metalmecánica", "Comunicación para Televisión, Relaciones Públicas y Protocolo"]
-            }
+            self.facultades_carreras = {}#Diccionario vacío en caso de error
     @property#Propiedad nota grado
     def nota_grado(self):
         return self._nota_grado
@@ -354,30 +355,44 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
                     print(f"Aspirante {self.nombre} aún no tiene sede asignada.")
                 return
         print(f"Aspirante {self.nombre} no se encontró en la base de datos.")
-    def imprimir_documentacion_sede(self, sede):
+    def imprimir_documentacion_sede(self, sede):#Imprimir documentación sede
         print(f"Aspirante {self.nombre} imprime documentación para la sede: {sede}")
-    def registrar_inscripcion(self, facultad: str, carrera: str):#Registrar inscripción
-        fac_lc = facultad.strip().lower()#Normalizar entrada
-        car_lc = carrera.strip().lower()#Normalizar entrada
-        for fac, carreras in self.facultades_carreras.items():#Buscar facultad
-            if fac.lower() == fac_lc:#Facultad encontrada
-                for c in carreras:#Buscar carrera
-                    if c.lower() == car_lc:#Carrera encontrada
-                        self.inscripciones = {"facultad": fac, "carrera": c}# Guardar inscripción
-                        print(f"Aspirante {self.nombre} inscrito en {fac} - {c}")                        
-                        repo = RepositorioAspirantesJSON()#Instancia del repositorio
-                        aspirantes = repo.leer_todos()#Leer todos los aspirantes
-                        for a in aspirantes:#Buscar aspirante por cédula
-                            if a["numero_identidad"] == self.cedula_pasaporte:#Encontrado aspirante
-                                a["inscripcion"] = self.inscripciones#Guardar inscripción
-                                repo.guardar_todos(aspirantes)#Guardar datos
-                                print("Inscripción guardada en la base de datos.")
-                                return
-                        print("No se encontró al aspirante en la base de datos.")
-                        return
-                print(f"No se encontró la carrera '{carrera}' en la facultad '{fac}'.")
+    def registrar_inscripcion(self, facultad: str, carrera: str, matriz: str):#Registrar inscripción
+        facultad_lc = facultad.strip().lower()#Buscar facultad en minúsculas
+        carrera_lc = carrera.strip().lower()#Buscar carrera en minúsculas
+        matriz_lc = matriz.strip().lower()#Buscar matriz en minúsculas
+        facultad_encontrada = None#Buscar facultad
+        for fac in self.facultades_carreras:#Recorrer facultades
+            if fac.lower() == facultad_lc:#Comparar en minúsculas para permitir mayúsculas diferentes
+                facultad_encontrada = fac
+                break
+        if not facultad_encontrada:#Si no se encontró la facultad
+            print(f"No se encontró la facultad '{facultad}'.")
+            return
+        carrera_obj = next(
+            (c for c in self.facultades_carreras[facultad_encontrada]
+            if c["carrera"].lower() == carrera_lc and c["matriz"].lower() == matriz_lc),
+            None
+        )
+        if not carrera_obj:#Si no se encontró la carrera con la matriz correcta
+            print(f"No se encontró la carrera '{carrera}' en la matriz '{matriz}'.")
+            return
+        self.inscripciones = {
+            "facultad": facultad_encontrada,
+            "carrera": carrera_obj["carrera"],
+            "matriz": carrera_obj["matriz"]
+        }
+        codigo = carrera_obj["codigo"]
+        repo = RepositorioAspirantesJSON()
+        aspirantes = repo.leer_todos()
+        for a in aspirantes:#Recorrer los aspirantes
+            if a["numero_identidad"] == self.cedula_pasaporte:
+                a["inscripcion"] = self.inscripciones
+                a["codigo_carrera"] = codigo
+                repo.guardar_todos(aspirantes)#Guardar datos
+                print(f"Aspirante {self.nombre} inscrito en {facultad_encontrada} - {carrera_obj['carrera']} ({carrera_obj['matriz']})")
                 return
-        print(f"No se encontró la facultad '{facultad}'.")
+        print("No se encontró al aspirante en la base de datos.")
     def crear_solicitud_asistencia(self, asunto):#Crear solicitud de asistencia
         repo = RepositorioSolicitudesJSON()#Instancia del repositorio
         solicitudes = repo.leer_todos()#Leer todas las solicitudes
@@ -391,11 +406,11 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         solicitudes.append(nueva)
         repo.guardar_todos(solicitudes)
         print(f"Aspirante {self.nombre} creó una solicitud de asistencia.")
-    def estado_solicitud(self):
+    def estado_solicitud(self):#Estado de la Solicitud
         repo = RepositorioSolicitudesJSON()
         solicitudes = repo.leer_todos()
-        for s in solicitudes:
-            if s["cedula_aspirante"] == self.cedula_pasaporte:
+        for s in solicitudes:#Recorrer las solicitudes
+            if s["cedula_aspirante"] == self.cedula_pasaporte:#Mostrar solo sus solicitudes
                 print(f"Asunto: {s['asunto']} | Estado: {s['estado']}")
                 return
         print("No tiene solicitudes registradas.")

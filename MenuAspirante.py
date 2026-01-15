@@ -3,7 +3,7 @@ from SASFU import Inscripcion, Postulacion, ObservadorAspirante#Importar módulo
 sistema = Usuario.SistemaFacade()#Crear una instancia del sistema
 usuario_actual = None#Variable para almacenar el usuario que ha iniciado sesión
 observador_aspirante = ObservadorAspirante()#Crear instancia del observador de aspirante
-while True: #Menú principal
+while True:#Menú principal
     print("\nBienvenido al sistema SASFU")
     print("1. Crear usuario")
     print("2. Iniciar sesión")
@@ -83,7 +83,8 @@ while True: #Menú principal
         if sub_opcion == "1":#Realizar inscripción
             facultad = input("Ingrese la facultad: ")
             carrera = input("Ingrese la carrera: ")
-            usuario_actual.registrar_inscripcion(facultad, carrera)#Registrar inscripción
+            matriz = input("Ingrese la matriz: ")
+            usuario_actual.registrar_inscripcion(facultad, carrera, matriz)#Registrar inscripción
         elif sub_opcion == "2":#Ver estado de inscripción
             if usuario_actual.inscripciones:#Verificar si hay inscripciones
                 for fac, car in usuario_actual.inscripciones.items():
