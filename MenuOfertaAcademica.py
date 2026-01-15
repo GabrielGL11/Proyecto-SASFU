@@ -12,19 +12,17 @@ from OfertaAcademica import (
 def menu():
     repo = OfertaRepositorio()
     controlador = ControladorOfertas(repo)
-    controlador.cargar()   
-
     periodo = None
 
     while True:
-        print("\nMENÚ")
+        print("\n====== MENÚ PRINCIPAL ======")
         print("1. Crear Universidad")
         print("2. Crear Oferta Académica")
         print("3. Listar Ofertas Académicas")
         print("4. Buscar Oferta por Carrera")
         print("5. Iniciar Periodo")
         print("6. Finalizar Periodo")
-        print("7. Verificar si Periodo está Activo")
+        print("7. Verificar Estado del Periodo")
         print("0. Salir")
 
         opcion = input("Seleccione una opción: ").strip()
@@ -39,8 +37,17 @@ def menu():
                 universidad = input("Tipo de universidad (Publica/Privada): ")
                 tipo = input("Tipo (Normal/Tecnica): ")
 
-                u = Universidad(nombre, provincia, canton, direccion, enlace, universidad, tipo)
-                print(f"Universidad {u.nombre} creada correctamente.")
+                u = Universidad(
+                    nombre,
+                    provincia,
+                    canton,
+                    direccion,
+                    enlace,
+                    universidad,
+                    tipo
+                )
+
+                print(f"Universidad '{u.nombre}' creada correctamente.")
 
             except ValueError as e:
                 print(f"Error: {e}")
@@ -56,23 +63,21 @@ def menu():
                 carrera = input("Carrera: ")
                 cantidad = int(input("Cantidad de cupos: "))
                 codigo = int(input("Código: "))
-                modalidad_str = input("Modalidad (Presencial/Virtual/Hibrida): ").capitalize()
 
-            except ValueError:
-                print("Error: debe ingresar valores numéricos válidos.")
-                continue
+                modalidad_str = input(
+                    "Modalidad (Presencial / Virtual / Hibrida): "
+                ).capitalize()
 
-            modalidades = {
-                "Presencial": Presencial(),
-                "Virtual": Virtual(),
-                "Hibrida": Hibrida()
-            }
+                modalidades = {
+                    "Presencial": Presencial(),
+                    "Virtual": Virtual(),
+                    "Hibrida": Hibrida()
+                }
 
-            if modalidad_str not in modalidades:
-                print("Modalidad inválida.")
-                continue
+                if modalidad_str not in modalidades:
+                    print("Modalidad inválida.")
+                    continue
 
-            try:
                 oferta = Oferta_Academica(
                     universidad,
                     carrera,
@@ -80,6 +85,7 @@ def menu():
                     codigo,
                     modalidades[modalidad_str]
                 )
+
                 controlador.agregar_oferta(oferta)
                 print("Oferta académica creada y guardada.")
 
@@ -92,12 +98,12 @@ def menu():
             if not ofertas:
                 print("No hay ofertas registradas.")
             else:
+                print("\n--- OFERTAS REGISTRADAS ---")
                 for o in ofertas:
                     print(o.exportar())
 
         elif opcion == "4":
             carrera = input("Ingrese la carrera a buscar: ")
-
             resultados = controlador.buscar_por_carrera(carrera)
 
             if resultados:
@@ -105,7 +111,7 @@ def menu():
                     print(r.exportar())
             else:
                 print("No se encontraron ofertas para esa carrera.")
-
+                
         elif opcion == "5":
             ano = input("Año lectivo: ")
             semestre = input("Semestre: ")
@@ -120,16 +126,18 @@ def menu():
 
         elif opcion == "7":
             if periodo:
-                print("Periodo activo" if periodo.esta_activo() else "Periodo inactivo")
+                estado = "ACTIVO" if periodo.esta_activo() else "INACTIVO"
+                print(f"Estado del periodo: {estado}")
             else:
                 print("No hay periodo definido.")
 
         elif opcion == "0":
-            print("Saliendo del sistema")
+            print("Saliendo del sistema...")
             break
 
         else:
             print("Opción inválida.")
-          
+
+
 if __name__ == "__main__":
     menu()

@@ -69,46 +69,37 @@ class Matriz(ABC):  #Principio SOLID/OCP
     def nombre(self) -> str:
         pass
 
-
 class Manta(Matriz):
     def nombre(self):
         return "Manta"
-
 
 class Chone(Matriz):
     def nombre(self):
         return "Chone"
 
-
 class Sucre(Matriz):
     def nombre(self):
         return "Sucre"
-
 
 class ElCarmen(Matriz):
     def nombre(self):
         return "El Carmen"
 
-
 class Pedernales(Matriz):
     def nombre(self):
         return "Pedernales"
-
 
 class Pichincha(Matriz):
     def nombre(self):
         return "Pichincha"
 
-
 class FlavioAlfaro(Matriz):
     def nombre(self):
         return "Flavio Alfaro"
 
-
 class SantoDomingo(Matriz):
     def nombre(self):
         return "Santo Domingo"
-
 
 class Tosagua(Matriz):
     def nombre(self):
