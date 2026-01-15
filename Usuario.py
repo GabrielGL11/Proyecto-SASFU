@@ -138,7 +138,6 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion, Inyección de dependen
                 a["usuario"] = usuario
                 a["contrasena"] = contrasena
                 self.repositorio.guardar_todos(aspirantes)
-                print("Usuario creado correctamente")
                 return
         raise ValueError("No existe aspirante con esa identificación")
     def iniciar_sesion(self, usuario: str, contrasena: str):#Método iniciar sesión
@@ -163,7 +162,6 @@ class ServicioCambioContrasena:#Clase ServicioCambioContrasena, Inyección de de
                     raise ValueError("Contraseña actual incorrecta")
                 a["contrasena"] = nueva_contrasena
                 self.repositorio.guardar_todos(aspirantes)#Guardar datos
-                print("Contraseña cambiada correctamente")
                 return
         raise ValueError("Usuario no encontrado")
 

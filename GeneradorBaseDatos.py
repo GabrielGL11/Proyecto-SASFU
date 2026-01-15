@@ -41,6 +41,36 @@ paises_extranjeros = {
 }
 
 # =========================
+# Provincias de Ecuador
+# =========================
+provincias_ec = {
+    "01": "Azuay",
+    "02": "Bolívar",
+    "03": "Cañar",
+    "04": "Carchi",
+    "05": "Cotopaxi",
+    "06": "Chimborazo",
+    "07": "El Oro",
+    "08": "Esmeraldas",
+    "09": "Guayas",
+    "10": "Imbabura",
+    "11": "Loja",
+    "12": "Los Ríos",
+    "13": "Manabí",
+    "14": "Morona Santiago",
+    "15": "Napo",
+    "16": "Pastaza",
+    "17": "Pichincha",
+    "18": "Tungurahua",
+    "19": "Zamora Chinchipe",
+    "20": "Galápagos",
+    "21": "Sucumbíos",
+    "22": "Orellana",
+    "23": "Santo Domingo de los Tsáchilas",
+    "24": "Santa Elena"
+}
+
+# =========================
 # Funciones auxiliares
 # =========================
 def prob(p):
@@ -64,15 +94,17 @@ def correo(nombre, apellido):
 # Cédula / Pasaporte
 # =========================
 def generar_cedula_ecuador():
-    provincia = random.randint(1, 24)
-    base = f"{provincia:02d}" + "".join(str(random.randint(0, 9)) for _ in range(7))
+    provincia_codigo = f"{random.randint(1, 24):02d}"
+    base = provincia_codigo + "".join(str(random.randint(0, 9)) for _ in range(7))
     coef = [2, 1] * 4 + [2]
     total = 0
     for i in range(9):
         v = int(base[i]) * coef[i]
         total += v - 9 if v >= 10 else v
     digito = (10 - (total % 10)) % 10
-    return base + str(digito)
+    cedula = base + str(digito)
+    provincia = provincias_ec.get(provincia_codigo)
+    return cedula, provincia
 
 def generar_pasaporte(codigo_pais):
     return f"{codigo_pais}-" + "".join(str(random.randint(0, 9)) for _ in range(7))
@@ -120,7 +152,7 @@ while len(aspirantes) < 100:
     es_ecuatoriano = random.random() < 0.9
 
     if es_ecuatoriano:
-        identificacion = generar_cedula_ecuador()
+        identificacion, provincia = generar_cedula_ecuador()
         tipo_documento = "CEDULA"
         codigo_nacionalidad = 1
         pais_origen = "Ecuador"
@@ -135,23 +167,24 @@ while len(aspirantes) < 100:
         pais_origen = pais["pais"]
         nacionalidad = pais["nacionalidad"]
         celular = None
-
+        provincia = None  
     if identificacion in ids:
         continue
     ids.add(identificacion)
 
+    # Datos personales
     aspirante = {
-        # Datos personales
         "tipo_documento": tipo_documento,
         "numero_identidad": identificacion,
+        "nacionalidad": nacionalidad,
+        "pais_origen": pais_origen,
+        "codigo_nacionalidad": codigo_nacionalidad,
+        "provincia": provincia,  
         "nombres": nombre,
         "apellidos": apellido,
         "sexo": sexo,
         "codigo_genero": codigo_genero,
         "identidad_genero": identidad_genero,
-        "codigo_nacionalidad": codigo_nacionalidad,
-        "nacionalidad": nacionalidad,
-        "pais_origen": pais_origen,
         "edad": edad,
         "fecha_nacimiento": fecha_nacimiento_desde_edad(edad),
         "estado_civil": random.choice(estados_civiles),
@@ -172,7 +205,7 @@ while len(aspirantes) < 100:
             ["HABILITADO", "NO HABILITADO", "CONDICIONADO"]
         ),
 
-        # ===== PARTE ANTIGUA =====
+        # Datos adicionales
         "cupo_aceptado_historico_pc": prob(0.3),
         "anulacion_matricula_niv_carr": prob(0.1),
         "periodo_sancion_anul_niv_carr": "2023-2" if prob(0.1) else None,
