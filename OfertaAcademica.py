@@ -3,13 +3,12 @@ from abc import ABC #Importar ABCMeta
 from abc import abstractmethod #Importar abstractmethod
 import json #Importar json
 
-class Iniciar_fase(ABC):#Interfaz Iniciar_fase/Patrón de diseño Strategy
+class Iniciar_fase(ABC):#Interfaz Iniciar_fase
     @abstractmethod
     def iniciar(self):
         pass
 
-class Finalizar_fase(ABC):#Interfaz Finalizar_fase/Patrón de diseño Strategy 
-    @abstractmethod
+class Finalizar_fase(ABC):#Interfaz Finalizar_fase
     def finalizar(self):
         pass
 
@@ -65,13 +64,80 @@ class Hibrida(Modalidad):
     def validar(self):
         return "Modalidad Híbrida válida"
 
+class Matriz(ABC):  #Principio SOLID/OCP 
+    @abstractmethod
+    def nombre(self) -> str:
+        pass
+
+
+class Manta(Matriz):
+    def nombre(self):
+        return "Manta"
+
+
+class Chone(Matriz):
+    def nombre(self):
+        return "Chone"
+
+
+class Sucre(Matriz):
+    def nombre(self):
+        return "Sucre"
+
+
+class ElCarmen(Matriz):
+    def nombre(self):
+        return "El Carmen"
+
+
+class Pedernales(Matriz):
+    def nombre(self):
+        return "Pedernales"
+
+
+class Pichincha(Matriz):
+    def nombre(self):
+        return "Pichincha"
+
+
+class FlavioAlfaro(Matriz):
+    def nombre(self):
+        return "Flavio Alfaro"
+
+
+class SantoDomingo(Matriz):
+    def nombre(self):
+        return "Santo Domingo"
+
+
+class Tosagua(Matriz):
+    def nombre(self):
+        return "Tosagua"
+
+
 class Oferta_Academica:
-    def __init__(self, universidad:str, carrera:str, cantidad:int, codigo:int, modalidad:Modalidad):
+    def __init__(self, universidad:str, carrera:str, facultad:str, matriz:Matriz, jornada:str, cantidad:int, codigo:int, modalidad:Modalidad):
         self.universidad = universidad
         self.carrera = carrera
+        self.facultad = facultad
+        self.matriz = matriz
+        self.jornada = jornada.upper()
         self.cantidad = cantidad 
         self.codigo = codigo
         self.modalidad = modalidad 
+    
+    @property
+    def jornada(self): #Getter jornada
+        return self._jornada
+    
+    @jornada.setter
+    def jornada(self, valor:str): #Setter cantidad con validación
+        valor = valor.upper()
+        valores_permitidos = ["MATUTINA", "VESPERTINA", "NOCTURNA"]
+        if valor not in valores_permitidos:
+            raise ValueError(f"La jornada debe ser una de: {valores_permitidos}.")
+        self._jornada = valor
+
      
     @property
     def cantidad(self):#Getter cantidad
@@ -97,6 +163,9 @@ class Oferta_Academica:
         return{
             "Universidad": self.universidad,
             "Carrera": self.carrera,
+            "Facultad": self.facultad,
+            "Matriz": self.matriz.nombre(),
+            "Jornada": self.jornada,
             "Codigo": self.codigo,
             "Modalidad": self.modalidad.__class__.__name__,
             "Cupos": self.cantidad
@@ -104,21 +173,36 @@ class Oferta_Academica:
         
 class OfertaFactory: #Patrón de diseño Factory Method 
     @staticmethod
-    def crear_desde_json(data): #Método crear_desde_json
+    def crear_desde_json(data):
         modalidades = {
             "Presencial": Presencial(),
             "Virtual": Virtual(),
             "Hibrida": Hibrida()
         }
 
+        matrices = {
+            "Manta": Manta(),
+            "Chone": Chone(),
+            "Sucre": Sucre(),
+            "El Carmen": ElCarmen(),
+            "Pedernales": Pedernales(),
+            "Pichincha": Pichincha(),
+            "Flavio Alfaro": FlavioAlfaro(),
+            "Santo Domingo": SantoDomingo(),
+            "Tosagua": Tosagua()
+        }
+
         return Oferta_Academica(
             universidad=data["Universidad"],
             carrera=data["Carrera"],
+            facultad=data["Facultad"],
+            matriz=matrices[data["Matriz"]],
+            jornada=data["Jornada"],
             cantidad=data["Cupos"],
             codigo=data["Codigo"],
             modalidad=modalidades[data["Modalidad"]]
         )
-        
+    
 class OfertaRepositorio: #Repositorio json
     def __init__(self, archivo="ofertas.json"):
         self.archivo = archivo
@@ -136,7 +220,7 @@ class OfertaRepositorio: #Repositorio json
         except FileNotFoundError:
             return []
 
-class ControladorOfertas: #Patrón de diseño Controller
+class ControladorOfertas: #Controller
     def __init__(self, repo: OfertaRepositorio):  
         self.repo = repo
         self.ofertas = []
