@@ -8,5 +8,355 @@
         "Codigo": 1001,
         "Modalidad": "Presencial",
         "Cupos": 105
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Medicina",
+        "Facultad": "Facultad de Ciencias de la Salud",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1002,
+        "Modalidad": "Presencial",
+        "Cupos": 80
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Odontología",
+        "Facultad": "Facultad de Ciencias de la Salud",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1003,
+        "Modalidad": "Presencial",
+        "Cupos": 45
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Enfermería",
+        "Facultad": "Facultad de Ciencias de la Salud",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1001,
+        "Modalidad": "Presencial",
+        "Cupos": 30
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Medicina",
+        "Facultad": "Facultad de Ciencias de la Salud",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1002,
+        "Modalidad": "Presencial",
+        "Cupos": 32
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Odontología",
+        "Facultad": "Facultad de Ciencias de la Salud",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1003,
+        "Modalidad": "Presencial",
+        "Cupos": 44
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Administración de Empresas",
+        "Facultad": "Facultad de Ciencias Administrativas",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1101,
+        "Modalidad": "Presencial",
+        "Cupos": 30
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Auditoría y Gestión de Control",
+        "Facultad": "Facultad de Ciencias Administrativas",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1102,
+        "Modalidad": "Presencial",
+        "Cupos": 55
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Comercio Exterior",
+        "Facultad": "Facultad de Ciencias Administrativas",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1103,
+        "Modalidad": "Presencial",
+        "Cupos": 44
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Administración de Empresas",
+        "Facultad": "Facultad de Ciencias Administrativas",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1101,
+        "Modalidad": "Presencial",
+        "Cupos": 14
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Auditoría y Gestión de Control",
+        "Facultad": "Facultad de Ciencias Administrativas",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1102,
+        "Modalidad": "Presencial",
+        "Cupos": 44
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Comercio Exterior",
+        "Facultad": "Facultad de Ciencias Administrativas",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1103,
+        "Modalidad": "Presencial",
+        "Cupos": 33
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Artes Plásticas",
+        "Facultad": "Facultad de Educación, Turismo, Artes y Humanidades",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1201,
+        "Modalidad": "Presencial",
+        "Cupos": 32
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Artes Escénicas",
+        "Facultad": "Facultad de Educación, Turismo, Artes y Humanidades",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1202,
+        "Modalidad": "Presencial",
+        "Cupos": 55
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Educación Básica",
+        "Facultad": "Facultad de Educación, Turismo, Artes y Humanidades",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1203,
+        "Modalidad": "Presencial",
+        "Cupos": 22
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Artes Plásticas",
+        "Facultad": "Facultad de Educación, Turismo, Artes y Humanidades",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1201,
+        "Modalidad": "Presencial",
+        "Cupos": 34
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Artes Escénicas",
+        "Facultad": "Facultad de Educación, Turismo, Artes y Humanidades",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1202,
+        "Modalidad": "Presencial",
+        "Cupos": 14
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Educación Básica",
+        "Facultad": "Facultad de Educación, Turismo, Artes y Humanidades",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1203,
+        "Modalidad": "Presencial",
+        "Cupos": 24
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Arquitectura",
+        "Facultad": "Facultad de Ingeniería, Industria y Arquitectura",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1301,
+        "Modalidad": "Presencial",
+        "Cupos": 90
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Ingeniería de Alimentos",
+        "Facultad": "Facultad de Ingeniería, Industria y Arquitectura",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1302,
+        "Modalidad": "Presencial",
+        "Cupos": 33
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Ingeniería Civil",
+        "Facultad": "Facultad de Ingeniería, Industria y Arquitectura",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1303,
+        "Modalidad": "Presencial",
+        "Cupos": 44
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Arquitectura",
+        "Facultad": "Facultad de Ingeniería, Industria y Arquitectura",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1301,
+        "Modalidad": "Presencial",
+        "Cupos": 33
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Ingeniería de Alimentos",
+        "Facultad": "Facultad de Ingeniería, Industria y Arquitectura",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1302,
+        "Modalidad": "Presencial",
+        "Cupos": 15
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Ingeniería Civil",
+        "Facultad": "Facultad de Ingeniería, Industria y Arquitectura",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1303,
+        "Modalidad": "Presencial",
+        "Cupos": 33
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Agroindustria",
+        "Facultad": "Facultad de Ciencias de la Vida y Tecnologías",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1401,
+        "Modalidad": "Presencial",
+        "Cupos": 34
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Biología",
+        "Facultad": "Facultad de Ciencias de la Vida y Tecnologías",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1402,
+        "Modalidad": "Presencial",
+        "Cupos": 25
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Ingeniería de Software",
+        "Facultad": "Facultad de Ciencias de la Vida y Tecnologías",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1403,
+        "Modalidad": "Presencial",
+        "Cupos": 25
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Agroindustria",
+        "Facultad": "Facultad de Ciencias de la Vida y Tecnologías",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1401,
+        "Modalidad": "Presencial",
+        "Cupos": 22
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Biología",
+        "Facultad": "Facultad de Ciencias de la Vida y Tecnologías",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1402,
+        "Modalidad": "Presencial",
+        "Cupos": 23
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Ingeniería de Software",
+        "Facultad": "Facultad de Ciencias de la Vida y Tecnologías",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1403,
+        "Modalidad": "Presencial",
+        "Cupos": 34
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Criminología y Ciencias Forenses",
+        "Facultad": "Facultad de Ciencias Sociales, Derecho y Bienestar",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1501,
+        "Modalidad": "Presencial",
+        "Cupos": 90
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Derecho",
+        "Facultad": "Facultad de Ciencias Sociales, Derecho y Bienestar",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1502,
+        "Modalidad": "Presencial",
+        "Cupos": 33
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Economía",
+        "Facultad": "Facultad de Ciencias Sociales, Derecho y Bienestar",
+        "Matriz": "Manta",
+        "Jornada": "MATUTINA",
+        "Codigo": 1503,
+        "Modalidad": "Presencial",
+        "Cupos": 70
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Criminología y Ciencias Forenses",
+        "Facultad": "Facultad de Ciencias Sociales, Derecho y Bienestar",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1501,
+        "Modalidad": "Presencial",
+        "Cupos": 33
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Derecho",
+        "Facultad": "Facultad de Ciencias Sociales, Derecho y Bienestar",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1502,
+        "Modalidad": "Presencial",
+        "Cupos": 45
+    },
+    {
+        "Universidad": "ULEAM",
+        "Carrera": "Economía",
+        "Facultad": "Facultad de Ciencias Sociales, Derecho y Bienestar",
+        "Matriz": "Manta",
+        "Jornada": "VESPERTINA",
+        "Codigo": 1503,
+        "Modalidad": "Presencial",
+        "Cupos": 27
     }
 ]
