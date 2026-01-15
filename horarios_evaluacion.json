@@ -1,0 +1,866 @@
+[
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 38,
+        "codigo": 200
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 31,
+        "codigo": 201
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Tosagua",
+        "cantidad": 31,
+        "codigo": 202
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Chone",
+        "cantidad": 40,
+        "codigo": 203
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 37,
+        "codigo": 204
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 205
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 37,
+        "codigo": 206
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 207
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 34,
+        "codigo": 208
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Sucre",
+        "cantidad": 38,
+        "codigo": 209
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Pichincha",
+        "cantidad": 39,
+        "codigo": 210
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 211
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 35,
+        "codigo": 212
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 33,
+        "codigo": 213
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 40,
+        "codigo": 214
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 38,
+        "codigo": 215
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Tosagua",
+        "cantidad": 36,
+        "codigo": 216
+    },
+    {
+        "facultad": "Ingeniería, Industria y Arquitectura",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 33,
+        "codigo": 217
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 40,
+        "codigo": 218
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 32,
+        "codigo": 219
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 220
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 221
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 30,
+        "codigo": 222
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Pedernales",
+        "cantidad": 36,
+        "codigo": 223
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Pichincha",
+        "cantidad": 38,
+        "codigo": 224
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 31,
+        "codigo": 225
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 38,
+        "codigo": 226
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 39,
+        "codigo": 227
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Chone",
+        "cantidad": 31,
+        "codigo": 228
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 229
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Sucre",
+        "cantidad": 34,
+        "codigo": 230
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 231
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 232
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 31,
+        "codigo": 233
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 30,
+        "codigo": 234
+    },
+    {
+        "facultad": "Ciencias Sociales, Derecho y Bienestar",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 39,
+        "codigo": 235
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 31,
+        "codigo": 236
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 37,
+        "codigo": 237
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Sucre",
+        "cantidad": 33,
+        "codigo": 238
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Pichincha",
+        "cantidad": 40,
+        "codigo": 239
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 33,
+        "codigo": 240
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Tosagua",
+        "cantidad": 34,
+        "codigo": 241
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 37,
+        "codigo": 242
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 243
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 34,
+        "codigo": 244
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 245
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Pichincha",
+        "cantidad": 32,
+        "codigo": 246
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 39,
+        "codigo": 247
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 248
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "El Carmen",
+        "cantidad": 38,
+        "codigo": 249
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 250
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Tosagua",
+        "cantidad": 35,
+        "codigo": 251
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Sucre",
+        "cantidad": 40,
+        "codigo": 252
+    },
+    {
+        "facultad": "Educación, Turismo y Humanidades",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 32,
+        "codigo": 253
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Chone",
+        "cantidad": 40,
+        "codigo": 254
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 255
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 38,
+        "codigo": 256
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 32,
+        "codigo": 257
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Sucre",
+        "cantidad": 37,
+        "codigo": 258
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Pedernales",
+        "cantidad": 37,
+        "codigo": 259
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "El Carmen",
+        "cantidad": 36,
+        "codigo": 260
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 32,
+        "codigo": 261
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 37,
+        "codigo": 262
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Tosagua",
+        "cantidad": 35,
+        "codigo": 263
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "El Carmen",
+        "cantidad": 35,
+        "codigo": 264
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Pichincha",
+        "cantidad": 35,
+        "codigo": 265
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 266
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 267
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 38,
+        "codigo": 268
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 33,
+        "codigo": 269
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 270
+    },
+    {
+        "facultad": "Ciencias de la Salud",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 35,
+        "codigo": 271
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 272
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 33,
+        "codigo": 273
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 36,
+        "codigo": 274
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 35,
+        "codigo": 275
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 276
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 277
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 31,
+        "codigo": 278
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 33,
+        "codigo": 279
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 30,
+        "codigo": 280
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 281
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 282
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 283
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Tosagua",
+        "cantidad": 38,
+        "codigo": 284
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 32,
+        "codigo": 285
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 37,
+        "codigo": 286
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 30,
+        "codigo": 287
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 35,
+        "codigo": 288
+    },
+    {
+        "facultad": "Ciencias de la Vida y Tecnologías",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Flavio Alfaro",
+        "cantidad": 35,
+        "codigo": 289
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 290
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 291
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Chone",
+        "cantidad": 37,
+        "codigo": 292
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 293
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Chone",
+        "cantidad": 40,
+        "codigo": 294
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 1,
+        "horario": "08:00-10:00",
+        "matriz": "Manta",
+        "cantidad": 36,
+        "codigo": 295
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 296
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "El Carmen",
+        "cantidad": 31,
+        "codigo": 297
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Manta",
+        "cantidad": 40,
+        "codigo": 298
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Tosagua",
+        "cantidad": 40,
+        "codigo": 299
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Tosagua",
+        "cantidad": 39,
+        "codigo": 300
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 2,
+        "horario": "11:00-13:00",
+        "matriz": "Pichincha",
+        "cantidad": 39,
+        "codigo": 301
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Sucre",
+        "cantidad": 38,
+        "codigo": 302
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Tosagua",
+        "cantidad": 32,
+        "codigo": 303
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Tosagua",
+        "cantidad": 31,
+        "codigo": 304
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Santo Domingo",
+        "cantidad": 32,
+        "codigo": 305
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 34,
+        "codigo": 306
+    },
+    {
+        "facultad": "Ciencias Administrativas, Contables y Comercio",
+        "bloque": 3,
+        "horario": "14:00-16:00",
+        "matriz": "Manta",
+        "cantidad": 32,
+        "codigo": 307
+    }
+]
