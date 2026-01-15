@@ -7,12 +7,13 @@ while True: #Menú principal
     print("\nBienvenido al sistema SASFU")
     print("1. Crear usuario")
     print("2. Iniciar sesión")
-    print("3. Incripciones")
-    print("4. Evaluaciones")
-    print("5. Postulaciones")
-    print("6. Solicitudes de ayuda")
-    print("7. Salir")
-    opcion = input("Seleccione una opción (1-7): ")
+    print("3. Cambiar contraseña")
+    print("4. Incripciones")
+    print("5. Evaluaciones")
+    print("6. Postulaciones")
+    print("7. Solicitudes de ayuda")
+    print("8. Salir")
+    opcion = input("Seleccione una opción (1-8): ")
     if opcion == "1":#Crear usuario
         cedula = input("Ingrese su cédula o pasaporte (será su usuario): ")
         contrasena = input("Ingrese su contraseña: ")
@@ -50,7 +51,24 @@ while True: #Menú principal
             print(f"Bienvenido {usuario_actual.nombre}")#Mensaje de bienvenida
         else:#Credenciales incorrectas
             print("Usuario o contraseña incorrectos")
-    elif opcion == "3":#Inscripciones
+    elif opcion == "3":#Cambiar contraseña
+        if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
+            print("Debe iniciar sesión primero.")
+            continue
+        contrasena_actual = input("Ingrese su contraseña actual: ")
+        nueva_contrasena = input("Ingrese su nueva contraseña: ")
+        confirmar_contrasena = input("Confirme su nueva contraseña: ")
+        try:#Intentar cambiar la contraseña
+            sistema.cambiar_contrasena(
+                usuario_actual.cedula_pasaporte,
+                contrasena_actual,
+                nueva_contrasena,
+                confirmar_contrasena
+            )
+            print("Contraseña cambiada correctamente.")#Mensaje de éxito
+        except ValueError as e:#Capturar errores y mostrarlos
+            print(f"Error: {e}")
+    elif opcion == "4":#Inscripciones
         if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
             print("Debe iniciar sesión primero.")
             continue
@@ -76,7 +94,7 @@ while True: #Menú principal
             continue
         else:#Opción inválida
             print("Opción inválida, intente nuevamente")
-    elif opcion == "4":#Evaluaciones
+    elif opcion == "5":#Evaluaciones
         if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
             print("Debe iniciar sesión primero.")
             continue
@@ -97,7 +115,7 @@ while True: #Menú principal
             continue
         else:
             print("Opción inválida, intente nuevamente")
-    elif opcion == "5":#Postulaciones
+    elif opcion == "6":#Postulaciones
         if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
             print("Debe iniciar sesión primero.")
             continue
@@ -117,7 +135,7 @@ while True: #Menú principal
             continue
         else:
             print("Opción inválida, intente nuevamente")
-    elif opcion == "6":#Solicitudes de ayuda
+    elif opcion == "7":#Solicitudes de ayuda
         if usuario_actual is None:#Verificar si el usuario ha iniciado sesión
             print("Debe iniciar sesión primero.")
             continue
@@ -160,7 +178,7 @@ while True: #Menú principal
             continue
         else:#Opción inválida
             print("Opción inválida, intente nuevamente")
-    elif opcion == "7":#Salir
+    elif opcion == "8":#Salir
         print("[ASPIRANTE] Ha salido del sistema SASFU.")
         break
     else:#Opción inválida
