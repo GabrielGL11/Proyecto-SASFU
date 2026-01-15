@@ -150,30 +150,34 @@ class ServicioAutenticacion:#Clase ServicioAutenticacion, Inyección de dependen
         print("Credenciales incorrectas")
         return False
 
-class ServicioRecuperacion:#Servicio recuperación contraseña
+class ServicioCambioContrasena:#Clase ServicioCambioContrasena, Inyección de dependencias y Chain of Responsibility
     def __init__(self, repositorio: Repositorio):
         self.repositorio = repositorio
-    def cambiar_contrasena_por_correo(self, correo, nueva_contrasena):#Método cambiar contraseña
+    def actualizar_contrasena(self, cedula, contrasena_actual, nueva_contrasena, confirmar):#Método actualizar contraseña
+        if nueva_contrasena != confirmar:
+            raise ValueError("Las contraseñas nuevas no coinciden")
         aspirantes = self.repositorio.leer_todos()
-        for a in aspirantes:
-            if a["correo"] == correo:
+        for a in aspirantes:#Buscar aspirante por cédula
+            if a["numero_identidad"] == cedula:#Encontrado aspirante
+                if a.get("contrasena") != contrasena_actual:#Verificar contraseña actual
+                    raise ValueError("Contraseña actual incorrecta")
                 a["contrasena"] = nueva_contrasena
-                self.repositorio.guardar_todos(aspirantes)
-                print("Contraseña actualizada correctamente")
+                self.repositorio.guardar_todos(aspirantes)#Guardar datos
+                print("Contraseña cambiada correctamente")
                 return
-        raise ValueError("Correo no registrado")
-    
+        raise ValueError("Usuario no encontrado")
+
 class SistemaFacade:#Clase SistemaFacade y Patrón Facade
     def __init__(self):
         self.repo = RepositorioAspirantesJSON()
         self.auth = ServicioAutenticacion(self.repo)
-        self.recuperacion = ServicioRecuperacion(self.repo)
+        self.cambio_contrasena = ServicioCambioContrasena(self.repo)
     def registrar_usuario(self, cedula, usuario, contrasena):#Registrar usuario
         self.auth.crear_usuario(cedula, usuario, contrasena)
     def login(self, usuario, contrasena):#Iniciar sesión
         return self.auth.iniciar_sesion(usuario, contrasena)
-    def recuperar_contrasena(self, correo, nueva):#Recuperar contraseña
-        self.recuperacion.cambiar_contrasena_por_correo(correo, nueva)
+    def cambiar_contrasena(self, cedula, contrasena_actual, nueva_contrasena, confirmar):#Cambiar contraseña
+        self.cambio_contrasena.actualizar_contrasena(cedula, contrasena_actual, nueva_contrasena, confirmar)
 
 class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija Administrador de Usuario
     def __init__(self, cedula, nombre, apellido, correo, cargo):
