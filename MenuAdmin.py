@@ -1,7 +1,7 @@
 import Usuario#Importar módulo Usuario
 from datetime import date#Importar date para manejo de fechas y abajo crea la cuenta de administrador
 from SASFU import Inscripcion, Postulacion, ObservadorAdmin, ObservadorAspirante#Importar módulos de SASFU
-admin = Usuario.Administrador("01010101", "David", "ULEAMBUENASMANOS", "admin@hotmail.com", "Administrador")
+admin = Usuario.Administrador("10101010", "Chris", "ADMIN", "admin@hotmail.com", "Administrador")
 repo = Usuario.RepositorioAspirantesJSON()#Repositorio de aspirantes
 repo_solicitudes = Usuario.RepositorioSolicitudesJSON()#Repositorio de solicitudes
 while True:#Menú de administrador
@@ -49,33 +49,31 @@ while True:#Menú de administrador
             print("Error en las fechas:", e)
     elif opcion == "4":#Asignar evaluaciones a aspirantes
         print("=== Asignar Sede a Aspirante ===")
-        cedula = input("Ingrese la cédula del aspirante: ")
-        aspirantes_db = repo.leer_todos()#Leer todos los aspirantes
-        aspirante_encontrado = None#Buscar aspirante por cédula
+        cedula = input("Ingrese la cédula del aspirante: ")#Pedir cédula
+        aspirantes_db = repo.leer_todos()#Leer aspirantes
+        aspirante_encontrado = None
         for a in aspirantes_db:#Buscar aspirante por cédula
-            if a.get("numero_identidad","").strip() == cedula.strip():#Coincidencia de cédula
+            if a.get("numero_identidad", "").strip() == cedula.strip():
                 aspirante_encontrado = Usuario.Aspirante(
-                    cedula=a.get("numero_identidad",""),
-                    nombre=a.get("nombres","SinNombre"),
-                    apellido=a.get("apellidos","SinApellido"),
-                    correo=a.get("correo",""),
-                    telefono=a.get("celular",""),
-                    titulo=a.get("titulo_bachiller_homologado",""),
-                    nota_grado=a.get("nota_grado",0)
+                    cedula=a.get("numero_identidad", ""),
+                    nombre=a.get("nombres", "SinNombre"),
+                    apellido=a.get("apellidos", "SinApellido"),
+                    correo=a.get("correo", ""),
+                    telefono=a.get("celular", ""),
+                    titulo=a.get("titulo_bachiller_homologado", ""),
+                    nota_grado=a.get("nota_grado", 0)
                 )
                 aspirante_encontrado.inscripciones = a.get("inscripcion", {})
                 break
-        if aspirante_encontrado is None:#Si no se encuentra el aspirante
+        if aspirante_encontrado is None:#Validar que exista el aspirante
             print("No se encontró al aspirante con esa cédula.")
             continue
-        if not aspirante_encontrado.inscripciones:#Verificar si el aspirante tiene inscripción válida
-            print("El aspirante no tiene inscripción válida. No se puede asignar sede.")
+        if not aspirante_encontrado.inscripciones:#Validar que tenga inscripción
+            print("El aspirante no tiene inscripción registrada.")
             continue
-        sede = input("Ingrese la sede a asignar: ")
-        dia_hora = input("Ingrese día y hora de evaluación (YYYY-MM-DD HH:MM) o deje vacío para usar fecha actual: ")
-        if not dia_hora.strip():#Si no se ingresa fecha y hora
-            dia_hora = None
-        admin.asignar_sede(aspirante_encontrado, sede, dia_hora)
+        codigo_sala = int(input("Ingrese el código de la sala: "))#Pedir solo el código de la sala
+        fecha = input("Ingrese la fecha de evaluación (YYYY-MM-DD): ")#Pedir fecha de evaluación
+        admin.asignar_sede(aspirante_encontrado, codigo_sala, fecha)#Asignar sede
     elif opcion == "5":#Cerrar evaluaciones
         admin.cerrar_evaluaciones()
     elif opcion == "6":#Abrir postulaciones
@@ -130,3 +128,4 @@ while True:#Menú de administrador
         break
     else:#Opción inválida
         print("Opción inválida, intente nuevamente")
+        

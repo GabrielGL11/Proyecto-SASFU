@@ -106,10 +106,20 @@ while True:#Menú principal
         print("3. Volver al menú principal")
         sub_opcion = input("Seleccione una opción (1-3): ")
         if sub_opcion == "1":#Mostrar sede y horario de evaluación
-            if usuario_actual.inscripciones:#Verificar si hay inscripciones
-                usuario_actual.notificar_sede()#Notificar sede
-            else:#Si no hay inscripciones
-                print("No tiene inscripción registrada. No puede ver sede ni evaluación.")
+            if not usuario_actual.inscripciones:#Verificar si tiene inscripción
+                print("No tiene inscripción registrada.")
+                continue
+            if not usuario_actual.sede_asignada:#Verificar si el administrador ya asignó sede
+                print("Aún no se le ha asignado una sede de evaluación.")
+                continue
+            sede = usuario_actual.sede_asignada#Obtener datos de la sede
+            print("\n=== SEDE DE EVALUACIÓN ASIGNADA ===")
+            print(f"Facultad : {sede.get('facultad')}")
+            print(f"Matriz   : {sede.get('matriz')}")
+            print(f"Aula     : {sede.get('aula')}")
+            print(f"Horario  : {sede.get('horario')}")
+            print(f"Código   : {sede.get('codigo')}")
+            print(f"Fecha    : {sede.get('fecha')} ({sede.get('dia')})")
         elif sub_opcion == "2":#Mostrar nota de evaluación
             print("Función de nota de evaluación aún no implementada")
         elif sub_opcion == "3":#Volver al menú principal

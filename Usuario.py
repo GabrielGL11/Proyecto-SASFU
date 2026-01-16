@@ -14,7 +14,7 @@ class Autenticable(ABC):#Interfaz Autenticable
 
 class AsignarSede(ABC):#Interfaz AsignarSede
     @abstractmethod#Método asignar sede
-    def asignar_sede(self, sede: str):
+    def asignar_sede(self, aspirante, codigo_sala, fecha):
         pass
 
 class Cargable(ABC):#Interfaz Cargable
@@ -89,6 +89,13 @@ class Repositorio(ABC):#Interfaz Repositorio
     @abstractmethod#Método guardar datos
     def guardar_todos(self, datos):
         pass
+
+def validar_fecha_laboral(fecha_str):#Función de validar fecha 
+    fecha = datetime.strptime(fecha_str, "%Y-%m-%d")
+    if fecha.weekday() >= 5:#No pertenece al fin de semana
+        return None
+    dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+    return dias[fecha.weekday()]
 
 class RepositorioAspirantesJSON(Repositorio):#Repositorio JSON y Chain of Responsibility
     def __init__(self, archivo="aspirantes_universidad.json"):#Leer archivo JSON
@@ -191,30 +198,43 @@ class Administrador(Usuario, AsignarSede, Cargable, GestionProceso):#Clase Hija 
         print(f"Bienvenido Administrador {self.nombre}")
     def cerrar_sesion(self):#Cerrar sesión
         print(f"Hasta luego Administrador {self.nombre}")
-    def asignar_sede(self, aspirante, sede, dia_hora=None):
-        if not aspirante.inscripciones:
-            print(f"No se puede asignar sede a {aspirante.nombre}: no tiene inscripción válida.")
+    def asignar_sede(self, aspirante, codigo_sala, fecha):#Asignar sede
+        dia = validar_fecha_laboral(fecha)#Validar fecha
+        if dia is None:#No puede ser fines de semana
+            print("No se puede asignar sede en fines de semana.")
             return
-        if dia_hora is None:
-            dia_hora = datetime.now().strftime("%Y-%m-%d %H:%M")  # Fecha y hora actual
-        inicio_dt = datetime.strptime(dia_hora, "%Y-%m-%d %H:%M")        
-        fecha_inicio_eval = inicio_dt.strftime("%Y-%m-%d %H:%M")
-        fecha_fin_eval = (inicio_dt + timedelta(hours=2)).strftime("%Y-%m-%d %H:%M")
-        repo = RepositorioAspirantesJSON()
+        ruta_salas = os.path.join(os.path.dirname(__file__), "horarios_evaluacion.json")
+        with open(ruta_salas, "r", encoding="utf-8") as f:#Leer base de datos de salas
+            salas = json.load(f)
+        sala = next((s for s in salas if s["codigo"] == codigo_sala), None)#Buscar sala por codigo
+        if not sala:#Codigo no válido
+            print("Código de sala no válido.")
+            return
+        if sala["cantidad"] <= 0:#Verificar cupos disponibles
+            print("No hay cupos disponibles en esta sala.")
+            return
+        if sala["matriz"] != aspirante.inscripciones.get("matriz"):#Validar matriz
+            print("La matriz de la sala no coincide con la inscripción del aspirante.")
+            return
+        repo = RepositorioAspirantesJSON()#Acceder al repositorio de aspirantes
         aspirantes_db = repo.leer_todos()
-        for a in aspirantes_db:
+        for a in aspirantes_db:#Buscar aspirante y asignar sede
             if a["numero_identidad"] == aspirante.cedula_pasaporte:
                 a["sede_asignada"] = {
-                    "sede": sede,
-                    "facultad": aspirante.inscripciones["facultad"],
-                    "carrera": aspirante.inscripciones["carrera"],
-                    "hora_dia": dia_hora,
-                    "fecha_inicio_eval": fecha_inicio_eval,
-                    "fecha_fin_eval": fecha_fin_eval
+                    "facultad": sala["facultad"],#Facultad asignada
+                    "aula": sala["aula"],#Aula asignada
+                    "horario": sala["horario"],#Horario de evaluación
+                    "matriz": sala["matriz"],#Matriz de la sede
+                    "codigo": sala["codigo"],#Codigo de la sala
+                    "fecha": fecha,#Fecha de evaluación
+                    "dia": dia#Dia de la semana
                 }
-                repo.guardar_todos(aspirantes_db)
-                print(f"Administrador {self.nombre} ha asignado la sede {sede} a {aspirante.nombre}.")
-                print(f"Horario: {dia_hora}, Evaluación de {fecha_inicio_eval} a {fecha_fin_eval}")
+                sala["cantidad"] -= 1#Disminuir cupo de la sala
+                repo.guardar_todos(aspirantes_db)#Guardar cambios del aspirante
+                #Guardar salas actualizadas
+                with open(ruta_salas, "w", encoding="utf-8") as f:
+                    json.dump(salas, f, indent=4, ensure_ascii=False)
+                print("Sede asignada correctamente.")
                 return
         print("No se encontró al aspirante en la base de datos.")
     def cargar_datos(self):#Cargar datos

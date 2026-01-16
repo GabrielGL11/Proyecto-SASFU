@@ -1,6 +1,6 @@
 from Usuario import Soporte, RepositorioSolicitudesJSON, SoporteHandler, AdministradorHandler, Administrador
-soporte = Soporte("01010101", "Ana", "Perez", "soporte@hotmail.com")#Soporte
-admin = Administrador("02020202", "Luis", "Garcia", "admin@uni.com", "Director")#Administrador
+soporte = Soporte("01010101", "Nicole", "Rivadeneira", "soporte@hotmail.com")#Soporte
+admin = Administrador("02020202", "Jhofre", "Cruz", "admin@uni.com", "Director")#Administrador
 cadena = SoporteHandler(soporte, AdministradorHandler(admin))#Cadena de responsabilidad
 repo = RepositorioSolicitudesJSON()#Repositorio de solicitudes
 while True:#Menú de soporte
