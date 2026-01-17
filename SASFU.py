@@ -173,18 +173,12 @@ class Evaluacion:#Clase que usa la fábrica para obtener el tipo de examen
         print(f"Puntaje obtenido: {self._puntaje}/1000")
 
 class Postulacion(Iniciar_fase, Finalizar_fase, Aspirante):#Clase que notifica a múltiples observadores
-    def __init__(self, carrera: str, nota_final: int):
+    def __init__(self, carrera: str, aspirante: Aspirante):
         self.carrera = carrera
-        self.nota_final = nota_final
+        self.aspirante = aspirante
         self.observadores = []#Múltiples observadores
-    @property
-    def nota_final(self):
-        return self._nota_final
-    @nota_final.setter
-    def nota_final(self, valor: int):
-        if valor < 0 or valor > 1000:
-            raise ValueError("La nota final debe estar entre 0 y 1000 puntos.")
-        self._nota_final = valor
+        self._nota_final = 0
+        self.detalle_puntos = {}
     def agregar_observador(self, observador: Observador):
         self.observadores.append(observador)
     def notificar(self, mensaje: str):
@@ -198,13 +192,62 @@ class Postulacion(Iniciar_fase, Finalizar_fase, Aspirante):#Clase que notifica a
         mensaje = "La postulación ha finalizado."
         print(mensaje)
         self.notificar(mensaje)
-    def seleccionar_carrera(self):
-        if self.nota_final >= 700:
-            mensaje = (f"El aspirante ha sido ACEPTADO en {self.carrera} con {self.nota_final} puntos.")
-        else:
-            mensaje = (f"El aspirante NO alcanzó el puntaje mínimo para {self.carrera}.")
-        print(mensaje)
-        self.notificar(mensaje)
+    def calcular_nota_situacion(self):#Metodo calcular la nota de situación
+        if self.aspirante.nacionalidad.upper() == "ECUATORIANO":#Si es Ecuatoriano
+            self.nota_final = int((self.aspirante.nota_grado * 0.5 + self.aspirante._nota_evaluacion * 0.5) * 10)  
+        else:#Si es extranjero
+            self.nota_final = int(self.aspirante._nota_evaluacion * 10)  
+        puntos = 0#Puntos de extras
+        detalle = {}
+        if getattr(self.aspirante, "condicion_socioeconomica", False):
+            puntos += 15
+            detalle["condicion_socioeconomica"] = 15
+        if getattr(self.aspirante, "ruralidad", False):
+            puntos += 5
+            detalle["ruralidad"] = 5
+        if getattr(self.aspirante, "territorialidad", False):
+            puntos += 10
+            detalle["territorialidad"] = 10
+        if getattr(self.aspirante, "discapacidad", False):
+            puntos += 5
+            detalle["discapacidad"] = 5
+        if getattr(self.aspirante, "bono_jgl", False):
+            puntos += 5
+            detalle["bono_jgl"] = 5
+        if getattr(self.aspirante, "victima_violencia", False):
+            puntos += 5
+            detalle["victima_violencia"] = 5
+        if getattr(self.aspirante, "migrantes_retornados", False):
+            puntos += 5
+            detalle["migrantes_retornados"] = 5
+        if getattr(self.aspirante, "femicidio", False):
+            puntos += 5
+            detalle["femicidio"] = 5
+        if getattr(self.aspirante, "enfermedades_catastroficas", False):
+            puntos += 5
+            detalle["enfermedades_catastroficas"] = 5
+        if getattr(self.aspirante, "casa_acogida", False):
+            puntos += 5
+            detalle["casa_acogida"] = 5
+        if getattr(self.aspirante, "pueblos_nacionalidades", False):
+            puntos += 10
+            detalle["pueblos_nacionalidades"] = 10
+        self.nota_final += puntos
+        self.detalle_puntos = detalle
+        return {"nota_final": self.nota_final, "detalle_puntos": detalle}
+    def reporte_postulaciones(lista_postulantes, carrera):#Metodo de reporte de postulaciones
+        reporte = []
+        for asp in lista_postulantes:
+            postulacion = Postulacion(asp, carrera)
+            postulacion.calcular_nota()
+            reporte.append({
+                "nombre": asp.nombre,
+                "cedula": asp.cedula,
+                "carrera": carrera,
+                "nota_final": postulacion.nota_final,
+                "detalle_puntos": postulacion.detalle_puntos
+            })
+        return reporte
 
 class Servicio_web(Oferta_Academica):#Clase Servicio_web que hereda de Oferta_Academica
     Pais = "Ecuador"

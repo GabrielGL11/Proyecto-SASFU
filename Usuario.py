@@ -327,6 +327,8 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         self._nota_grado = None
         self.nota_grado = nota_grado
         self.inscripciones = {}#Guardar inscripciones
+        self._nota_evaluacion = 0#Nota de evaluación por defecto 0 
+        self.dio_evaluacion = False#Confirma si dio la evaluación
         ruta_fac = os.path.join(os.path.dirname(__file__), "ofertas.json")#Ruta del archivo ofertas.json
         try:#Cargar facultades y carreras desde JSON
             with open(ruta_fac, "r", encoding="utf-8") as f:#Abrir archivo JSON
@@ -352,6 +354,15 @@ class Aspirante(Usuario, Cargable, SolicitudAsistencia, GestorSede, RegistroInsc
         if not (0 <= valor <= 10):
             raise ValueError("La nota debe estar entre 0 y 10.")
         self._nota_grado = valor
+    @property##Propiedad nota evaluación
+    def nota_evaluacion(self):
+        return self._nota_evaluacion
+    @nota_evaluacion.setter
+    def nota_evaluacion(self, valor):
+        if not (0 <= valor <= 1000):
+            raise ValueError("La nota de evaluación debe estar entre 0 y 1000.")
+        self._nota_evaluacion = valor
+        self.dio_evaluacion = valor > 0
     def iniciar_sesion(self):
         print(f"Aspirante {self.nombre} inició sesión.")
     def cerrar_sesion(self):
