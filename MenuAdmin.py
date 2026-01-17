@@ -1,22 +1,24 @@
 import Usuario#Importar módulo Usuario
 from datetime import date#Importar date para manejo de fechas y abajo crea la cuenta de administrador
 from SASFU import Inscripcion, Postulacion, ObservadorAdmin, ObservadorAspirante#Importar módulos de SASFU
+from GeneradorBDHorarioEvaluacion import crear_base_datos_horarios
 admin = Usuario.Administrador("10101010", "Chris", "ADMIN", "admin@hotmail.com", "Administrador")
 repo = Usuario.RepositorioAspirantesJSON()#Repositorio de aspirantes
 repo_solicitudes = Usuario.RepositorioSolicitudesJSON()#Repositorio de solicitudes
+admin.iniciar_sesion()
 while True:#Menú de administrador
     print("\n=== Menú de Administrador SASFU ===")
-    admin.iniciar_sesion()
     print("1. Abrir inscripciones")
     print("2. Cerrar inscripciones")
     print("3. Abrir evaluaciones")
-    print("4. Asignar evaluaciones a aspirantes")
-    print("5. Cerrar evaluaciones")
-    print("6. Abrir postulaciones")
-    print("7. Cerrar postulaciones")
-    print("8. Gestioionar solicitudes derivadas por soporte")
-    print("9. Salir")
-    opcion = input("Seleccione una opción (1-9): ")
+    print("4. Generar base de datos de horarios (JSON)")
+    print("5. Asignar evaluaciones a aspirantes")
+    print("6. Cerrar evaluaciones")
+    print("7. Abrir postulaciones")
+    print("8. Cerrar postulaciones")
+    print("9. Gestionar solicitudes derivadas por soporte")
+    print("10. Salir")
+    opcion = input("Seleccione una opción (1-10): ")
     if opcion == "1":#Abrir inscripciones
         print("=== Abrir Inscripciones ===")
         fi = input("Fecha inicio (YYYY-MM-DD): ")
@@ -47,7 +49,15 @@ while True:#Menú de administrador
             admin.abrir_evaluaciones(fecha_inicio, fecha_fin)#Abrir evaluaciones
         except ValueError as e:#Capturar error en formato de fechas
             print("Error en las fechas:", e)
-    elif opcion == "4":#Asignar evaluaciones a aspirantes
+    elif opcion == "4":#Generar la base de datos para los horarios
+        confirmar = input("¿Desea generar/reemplazar la base de datos de horarios? (s/n): ").lower()
+        if confirmar == "s":#Genera la base de datos de los horarios
+            total = crear_base_datos_horarios()
+            print(f"Base de datos creada correctamente")
+            print(f"Total de registros: {total}")
+        else:#No genera la base de datos
+            print("Operación cancelada")
+    elif opcion == "5":#Asignar evaluaciones a aspirantes
         print("=== Asignar Sede a Aspirante ===")
         cedula = input("Ingrese la cédula del aspirante: ")#Pedir cédula
         aspirantes_db = repo.leer_todos()#Leer aspirantes
@@ -74,9 +84,9 @@ while True:#Menú de administrador
         codigo_sala = int(input("Ingrese el código de la sala: "))#Pedir solo el código de la sala
         fecha = input("Ingrese la fecha de evaluación (YYYY-MM-DD): ")#Pedir fecha de evaluación
         admin.asignar_sede(aspirante_encontrado, codigo_sala, fecha)#Asignar sede
-    elif opcion == "5":#Cerrar evaluaciones
+    elif opcion == "6":#Cerrar evaluaciones
         admin.cerrar_evaluaciones()
-    elif opcion == "6":#Abrir postulaciones
+    elif opcion == "7":#Abrir postulaciones
         print("=== Abrir Postulaciones ===")
         fi = input("Fecha inicio (YYYY-MM-DD): ")
         ff = input("Fecha fin (YYYY-MM-DD): ")
@@ -86,13 +96,13 @@ while True:#Menú de administrador
             admin.abrir_postulaciones(fecha_inicio, fecha_fin)#Abrir postulaciones
         except ValueError as e:#Capturar error en formato de fechas
             print("Error en las fechas:", e)
-    elif opcion == "7":#Cerrar postulaciones
+    elif opcion == "8":#Cerrar postulaciones
         admin.cerrar_postulaciones()#Cerrar postulaciones
         post = Postulacion("", 0)#Crear instancia de Postulacion
         post.agregar_observador(ObservadorAdmin())#Agregar observador admin
         post.agregar_observador(ObservadorAspirante())#Agregar observador aspirante
         post.finalizar()#Finalizar postulaciones
-    elif opcion == "8":#Gestionar solicitudes derivadas por soporte
+    elif opcion == "9":#Gestionar solicitudes derivadas por soporte
         solicitudes = repo_solicitudes.leer_todos()#Leer todas las solicitudes
         solicitudes_derivadas = [
             s for s in solicitudes if s.get("tipo") in ["tecnico", "academico", "grave"] and s.get("estado") is True
@@ -122,7 +132,7 @@ while True:#Menú de administrador
                 print(f"Solicitud ID {id_solicitud} actualizada.")
             else:#No se encontró la solicitud con ese ID
                 print("No se encontró la solicitud con ese ID.")
-    elif opcion == "9":#Salir del menú
+    elif opcion == "10":#Salir del menú
         print("Saliendo del menú de administrador...")
         admin.cerrar_sesion()
         break

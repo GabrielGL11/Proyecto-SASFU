@@ -64,13 +64,20 @@ class FacultadOfertaFactory(AbstractOfertaFactory):
                 ofertas.append(oferta)
         return ofertas
 
-#Uso del Abstract Factory
-todas_ofertas = []
-for facultad in facultades:
-    factory = FacultadOfertaFactory(facultad)
-    todas_ofertas.extend(factory.crear_ofertas())
+#Uso del Abstract Factory y crea la base de datos
+def crear_base_datos_horarios():
+    FacultadOfertaFactory.codigo_oferta = 200
+    todas_ofertas = []
+    for facultad in facultades:
+        factory = FacultadOfertaFactory(facultad)
+        todas_ofertas.extend(factory.crear_ofertas())
 
 #Guardar en JSON
-with open("horarios_evaluacion.json", "w", encoding="utf-8") as f:
-    json.dump(todas_ofertas, f, indent=4, ensure_ascii=False)
-print(f"Bloques de facultad generados correctamente ✅ Total ofertas: {len(todas_ofertas)}")
+    with open("horarios_evaluacion.json", "w", encoding="utf-8") as f:
+        json.dump(todas_ofertas, f, indent=4, ensure_ascii=False)
+    return len(todas_ofertas)
+
+#Para general manualmente
+if __name__ == "__main__":
+    total = crear_base_datos_horarios()
+    print(f"Base de datos creada correctamente. Total ofertas: {total}")
